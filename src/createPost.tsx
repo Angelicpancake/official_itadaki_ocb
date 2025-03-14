@@ -2,7 +2,7 @@ import { Devvit } from '@devvit/public-api';
 
 // Adds a new menu item to the subreddit allowing to create a new post
 Devvit.addMenuItem({
-  label: 'Create New Devvit Post (with Web View)',
+  label: 'Create Itadaki',
   location: 'subreddit',
   onPress: async (_event, context) => {
     const { reddit, ui } = context;
