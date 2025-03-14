@@ -61,6 +61,7 @@ Devvit.addCustomPostType({
             width="280px"
           />
           <image
+            onPress={() => handlePageSwitch('daily.html')} // Use the handler to switch pages
             url="daily.png"
             description="daily"
             imageHeight={30}
@@ -72,6 +73,7 @@ Devvit.addCustomPostType({
 
         <hstack height="12%" width="100%" alignment="top center" gap="none">
           <image
+            onPress={() => handlePageSwitch('leaderboard.html')} // Use the handler to switch pages
             url="leaderboard.png"
             description="leaderboard"
             imageHeight={30}
@@ -83,6 +85,7 @@ Devvit.addCustomPostType({
 
         <hstack height="12%" width="100%" alignment="top center" gap="none">
           <image
+            onPress={() => handlePageSwitch('howto.html')} // Use the handler to switch pages
             url="howto.png"
             description="how to"
             imageHeight={30}
@@ -91,17 +94,6 @@ Devvit.addCustomPostType({
             width="400px"
           />
         </hstack>
-
-        <vstack height="100%" width="100%" gap="medium" alignment="center middle">
-          <image
-            url="logo.png"
-            description="logo"
-            imageHeight={256}
-            imageWidth={256}
-            height="48px"
-            width="48px"
-          />
-        </vstack>
       </vstack>
     );
   },

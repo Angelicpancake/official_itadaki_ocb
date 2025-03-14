@@ -6,12 +6,8 @@
   "type": "module",
   "dependencies": {
     "@devvit/public-api": "0.11.8",
-<<<<<<< HEAD
     "@types/react": "^19.0.10",
     "react": "^19.0.0"
-=======
-    "devvit": "^0.11.10"
->>>>>>> e127333e945f87d2ba7423f81c40b0ef8b9df5ec
   },
   "devDependencies": {
     "typescript": "5.3.2"
