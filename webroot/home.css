@@ -1,10 +1,14 @@
 * {
     overflow: hidden; /*remove scrollbar*/
     margin: 0;
+    font-family: "Inter", sans-serif; /*use Inter font*/
 }
 .container {
 
     background-color: #333445;
+    
+
+   
     height: 100vh; /*all of viewport height*/
     width: 100%; /*all of viewport width*/
     margin: 0;
@@ -12,10 +16,21 @@
     
 }
 
+.spacer1 {
+    flex-grow: 1;
+    height: 50px;
+}
+
+.spacer2 {
+    flex-grow: 1;
+    height: 40px;
+}
+
 .header {
     justify-content: center; /*center the header*/
     display: flex;
-    transform: scale(.5); /*scale down the header*/
+    height: 100px;
+  
 }
 
 .options {
@@ -23,13 +38,46 @@
     flex-direction:column;
     justify-content: center; /*center the options*/
     align-items: center; /*align items vertically*/
-    gap: 20px;
+    gap: 15px;
     
 }
 .options-btn {
+    border-radius: 8px;
     display: flex;
     justify-content: center;
-    width: 750px;
-    height: 75px;
+    align-items: center;
+    width: 290px;
+    height: 35px;
+    border-width: 2px;
+    
+    font-size: 12px;
+    font-weight: 600;
+    cursor:pointer;
+    color: rgb(243, 241, 241);
+    border: solid;
+ 
+}
+
+.daily, .rapid{
+    background-color: #C9534F;
+    border-color: #C9534F;
+    
+}
+
+
+
+.leaderboard, .howto{
+    background-color: transparent;
+    border-color: #bca1aa;
+    color: white;
+    font-size: 12px;
+    border-width: 1px;
+    
+}
+
+.options-btn:hover {
+    background-color: #b03a2e; /* Darken background color on hover */
+   
+    border-color: #b03a2e; /* Darken border color on hover */
 }
 
