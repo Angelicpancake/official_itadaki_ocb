@@ -1,7 +1,10 @@
 import './createPost.js';
 
 import { Devvit, useState, useWebView } from '@devvit/public-api';
+//import { useEffect } from 'react';
 import type { DevvitMessage, WebViewMessage } from './message.js';
+
+console.log('Devvit is running!');
 
 Devvit.configure({
   redditAPI: true,
@@ -13,10 +16,12 @@ Devvit.addCustomPostType({
   name: 'Itadaki-Web-View',
   height: 'tall',
   render: (context) => {
-    const [switchPage, setSwitchPage] = useState('page.html'); // Use state for page switches
+   // const [switchPage, setSwitchPage] = useState('page.html'); // Use state for page switches
+
+
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
-      url: switchPage, // URL of your web view content
+      url: 'home.html', // URL of your web view content
 
       // Handle messages sent from the web view
       async onMessage(message, webView) {
@@ -28,29 +33,48 @@ Devvit.addCustomPostType({
     });
 
     // Function to handle page switching
-    const handlePageSwitch = (newPage: string) => {
+      /*const handlePageSwitch = (newPage: string) => {
       setSwitchPage(newPage); // Update the state
-      console.log(`Switched to ${newPage}`);
-      webView.mount(); // Re-mount the webView after the state update
-    };
+      console.log(newPage);
+      //webView.mount();
+      //console.log('after' + newPage);
+
+      //printing works correctly but not the webview its delayed
+      
+    };*/
+
+    /*useEffect(()=>{
+      webView.mount();
+      console.log('after ' + switchPage);
+    }, [switchPage]);*/
 
     // Render the custom post type
     return (
-      <vstack height="100%" width="100%" alignment="center" gap="small" backgroundColor="#212846">
-        <hstack height="5%" width="100%" alignment="top center" />
+      <vstack height="100%" width="100%" alignment="center" gap="small" backgroundColor="#333445">
+        <hstack height="25%" width="100%" alignment="top center" />
 
-        <hstack height="25%" width="100%" alignment="top center">
+        <hstack height="30%" width="100%" alignment="top center">
           <image
-            url="itadaki.png"
+            url="home.png"
             description="itadaki"
             imageHeight={30}
             imageWidth={256}
-            height="80px"
-            width="350px"
+            height="100px"
+            width="500px"
           />
+
         </hstack>
 
-        <hstack height="42%" width="100%" alignment="top center" gap="none">
+        <hstack height="20%" width="100%" alignment="top center">
+          <button
+           appearance='bordered'
+           onPress={() => webView.mount()}>
+              Play Game
+            </button>
+        </hstack>
+    
+
+       {/* <hstack height="42%" width="100%" alignment="top center" gap="none">
           <image
             onPress={() => handlePageSwitch('rapid.html')} // Use the handler to switch pages
             url="rapid.png"
@@ -85,7 +109,7 @@ Devvit.addCustomPostType({
 
         <hstack height="12%" width="100%" alignment="top center" gap="none">
           <image
-            onPress={() => handlePageSwitch('howto.html')} // Use the handler to switch pages
+            onPress={() => handlePageSwitch('howTo.html')} // Use the handler to switch pages
             url="howto.png"
             description="how to"
             imageHeight={30}
@@ -93,7 +117,7 @@ Devvit.addCustomPostType({
             height="50px"
             width="400px"
           />
-        </hstack>
+        </hstack>*/}
       </vstack>
     );
   },
