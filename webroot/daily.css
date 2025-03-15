@@ -1,0 +1,39 @@
+* {
+    overflow: hidden; /*remove scrollbar*/
+    margin: 0;
+    font-family: "Inter", sans-serif; /*use Inter font*/
+}
+
+.spacer1 {
+    flex-grow: 1;
+    height: 75px; /*default height for spacers*/
+}
+
+.container {
+    background-color: #333445;
+    height: 100vh; /*all of viewport height*/
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    justify-content: center; /*center the header*/
+    display: flex;
+    height: 300px;
+}
+
+
+.arrows {
+    width: 45px;
+    cursor: pointer;
+}
