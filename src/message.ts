@@ -6,7 +6,7 @@ export type DevvitMessage =
 /** Message from the web view to Devvit. */
 export type WebViewMessage =
   | { type: 'webViewReady' }
-  | { type: 'setCounter'; data: { newCounter: number } };
+  | { type: 'page'; data: { newPage: string } };
 
 /**
  * Web view MessageEvent listener data type. The Devvit API wraps all messages

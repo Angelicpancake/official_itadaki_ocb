@@ -16,21 +16,30 @@ Devvit.addCustomPostType({
   name: 'Itadaki-Web-View',
   height: 'tall',
   render: (context) => {
-   // const [switchPage, setSwitchPage] = useState('page.html'); // Use state for page switches
 
+    const [newPage, change] = useState('home.html'); // Use state for page switches
 
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
-      url: 'home.html', // URL of your web view content
+      url: newPage, // URL of your web view content
 
       // Handle messages sent from the web view
-      async onMessage(message, webView) {
-        // Handle messages if needed
+      onMessage(message, webView) {
+        switch(message.type){
+          case 'page':
+            switchPage(message.data.newPage);
+        }
+        
       },
       onUnmount() {
         context.ui.showToast('Web view closed!');
       },
     });
+
+    function switchPage(newPage: string) {
+      change(newPage); // Update the state
+      webView.mount(); // Mount the web view to load the new page
+    }
 
     // Function to handle page switching
       /*const handlePageSwitch = (newPage: string) => {
