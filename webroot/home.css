@@ -1,0 +1,35 @@
+* {
+    overflow: hidden; /*remove scrollbar*/
+    margin: 0;
+}
+.container {
+
+    background-color: #333445;
+    height: 100vh; /*all of viewport height*/
+    width: 100%; /*all of viewport width*/
+    margin: 0;
+    padding: 0;
+    
+}
+
+.header {
+    justify-content: center; /*center the header*/
+    display: flex;
+    transform: scale(.5); /*scale down the header*/
+}
+
+.options {
+    display: flex; /*use inline-flex to allow centering*/
+    flex-direction:column;
+    justify-content: center; /*center the options*/
+    align-items: center; /*align items vertically*/
+    gap: 20px;
+    
+}
+.options-btn {
+    display: flex;
+    justify-content: center;
+    width: 750px;
+    height: 75px;
+}
+
