@@ -45,7 +45,7 @@ Devvit.addCustomPostType({
           // case 'boardPageLoaded':
           // going to make this case happen on load later
           case 'fetchLeaderboard':
-            const currLeaderboard = await context.redis.zRange("leaderboard", 0, 99, {BY: 'SCORE', REV: true});
+            const currLeaderboard = await context.redis.zRange("leaderboard", 0, 99, {BY: 'SCORE', REV: true, WITHSCORES: true,});
             
             try {
 

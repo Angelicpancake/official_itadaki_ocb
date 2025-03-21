@@ -15,7 +15,7 @@ class App {
     })
 
     document.getElementById("addEntryButton").addEventListener("click", () => {
-      postWebViewMessage({type: "addBoardEntry", data: {member: "hi", score: 100}});//this.username, score: 10}});
+      postWebViewMessage({type: "addBoardEntry", data: {member: "x", score: 25}});//this.username, score: 10}});
     })
 
     addEventListener("message", this.#onMessage);
@@ -38,7 +38,7 @@ class App {
 
         leaderboard.replaceChildren();
 
-        for(let i = 0; i < message.data.length; i++)
+        for(let i = message.data.length - 1; i >= 0; i--)
         {
           let boardEntry = document.createElement('li');
           let entryName = message.data[i].username;
