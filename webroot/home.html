@@ -21,25 +21,25 @@
         <div class="spacer2"></div>
     
         <div class = "options">
-            <button class="options-btn daily" onclick="buttonClick('daily.html')" id="daily">⌛ Daily</button>
-            <button class="options-btn rapid" onclick="buttonClick('rapid.html')" id="rapid">⏩ Rapid</button>
-            <button class="options-btn leaderboard" onclick="buttonClick('leaderboard.html')" id="leaderboard">🏆 Leaderboard</button>
-            <button class="options-btn howto" onclick="buttonClick('howto')" id="what">🤷 What is This?</button>
+            <button class="options-btn daily" id="daily">⌛ Daily</button>
+            <button class="options-btn rapid" id="rapid">⏩ Rapid</button>
+            <button class="options-btn leaderboard" id="leaderboard">🏆 Leaderboard</button>
+            <button class="options-btn howto" id="what">🤷 What is This?</button>
         </div>
 
-        <script>
-           /* function buttonClick(page) {
-                console.log(page);
-                window.location.href = page;
-            }*/
-           //devit dosen't use window.location
-           
-           function buttonClick(page){
-                console.log(page);
-                parent.postMessage({ type: "page", data: { newPage: page } }, "*");
-           }
-
-        </script>
+        <!-- <script> -->
+        <!--    /* function buttonClick(page) { -->
+        <!--         console.log(page); -->
+        <!--         window.location.href = page; -->
+        <!--     }*/ -->
+        <!--    //devit dosen't use window.location -->
+        <!--     -->
+        <!--    function buttonClick(page){ -->
+        <!--         console.log(page); -->
+        <!--         parent.postMessage({ type: "page", data: { newPage: page } }, "*"); -->
+        <!--    } -->
+        <!---->
+        <!-- </script> -->
 
     </div>
     

@@ -11,6 +11,13 @@ Devvit.configure({
   redis: true,
 });
 
+// Devvit.addSchedulerJob({
+//   name: 'refreshRedisBoard',
+//   onRun: async (event, context) => {
+//      const leaderboard = 
+//   },
+// });
+
 // Add a custom post type to Devvit
 Devvit.addCustomPostType({
   name: 'Itadaki-Web-View',
@@ -19,15 +26,75 @@ Devvit.addCustomPostType({
 
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
+    const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
+
+    const [username] = useState(async () => {
+      return (await context.reddit.getCurrentUsername());
+    })
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
 
       // Handle messages sent from the web view
-      onMessage(message, webView) {
+      async onMessage(message, webView) {
         switch(message.type){
-          case 'page':
-            switchPage(message.data.newPage);
+          // case 'page':
+          //   webView.postMessage({
+          //     type: ''
+          // })
+          // case 'boardPageLoaded':
+          // going to make this case happen on load later
+          case 'fetchLeaderboard':
+            const currLeaderboard = await context.redis.zRange("leaderboard", 0, 99, {BY: 'SCORE', REV: true});
+            
+            try {
+
+              const leaderboardWithScores = await Promise.all(
+                currLeaderboard.map(async (player) => ({
+                  username: player.member,
+                  score: player.score,
+                }))
+              )
+              
+              console.log("output from fetchLeaderboard:");
+              console.log(leaderboard);
+              setLeaderboard(leaderboardWithScores);
+
+              webView.postMessage({
+                type: 'updateLeaderboard',
+                data: leaderboardWithScores,
+              })
+
+            } catch(error){
+              console.log(error);
+            }
+            break;
+            
+            // setLeaderboard(currLeaderboard);
+            // const leaderboardData = leaderboard.map(entry => ({
+            //   username: entry.value,
+            //   score: entry.score,
+            // }));
+            
+
+          //going to make this case happen when player completes a game
+          case 'addBoardEntry':
+            console.log(message.data);
+            console.log("entry added");
+            await context.redis.zAdd("leaderboard", message.data);
+            break;
+
+          case 'initialDataRequested':
+            const userData = await context.redis.get('$(username)');
+            webView.postMessage({
+              type: 'initialDataRecieved',
+              data: {username: username},
+            })
+            break;
+
+          default:
+            throw new Error('Unknown Message Type');
+            break;
         }
         
       },
@@ -35,11 +102,11 @@ Devvit.addCustomPostType({
         context.ui.showToast('Web view closed!');
       },
     });
-
-    function switchPage(newPage: string) {
-      change(newPage); // Update the state
-      webView.mount(); // Mount the web view to load the new page
-    }
+    //
+    // function switchPage(newPage: string) {
+    //   change(newPage); // Update the state
+    //   webView.mount(); // Mount the web view to load the new page
+    // }
 
     // Function to handle page switching
       /*const handlePageSwitch = (newPage: string) => {

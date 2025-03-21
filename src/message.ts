@@ -1,12 +1,16 @@
 /** Message from Devvit to the web view. */
 export type DevvitMessage =
-  | { type: 'initialData'; data: { username: string; currentCounter: number } }
-  | { type: 'updateCounter'; data: { currentCounter: number } };
+  | { type: "initialDataRecieved" data: {username: string}}
+  | { type: "fetchLeaderboard" };
 
 /** Message from the web view to Devvit. */
 export type WebViewMessage =
-  | { type: 'webViewReady' }
-  | { type: 'page'; data: { newPage: string } };
+  | {
+      type: "updateLeaderboard";
+      data: Array<username: string, score: number>;
+    }
+  | { type: "page"; data: { newPage: string } }
+  | { type: "initialDataRequested" };
 
 /**
  * Web view MessageEvent listener data type. The Devvit API wraps all messages
@@ -15,5 +19,5 @@ export type WebViewMessage =
 export type DevvitSystemMessage = {
   data: { message: DevvitMessage };
   /** Reserved type for messages sent via `context.ui.webView.postMessage`. */
-  type?: 'devvit-message' | string;
+  type?: "devvit-message" | string;
 };
