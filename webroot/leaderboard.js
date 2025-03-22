@@ -1,4 +1,4 @@
-class App {
+/*class App {
   constructor() {
     
     this.username = null;
@@ -64,4 +64,4 @@ function postWebViewMessage(msg) {
   parent.postMessage(msg, "*");
 }
 
-new App();
+new App();*/
