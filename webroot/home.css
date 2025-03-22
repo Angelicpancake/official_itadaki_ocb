@@ -1,7 +1,7 @@
 * {
     overflow: hidden; /*remove scrollbar*/
     margin: 0;
-    font-family: "Inter", sans-serif; /*use Inter font*/
+    
 }
 
 .hidden {
@@ -67,16 +67,80 @@
     daily
 */
 .daily {
+    font-family: "Hachi Maru Pop", cursive;
+    font-weight: 400;
+    font-style: normal;
+    
+    .container-daily {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .skipBtn, .guessBtn {
+        height: 50px;
+    }
+
+    .textarea-daily {
+        font-size: 15px;
+        border: 3px solid #272629;
+        border-radius: 15px;
+        width: 240px;
+        padding: 10px;
+        height: 27px;
+        text-align:center;
+        color: white;
+        background-color: #4C4D5B;
+
+    }
+
+    .textarea-daily::placeholder {
+        font-size: 15px;
+        color: rgb(185, 180, 180);
+    }
+
+    .textarea-daily:focus {
+        outline: none;
+        border-color: #C9534F;
+    }
+
     .spacer-daily {
-        height: 250px;
+        height: 25px;
+    }
+
+    .spacer2-daily {
+        height: 45px;
+    }
+
+    .spacer3-daily {
+        height:100px;
     }
 
     .content-daily {
         display: flex;
         justify-content: center;
     }
-}
 
+    .daily-logo {
+
+        height: 35px;
+        margin-right: 170px;
+      
+    }
+
+    .dailyBtn {
+        margin-right: 125px;
+        height: 35px
+    }
+
+    .word-daily {
+        font-size: x-large;
+        color:white;
+        
+    }
+
+    
+}
 /*
     rapid
 */

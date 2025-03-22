@@ -65,3 +65,4 @@ function postWebViewMessage(msg) {
 }
 
 new App();*/
+//connected to home.html
