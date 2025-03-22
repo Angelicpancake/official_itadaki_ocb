@@ -20,7 +20,7 @@ Devvit.configure({
 
 // Add a custom post type to Devvit
 Devvit.addCustomPostType({
-  name: 'Itadaki-Web-View',
+  name: 'sushisushi',
   height: 'tall',
   render: (context) => {
 

@@ -3,12 +3,114 @@
     margin: 0;
     font-family: "Inter", sans-serif; /*use Inter font*/
 }
-.container {
 
+.hidden {
+    display: none;
+}
+
+/*
+    shared
+*/
+.daily, .rapid, .leaderboard, .howto {
+    width: 100%;
+    height: 100vh;
     background-color: #333445;
     
+}
 
-   
+/*
+    leaderboard 
+*/
+.leaderboard {
+
+    .spacer-leaderboard {
+        height: 25px;
+    }
+    .content-leaderboard {
+        display: flex;
+        justify-content: center;
+    }
+
+    .leaderboard-logo {
+
+        height: 35px;
+        margin-right: 170px;
+      
+    }
+
+    .leaderboardBtn {
+        margin-right: 125px;
+        height: 35px
+    }
+
+    .users {
+        .profile {
+            display: flex;
+            justify-content: center;
+            font-size:larger;
+            color: white;
+
+            .rank {
+                margin-right: 50px;
+            }
+            .name {
+                margin-right: 90px;
+            }
+            .score {
+                margin-left: 170px;
+            }
+        }
+    }
+}
+
+/*
+    daily
+*/
+.daily {
+    .spacer-daily {
+        height: 250px;
+    }
+
+    .content-daily {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/*
+    rapid
+*/
+.rapid {
+    .spacer-rapid {
+        height: 250px;
+    }
+
+    .content-rapid {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/*
+    howto
+*/
+.howto {
+    .spacer-howto {
+        height: 250px;
+    }
+
+    .content-howto {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/*
+    home
+*/
+.home {
+    background-color: #333445;
+
     height: 100vh; /*all of viewport height*/
     width: 100%; /*all of viewport width*/
     margin: 0;
@@ -58,7 +160,7 @@
  
 }
 
-.daily, .rapid{
+.dailyHome, .rapidHome{
     background-color: #C9534F;
     border-color: #C9534F;
     
@@ -66,7 +168,7 @@
 
 
 
-.leaderboard, .howto{
+.leaderboardHome, .howtoHome{
     background-color: transparent;
     border-color: #bca1aa;
     color: white;

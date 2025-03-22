@@ -11,36 +11,79 @@
     
 </head>
 <body>
-    
-    <div class = "container">
+    <!--Daily-->
+    <div class="daily page hidden">
+        <div class="spacer-daily"></div>
+        <div class="content-daily">
+            <h>daily</h>
+            <button id='dailyBtn'>switch to home</button> <!--onclick="switchPage('home')-->
+        </div>
+    </div>
+
+    <!--Leaderboard-->
+    <div class="leaderboard page hidden">
+        <div class="spacer-leaderboard"></div>
+        
+        <div class="content-leaderboard">
+            <header>
+                <img><img src="./assets/menu.png" id="leaderboardBtn" class="leaderboardBtn">
+                <img><img src="./assets/leaderboard.png" class="leaderboard-logo">
+            </header>
+        </div>
+        <!--
+            rank display for users
+            
+            each user will get their own profile class content
+            the system will add another class (space) the ranking (1-~)
+
+            differentiate by ranking
+        -->
+        <div class="users">
+            <div class="spacer-leaderboard"></div> 
+
+            <div class="profile">
+                <div class="rank 1" id="rank 1">1</div>
+                <div class="name 1" id="name 1">Angelicx</div>
+                <div class="score 1" id="score 1">500</div>
+                <div class="spacer-leaderboard"></div> 
+            </div>
+        
+        </div>
+    </div>
+
+    <!--Rapid-->
+    <div class="rapid page hidden">
+        <div class="spacer-rapid"></div>
+        <div class="content-rapid">
+            <h>rapid</h>
+            <button id='rapidBtn'>switch to home</button> <!--onclick="switchPage('home')-->
+        </div>
+    </div>
+
+    <!--Howto-->
+    <div class="howto page hidden">
+        <div class="spacer-howto"></div>
+        <div class="content-howto">
+            <h>howto</h>
+            <button id='howtoBtn'>switch to home</button> <!--onclick="switchPage('home')-->
+        </div>
+    </div>
+
+    <!--Home-->
+    <div class = "home page">
         <div class="spacer1"></div>     
-        <header class="header">
+        <header class="header"> 
             <!--title-->
-            <img id="logo"><img src="./assets/home.png" alt="Logo" class="logo">
+            <img id="logo"><img src="../../assets/home.png" alt="Logo" class="logo">
         </header>
         <div class="spacer2"></div>
     
         <div class = "options">
-            <button class="options-btn daily" id="daily">⌛ Daily</button>
-            <button class="options-btn rapid" id="rapid">⏩ Rapid</button>
-            <button class="options-btn leaderboard" id="leaderboard">🏆 Leaderboard</button>
-            <button class="options-btn howto" id="what">🤷 What is This?</button>
+            <button class="options-btn dailyHome" id="dailyHomeBtn">⌛ Daily</button> <!--onclick="switchPage('daily')"-->
+            <button class="options-btn rapidHome" id="rapidHomeBtn">⏩ Rapid</button>
+            <button class="options-btn leaderboardHome" id="leaderboardHomeBtn">🏆 Leaderboard</button>
+            <button class="options-btn howtoHome" id="howtoHomeBtn">🤷 What is This?</button>
         </div>
-
-        <!-- <script> -->
-        <!--    /* function buttonClick(page) { -->
-        <!--         console.log(page); -->
-        <!--         window.location.href = page; -->
-        <!--     }*/ -->
-        <!--    //devit dosen't use window.location -->
-        <!--     -->
-        <!--    function buttonClick(page){ -->
-        <!--         console.log(page); -->
-        <!--         parent.postMessage({ type: "page", data: { newPage: page } }, "*"); -->
-        <!--    } -->
-        <!---->
-        <!-- </script> -->
-
     </div>
     
 </body>
