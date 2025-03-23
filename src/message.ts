@@ -1,7 +1,11 @@
 /* Message from Devvit to the web view. */
+import { Word } from "./util/word.js";
+
 export type DevvitMessage =
   | { type: "initialDataRecieved"; data: {username: string}}
-  | { type: "updateLeaderboard"; data: {leaderboard: Array<{username: string, score: number}>, rank: number}};
+  | { type: "updateLeaderboard"; data: {leaderboard: Array<{username: string, score: number}>, rank: number}}
+  | { type: 'words'; data: {words: Word[][]}}; //export words[][]
+ 
 
 /* Message from the web view to Devvit. */
 export type WebViewMessage =
@@ -11,8 +15,7 @@ export type WebViewMessage =
   | { type: "page"; data: { newPage: string } }
   | { type: "initialDataRequested" }
   | { type: "removeBoardEntry"}
-  | { type: "addBoardEntry"; data: Array<{score: number, member: string}>};
- 
+  | { type: "addBoardEntry"; data: Array<{score: number, member: string}>}
 /*Web view MessageEvent listener data type. The Devvit API wraps all messages
 from Blocks to the web view.*/
 export type DevvitSystemMessage = {
