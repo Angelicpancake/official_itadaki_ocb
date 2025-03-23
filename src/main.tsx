@@ -57,9 +57,15 @@ Devvit.addCustomPostType({
       return (await context.reddit.getCurrentUsername());
     });
 
+<<<<<<< HEAD
+    // const [highScore, setHighscore] = useState(async () => {
+    //   return (await context.redis.zScore(username));
+    // });
+=======
     const [highScore, setHighscore] = useState(async () => {
       return (await context.redis.zScore(username));
     });
+>>>>>>> c702295bfc3cdd3f93dc71c7b5ea1dc1174e1f67
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -74,9 +80,17 @@ Devvit.addCustomPostType({
           // case 'boardPageLoaded':
           // going to make this case happen on load later
           case 'fetchLeaderboard':
+<<<<<<< HEAD
+            console.log(username);
+            const highScore = await context.redis.zScore("leaderboard", username);
+            const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
+            const currLeaderboardLength = await context.redis.zCard("leaderboard");
+            const currLeaderboard = await context.redis.zRange("leaderboard", currLeaderboardLength - 100, currLeaderboardLength - 1, {BY: 'SCORE', WITHSCORES: true});
+=======
             const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
             const currLeaderboardLength = await context.redis.zCard("leaderboard");
             const currLeaderboard = await context.redis.zRange("leaderboard", 0, 99, {BY: 'SCORE', REV: true, WITHSCORES: true,});
+>>>>>>> c702295bfc3cdd3f93dc71c7b5ea1dc1174e1f67
 
             try {
 
@@ -87,6 +101,16 @@ Devvit.addCustomPostType({
                 }))
               )
 
+<<<<<<< HEAD
+              if (currRank < currLeaderboardLength - 99)
+              {
+                const newEntry = {
+                  username: username,
+                  score: highScore,
+                }
+                console.log(newEntry.score);
+                setLeaderboard([newEntry,...leaderboardWithScores]);
+=======
               if (currRank.score < currLeaderboardLength - 99)
               {
                 newEntry = {
@@ -94,6 +118,7 @@ Devvit.addCustomPostType({
                   score: highScore,
                 }
                 setLeaderboard([...leaderboardwithscores, newEntry]);
+>>>>>>> c702295bfc3cdd3f93dc71c7b5ea1dc1174e1f67
               }
               else
               {
@@ -101,7 +126,12 @@ Devvit.addCustomPostType({
               }  
                             
               console.log("output from fetchLeaderboard:");
+<<<<<<< HEAD
+              console.log(leaderboard.length);
+              console.log(currRank);
+=======
               console.log(leaderboard);
+>>>>>>> c702295bfc3cdd3f93dc71c7b5ea1dc1174e1f67
 
               webView.postMessage({
                 type: 'updateLeaderboard',
