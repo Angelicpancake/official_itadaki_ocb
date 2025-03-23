@@ -1,16 +1,17 @@
 /** Message from Devvit to the web view. */
 export type DevvitMessage =
   | { type: "initialDataRecieved" data: {username: string}}
-  | { type: "fetchLeaderboard" };
+  | { type: "updateLeaderboard"; data: {leaderboard: Array<username: string, score: number>, rank: number};
 
 /** Message from the web view to Devvit. */
 export type WebViewMessage =
   | {
-      type: "updateLeaderboard";
-      data: Array<username: string, score: number>;
+      type: "fetchLeaderboard";
     }
   | { type: "page"; data: { newPage: string } }
-  | { type: "initialDataRequested" };
+  | { type: "initialDataRequested" }
+  | { type: "removeBoardEntry"}
+  | { type: "addBoardEntry"; data: Array<score: number, member: string>};
 
 /**
  * Web view MessageEvent listener data type. The Devvit API wraps all messages

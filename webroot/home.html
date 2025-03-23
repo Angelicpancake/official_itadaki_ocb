@@ -7,6 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <title>Home</title>
     
 </head>
@@ -14,10 +17,31 @@
     <!--Daily-->
     <div class="daily page hidden">
         <div class="spacer-daily"></div>
-        <div class="content-daily">
-            <h>daily</h>
-            <button id='dailyBtn'>switch to home</button> <!--onclick="switchPage('home')-->
-        </div>
+        <container class="container-daily">
+            <div class="content-daily">
+                <header>
+                    <img><img src="./assets/menu.png" id="dailyBtn" class="dailyBtn">
+                    <img><img src="./assets/daily.png" class="daily-logo">
+                    <!--<h1>2/3</h1 id="amtLeft" class="amtLeft"-->
+                </header>
+            </div>
+
+            <div class="spacer2-daily"></div>
+
+            <div class="word-daily">
+                <h1>食べ物</h1>
+            </div>
+
+            <div class="spacer3-daily"></div>
+
+            <div class="function-daily">
+                <img><img src="./assets/skip.png" id="skipBtn" class="skipBtn">
+                <textarea id="textarea-daily" class="textarea-daily" placeholder="Enter the English Definition"></textarea>
+                <img><img src="./assets/guess.png" id="guessBtn" class="guessBtn">
+            </div>
+        </container>
+
+
     </div>
 
     <!--Leaderboard-->
@@ -29,6 +53,7 @@
                 <img><img src="./assets/menu.png" id="leaderboardBtn" class="leaderboardBtn">
                 <img><img src="./assets/leaderboard.png" class="leaderboard-logo">
             </header>
+            <!-- <li id="leaderboard"></li> -->
         </div>
         <!--
             rank display for users
@@ -39,16 +64,19 @@
             differentiate by ranking
         -->
         <div class="users">
-            <div class="spacer-leaderboard"></div> 
-
+          <div class="spacer-leaderboard"></div> 
             <div class="profile">
-                <div class="rank 1" id="rank 1">1</div>
-                <div class="name 1" id="name 1">Angelicx</div>
-                <div class="score 1" id="score 1">500</div>
-                <div class="spacer-leaderboard"></div> 
+                <ol id="leaderboard"></ol>
+                <!-- <div class="rank 1" id="rank 1">1</div> -->
+                <!-- <div class="name 1" id="name 1">Angelicx</div> -->
+                <!-- <div class="score 1" id="score 1">500</div> -->
+                <!-- <div class="spacer-leaderboard"></div>  -->
             </div>
         
         </div>
+        <input type="button" id="refreshLeaderboardBtn" value="Refresh Leaderboard">
+        <input type="button" id="testing" value="add entries">
+        <input type="button" id="testingRemove" value="remove all entries">
     </div>
 
     <!--Rapid-->
@@ -85,7 +113,8 @@
             <button class="options-btn howtoHome" id="howtoHomeBtn">🤷 What is This?</button>
         </div>
     </div>
-    
+    <script type="module" src="home.js"></script>
+    <script type="module" src="apputils.js"></script>
 </body>
 </html>
-<script type="application/javascript" src="home.js"></script>
+
