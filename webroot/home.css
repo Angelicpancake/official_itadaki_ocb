@@ -1,6 +1,7 @@
 * {
-    overflow: hidden; /*remove scrollbar*/
+    /*overflow: hidden; /*remove scrollbar*/
     margin: 0;
+    background-color: #333445;
     
 }
 
@@ -50,6 +51,10 @@
             font-size:larger;
             color: white;
 
+            .boardEntries{
+              height: 100vh;
+              overflow-y: auto;
+            }
             /* .rank { */
             /*     margin-right: 50px; */
             /* } */
@@ -60,12 +65,6 @@
             /*     margin-left: 170px; */
             /* } */
         }
-    }
-
-    .profile::before {
-      counter-increment: list-counter;
-      content: counter(list-counter) ". ";
-      color: white;
     }
 }
 
