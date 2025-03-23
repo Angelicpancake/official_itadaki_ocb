@@ -1,13 +1,13 @@
 export class Word {
-	private english: string;
+	private english: string[];
 	private japanese: string;
 
-	public constructor(english: string, japanese: string) {
+	public constructor(english: string[], japanese: string) {
 		this.english = english;
 		this.japanese = japanese;
 	}
 
-	public getEnglish(): string {
+	public getEnglish(): string[] {
 		return this.english;
 	}
 
@@ -15,3 +15,11 @@ export class Word {
 		return this.japanese;
 	}
 }
+
+/*
+	word class
+		english array of possible definitions
+		japanese word
+
+		methods to get the english array, japanese
+*/
