@@ -50,7 +50,7 @@
             font-size:larger;
             color: white;
 
-            .rank {
+            /*.rank {
                 margin-right: 50px;
             }
             .name {
@@ -58,9 +58,16 @@
             }
             .score {
                 margin-left: 170px;
-            }
+            }*/
         }
     }
+
+    
+    .profile::before {
+        counter-increment: list-counter;
+        content: counter(list-counter) ". ";
+        color: white;
+      }
 }
 
 /*

@@ -16,6 +16,10 @@ this.skipBtn.addEventListener('click', ()=> {
     test();
 });
 
+/*
+    jisho api
+*/
+
 let dailyWords = new Array(3);
 
 class Daily { //define word

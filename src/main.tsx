@@ -30,7 +30,11 @@ Devvit.addCustomPostType({
 
     const [username] = useState(async () => {
       return (await context.reddit.getCurrentUsername());
-    })
+    });
+
+    const [highScore, setHighscore] = useState(async () => {
+      return (await context.redis.zScore(username));
+    });
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -45,8 +49,10 @@ Devvit.addCustomPostType({
           // case 'boardPageLoaded':
           // going to make this case happen on load later
           case 'fetchLeaderboard':
+            const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
+            const currLeaderboardLength = await context.redis.zCard("leaderboard");
             const currLeaderboard = await context.redis.zRange("leaderboard", 0, 99, {BY: 'SCORE', REV: true, WITHSCORES: true,});
-            
+
             try {
 
               const leaderboardWithScores = await Promise.all(
@@ -55,14 +61,26 @@ Devvit.addCustomPostType({
                   score: player.score,
                 }))
               )
-              
+
+              if (currRank.score < currLeaderboardLength - 99)
+              {
+                newEntry = {
+                  username: username,
+                  score: highScore,
+                }
+                setLeaderboard([...leaderboardwithscores, newEntry]);
+              }
+              else
+              {
+                setLeaderboard(leaderboardWithScores);
+              }  
+                            
               console.log("output from fetchLeaderboard:");
               console.log(leaderboard);
-              setLeaderboard(leaderboardWithScores);
 
               webView.postMessage({
                 type: 'updateLeaderboard',
-                data: leaderboardWithScores,
+                data: {leaderboard: leaderboard, rank: currLeaderboardLength - currRank},
               })
 
             } catch(error){
@@ -80,15 +98,19 @@ Devvit.addCustomPostType({
           //going to make this case happen when player completes a game
           case 'addBoardEntry':
             console.log(message.data);
-            console.log("entry added");
-            await context.redis.zAdd("leaderboard", message.data);
+            for(let i = 0; i < message.data.length; i++)
+            {
+              await context.redis.zAdd("leaderboard", message.data[i]);
+            }
             break;
 
+          case 'removeBoardEntry':
+            
+
           case 'initialDataRequested':
-            const userData = await context.redis.get('$(username)');
             webView.postMessage({
               type: 'initialDataRecieved',
-              data: {username: username},
+              data: {username: username, highScore: highScore},
             })
             break;
 
