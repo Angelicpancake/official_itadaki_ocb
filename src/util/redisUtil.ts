@@ -56,12 +56,7 @@ export class RedisUtil {
 		output: ["Hello”、”Hi”]
 
 		compactedJapanese:
-		the reverse
-
-		["hello","hi"] => こにちは
-		
-		EX:
-		console.log(findJapaneseWord("hi")); => こにちは
+		the keys from compactedWordMap
 	*/
 	public static async getWords(redis: RedisClient): Promise<Word[][]> {
 		if (this.words == null) {
@@ -69,10 +64,7 @@ export class RedisUtil {
 			for (var i: number = 0; i < 7; i++) {
 				// Days of the week are represent as numbers from 0-6, Sunday-Saturday
 				const dailyWords: Record<string, string> = await redis.hGetAll(`dailyWords${i}`);
-				// for (const englishWord in dailyWords) {
-				// 	const englishDefinitions: string[] = 
-				// 	this.words[i].push(new Word(dailyWords[englishWord], englishWord))
-				// }
+
 				const compactedWordMap: {[key: string]: string[]} = {};
 				for (const englishWord in dailyWords) {
 					if (compactedWordMap[dailyWords[englishWord]] == null) {
