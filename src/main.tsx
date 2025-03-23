@@ -3,8 +3,29 @@ import './createPost.js';
 import { Devvit, useState, useWebView } from '@devvit/public-api';
 //import { useEffect } from 'react';
 import type { DevvitMessage, WebViewMessage } from './message.js';
+import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
 
 console.log('Devvit is running!');
+
+async function fetchKanjiWords(kanji: string) {
+  try {
+    // Fetch words containing the kanji
+    const words = await JishoUtil.getWordsContaining(kanji);
+
+    // Log the results to the console for testing
+    console.log(`Words containing "${kanji}":`);
+    words.forEach(word => {
+      console.log(`English Definition: ${word.getEnglish()}`);
+      console.log(`Japanese Word: ${word.getJapanese()}`);
+    });
+  } catch (error) {
+    console.error("Error fetching kanji words:", error);
+  }
+}
+
+// Test fetching words for the kanji '食' (or any kanji you want)
+fetchKanjiWords("食"); // You can change this to any kanji you want to test
+console.log("checked again");
 
 Devvit.configure({
   redditAPI: true,
@@ -19,6 +40,10 @@ Devvit.configure({
 // });
 
 // Add a custom post type to Devvit
+
+
+
+
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
