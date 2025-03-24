@@ -52,9 +52,11 @@ Devvit.addCustomPostType({
 
     const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
 
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState(async () => {
+      return await context.reddit.getCurrentUsername();
+    });
 
-    useEffect(() => {
+    /*useEffect(() => {
       const fetchUsername = async () => {
         try{
         const currUsername = await context.reddit.getCurrentUsername;
@@ -66,7 +68,7 @@ Devvit.addCustomPostType({
       };
 
       fetchUsername();
-    },[]);
+    },[]);*/
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
