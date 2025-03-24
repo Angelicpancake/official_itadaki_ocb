@@ -3,32 +3,12 @@ import { Devvit, RedisClient, useState, useWebView } from '@devvit/public-api';
 //import { useEffect } from 'react';
 import type { DevvitMessage, WebViewMessage } from './message.js';
 import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
-import { RedisUtil } from './util/redisUtil.js';
+import RedisUtil from './util/redisUtil.js';
 import { Word } from './util/word.js';
 
-let redisWords: Word[][];
+let redisWords: Word[][]; //[][]
 console.log('Devvit is running!');
-
-async function fetchKanjiWords(kanji: string, context: RedisClient) {
-  try {
-    // Fetch words containing the kanji
-    const words = await JishoUtil.getWordsContaining(kanji);
-    RedisUtil.setWords(context, words);
-    redisWords = await RedisUtil.getWords(context);
-
-    // Log the results to the console for testing
-    console.log(`Words containing "${kanji}":`);
-    words.forEach(word => {
-      console.log(`English Definition: ${word.getEnglish()}`);
-      console.log(`Japanese Word: ${word.getJapanese()}`);
-    });
-  } catch (error) {
-    console.error("Error fetching kanji words:", error);
-  }
-}
-
 // Test fetching words for the kanji '食' (or any kanji you want)
-console.log("checked again");
 
 Devvit.configure({
   redditAPI: true,
@@ -45,6 +25,44 @@ Devvit.configure({
 
 // Add a custom post type to Devvit
 
+/*async function fetchKanjiData(kanji: string): Promise<void> {
+  const url = `https://jisho.org/api/v1/search/words?keyword=${kanji}`;
+
+  try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      console.log("Jisho API Response:", data); // Logs the raw API response
+
+      // Store the raw response in a variable (or in a database)
+      const storedData = data; // This is where you store it for later use
+  } catch (error) {
+      console.error("Error fetching from Jisho API:", error);
+  }
+}*/
+
+/*async function fetchKanjiWords(kanji: string, context: RedisClient) {
+  try {
+    // Fetch words containing the kanji
+    //const words = await JishoUtil.getWordsContaining(kanji);
+
+    //RedisUtil.setWords(context, words);
+    //redisWords = await RedisUtil.getWords(context);
+    //redisWords = words;
+   // redisWords= new Word[][];
+
+    // Log the results to the console for testing
+    /*console.log(`Words containing "${kanji}":`);
+    words.forEach((word) => {
+      console.log(`English Definition: ${word.getEnglish()}`);
+      console.log(`Japanese Word: ${word.getJapanese()}`);
+    });
+    fetchKanjiData(kanji);
+  } catch (error) {
+    console.error("Error fetching kanji words:", error);
+  }
+}*/
+
 
 
 
@@ -52,8 +70,15 @@ Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
+    redisWords=[];
 
-    fetchKanjiWords("食", context.redis); // You can change this to any kanji you want to test
+      redisWords[0]= [
+        new Word(['Hi', 'hello'], "こにちは")
+      ];
+      
+      //console.log(redisWords[0][0].getEnglish()); // Output: [ 'hi', 'hello' ]
+      //console.log(redisWords[0][0].getJapanese()); // Output: "こんにちは"  
+    //fetchKanjiWords("食", context.redis); // You can change this to any kanji you want to test
 
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
@@ -145,7 +170,7 @@ Devvit.addCustomPostType({
           case 'initialDataRequested':
             webView.postMessage({
               type: 'initialDataRecieved',
-              data: {username: username, words: redisWords},
+              data: {username: username, words: redisWords}, 
             })
             break;
 

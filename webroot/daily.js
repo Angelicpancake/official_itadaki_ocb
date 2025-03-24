@@ -15,7 +15,7 @@ skipBtn =  (
     event listeners
 */
 this.skipBtn.addEventListener('click', ()=> {
-    test();
+    //test();
     console.log('clicked');
 });
 
@@ -60,7 +60,7 @@ class Daily { //define word
 
 
     // JishoUtil Class
-    class JishoUtil {
+  /* class JishoUtil {
       // Fetch words containing a specific kanji from the Jisho API
       static async getWordsContaining(kanji) {
         const url = `https://jisho.org/api/v1/search/words?keyword=${kanji}`;
@@ -81,31 +81,41 @@ class Daily { //define word
           return [];
         }
       }
-    }
+    }*/
 
     // Function to test fetching words for a specific kanji
-    async function testRandomKanji() {
+    /*async function testRandomKanji() {
       const randomKanji = "食"; // You can change this to any kanji you want to test
 
       try {
-        const words = await JishoUtil.getWordsContaining(randomKanji);
+        //const words = await JishoUtil.getWordsContaining(randomKanji);
 
         // Log the results to the console for testing
-        console.log(`Words containing "${randomKanji}":`);
-        words.forEach(word => {
+       // console.log(`Words containing "${randomKanji}":`);
+        /*words.forEach(word => {
           console.log(`English Definition: ${word.senses.map(sense => sense.english_definitions).join(', ')}`);
           console.log(`Japanese Word: ${word.word || word.japanese[0].reading}`);
-        });
+        });*/
+        /*console.log(`Words containing "${kanji}":`);
+        console.log('hi');
+        console.log('word: {word}');*/
+        /*words.forEach(word => {
+          console.log(`English Definition: ${word.senses.map(sense => sense.english_definitions).join(', ')}`);
+          console.log(`Japanese Word: ${word.word || word.japanese[0].reading}`);
+        });*/
+       /* console.log(`Words containing "${kanji}":`);
+        console.log('hi');
+        console.log('word: {word}');
       } catch (error) {
         console.log("Error in testRandomKanji:", error);
       }
-    }
+    }*/
 
 
 function test() {
     /*dailyWords[0] = new Daily("Food", "食べ物");
     console.log(dailyWords[0].getWord());*/
-    testRandomKanji();
+   // testRandomKanji();
     console.log('hi');
     //testRandomKanji();
 }
