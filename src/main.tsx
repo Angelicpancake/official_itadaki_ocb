@@ -1,15 +1,20 @@
 import './createPost.js';
-import { Devvit, useState, useWebView } from '@devvit/public-api';
+import { Devvit, RedisClient, useState, useWebView } from '@devvit/public-api';
 //import { useEffect } from 'react';
 import type { DevvitMessage, WebViewMessage } from './message.js';
 import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
+import { RedisUtil } from './util/redisUtil.js';
+import { Word } from './util/word.js';
 
+let redisWords: Word[][];
 console.log('Devvit is running!');
 
-async function fetchKanjiWords(kanji: string) {
+async function fetchKanjiWords(kanji: string, context: RedisClient) {
   try {
     // Fetch words containing the kanji
     const words = await JishoUtil.getWordsContaining(kanji);
+    RedisUtil.setWords(context, words);
+    redisWords = await RedisUtil.getWords(context);
 
     // Log the results to the console for testing
     console.log(`Words containing "${kanji}":`);
@@ -23,12 +28,12 @@ async function fetchKanjiWords(kanji: string) {
 }
 
 // Test fetching words for the kanji '食' (or any kanji you want)
-fetchKanjiWords("食"); // You can change this to any kanji you want to test
 console.log("checked again");
 
 Devvit.configure({
   redditAPI: true,
   redis: true,
+  http: true,
 });
 
 // Devvit.addSchedulerJob({
@@ -47,6 +52,8 @@ Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
+
+    fetchKanjiWords("食", context.redis); // You can change this to any kanji you want to test
 
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
@@ -69,6 +76,8 @@ Devvit.addCustomPostType({
 
       fetchUsername();
     },[]);*/
+
+
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -136,7 +145,7 @@ Devvit.addCustomPostType({
           case 'initialDataRequested':
             webView.postMessage({
               type: 'initialDataRecieved',
-              data: {username: username, highScore: highScore},
+              data: {username: username, words: redisWords},
             })
             break;
 
