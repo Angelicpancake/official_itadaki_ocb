@@ -5,6 +5,7 @@ AppUtils.initialStartup();
 /*
     Buttons@ home
 */
+
 const dailyHomeBtn =  /** @type {HTMLButtonElement} */ (
     document.getElementById('dailyHomeBtn')
 );

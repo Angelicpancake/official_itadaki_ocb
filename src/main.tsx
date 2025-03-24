@@ -52,9 +52,21 @@ Devvit.addCustomPostType({
 
     const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
 
-    const [username] = useState(async () => {
-      return (await context.reddit.getCurrentUsername());
-    });
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+      const fetchUsername = async () => {
+        try{
+        const currUsername = await context.reddit.getCurrentUsername;
+        setUsername(currUsername);
+        }
+      catch (error){
+        console.error("Failed to fetch userrname", error);
+        }
+      };
+
+      fetchUsername();
+    },[]);
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -115,6 +127,8 @@ Devvit.addCustomPostType({
             break;
 
           case 'removeBoardEntry':
+            await context.redis.zRemByRangeByScore("leaderboard", 0, 200);
+            break;
             
 
           case 'initialDataRequested':

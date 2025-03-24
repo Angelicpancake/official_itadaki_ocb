@@ -11,11 +11,23 @@ export default function handleDevvitMessage(ev) {
         AppUtils.leaderboard.replaceChildren();
 
         for(let i = message.data.leaderboard.length - 1; i >= 0 && i >= message.data.leaderboard.length - 100; i--)
-       {
+        {
           let boardEntry = document.createElement('li');
           let entryName = message.data.leaderboard[i].username;
           let entryScore = message.data.leaderboard[i].score;
-          boardEntry.textContent = `${entryName}: ${entryScore}`;
+          
+          if(i === message.data.leaderboard.length - 1){
+           boardEntry.textContent = `🥇. ${entryName}: ${entryScore}`;
+          }
+          else if(i === message.data.leaderboard.length - 2){
+            boardEntry.textContent = `🥈. ${entryName}: ${entryScore}`;
+          }
+          else if(i === message.data.leaderboard.length - 3){
+            boardEntry.textContent = `🥉. ${entryName}: ${entryScore}`;
+          }
+          else{
+            boardEntry.textContent = `${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+          }
           AppUtils.leaderboard.append(boardEntry);
         }
 
