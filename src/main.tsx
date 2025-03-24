@@ -63,13 +63,25 @@ Devvit.configure({
   }
 }*/
 
+async function testJishoAPI(search: string): Promise<void>{
+  try{
+    const response = await fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(search)}`);
+    const jishoData = await response.json();
 
+    console.log("raw data", jishoData);
+  }
+  catch(error)
+    {
+      console.log("jishodata didn't work");
+    }
+}
 
 
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
+    testJishoAPI("物");
     redisWords=[];
 
       redisWords[0]= [
