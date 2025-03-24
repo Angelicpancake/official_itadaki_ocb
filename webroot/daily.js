@@ -11,13 +11,57 @@ skipBtn =  (
     document.querySelector('#skipBtn')
 );
 
+indexLabel = (
+  document.querySelector('#amtLeft')
+);
+
+textarea = (
+  document.querySelector('#textarea-daily')
+);
+
+guess = (
+  document.querySelector('#guessBtn')
+);
+
+var currIndex = 1;
+var guessContent = "";
+
 /*
     event listeners
 */
+
+function guessed(){
+  guessContent = textarea.value;
+  console.log(guessContent);
+  textarea.value = "";
+}
+
+this.guessBtn.addEventListener('click', ()=> {
+    guessed();   
+});
+
+textarea.addEventListener('keydown', (event) => {
+  if (event.key==="Enter"){
+    event.preventDefault();
+    guessed();
+  }
+});
+
 this.skipBtn.addEventListener('click', ()=> {
     //test();
-    console.log('clicked');
+    if (currIndex < 5)
+      currIndex++;
+    
+    console.log(currIndex);
+    update(currIndex);
 });
+
+function update(currIndex){
+    let value = document.getElementById("amtLeft");
+    let result = (currIndex + "/5");
+
+    value.textContent = result;
+}
 
 /*
     jisho api

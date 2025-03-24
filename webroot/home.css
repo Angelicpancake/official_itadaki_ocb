@@ -1,5 +1,5 @@
 * {
-    /*overflow: hidden; /*remove scrollbar*/*/
+    /*overflow: hidden; /*remove scrollbar*/
     margin: 0;
     background-color: #333445;
 }
@@ -90,6 +90,8 @@
         text-align:center;
         color: white;
         background-color: #4C4D5B;
+        resize: none;
+        overflow: hidden;
 
     }
 
@@ -123,13 +125,22 @@
     .daily-logo {
 
         height: 35px;
-        margin-right: 170px;
+        margin-right: 65px;
       
+    }
+
+    .amtLeft {
+        display: inline-block;
+        margin: 0;
+        margin-right: 100px;
+        color: white;
+        
     }
 
     .dailyBtn {
         margin-right: 125px;
         height: 35px
+        
     }
 
     .word-daily {

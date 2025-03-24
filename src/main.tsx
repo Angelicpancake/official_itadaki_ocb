@@ -62,26 +62,36 @@ Devvit.configure({
     console.error("Error fetching kanji words:", error);
   }
 }*/
-
-async function testJishoAPI(search: string): Promise<void>{
-  try{
+ 
+/*async function testJishoAPI(search: string): Promise<void> {
+  try {
     const response = await fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(search)}`);
     const jishoData = await response.json();
 
-    console.log("raw data", jishoData);
-  }
-  catch(error)
-    {
-      console.log("jishodata didn't work");
-    }
-}
+    if (jishoData.data.length > 0) {
+      const firstEntry = jishoData.data[0];
 
+      // Extract Japanese word (kanji if available, otherwise reading)
+      //const japanese = firstEntry.japanese[0]?.word || firstEntry.japanese[0]?.reading;
+
+      // Extract English definitions correctly
+      //const english = firstEntry.senses[0].english_definitions.join(", ");
+
+      console.log("First Entry:", firstEntry);
+      //console.log("Japanese:", japanese);
+      //console.log("English:", english);
+    
+    }
+  } catch (error) {
+    console.error("Jisho API fetch failed:", error);
+  }
+}*/
 
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
-    testJishoAPI("物");
+    //testJishoAPI("物");
     redisWords=[];
 
       redisWords[0]= [
