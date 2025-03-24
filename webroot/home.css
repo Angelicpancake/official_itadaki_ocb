@@ -1,11 +1,7 @@
 * {
-    /*overflow: hidden; /*remove scrollbar*/
+    /*overflow: hidden; /*remove scrollbar*/*/
     margin: 0;
-<<<<<<< HEAD
     background-color: #333445;
-=======
->>>>>>> c702295bfc3cdd3f93dc71c7b5ea1dc1174e1f67
-    
 }
 
 .hidden {
@@ -54,40 +50,16 @@
             font-size:larger;
             color: white;
 
-<<<<<<< HEAD
-            .boardEntries{
-              height: 100vh;
-              overflow-y: auto;
+            #leaderboard{
+              list-style:none;
             }
-            /* .rank { */
-            /*     margin-right: 50px; */
-            /* } */
-            /* .name { */
-            /*     margin-right: 90px; */
-            /* } */
-            /* .score { */
-            /*     margin-left: 170px; */
-            /* } */
-=======
-            /*.rank {
-                margin-right: 50px;
+
+            .topThree{
+              padding-left: 0 !important;
+              margin-left: 0 !important;
             }
-            .name {
-                margin-right: 90px;
-            }
-            .score {
-                margin-left: 170px;
-            }*/
->>>>>>> c702295bfc3cdd3f93dc71c7b5ea1dc1174e1f67
         }
     }
-
-    
-    .profile::before {
-        counter-increment: list-counter;
-        content: counter(list-counter) ". ";
-        color: white;
-      }
 }
 
 /*
