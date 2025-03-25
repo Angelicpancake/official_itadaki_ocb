@@ -46,7 +46,7 @@ export default function handleDevvitMessage(ev) {
       case "initialDataRecieved":
         console.log("initial data recieved");
         AppUtils.currentUsername = message.data.username;
-        console.log(message.data.words);
+        console.log("this is the data yay {message.data.words}");
         break;
 
       default:

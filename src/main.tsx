@@ -17,31 +17,6 @@ Devvit.configure({
   scheduler: true,
 });
 
-// Devvit.addSchedulerJob({
-//   name: 'refreshRedisBoard',
-//   onRun: async (event, context) => {
-//      const leaderboard = 
-//   },
-// });
-
-// Add a custom post type to Devvit
-
-/*async function fetchKanjiData(kanji: string): Promise<void> {
-  const url = `https://jisho.org/api/v1/search/words?keyword=${kanji}`;
-
-  try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      console.log("Jisho API Response:", data); // Logs the raw API response
-
-      // Store the raw response in a variable (or in a database)
-      const storedData = data; // This is where you store it for later use
-  } catch (error) {
-      console.error("Error fetching from Jisho API:", error);
-  }
-}*/
-
 /*async function fetchKanjiWords(kanji: string, context: RedisClient) {
   try {
     // Fetch words containing the kanji
@@ -115,24 +90,12 @@ Devvit.configure({
 //   },
 // })
 
+
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
-    // testJishoAPI("物");
-    // redisWords=[];
-    //
-    //   redisWords[0]= [
-    //     new Word(['Hi', 'hello'], "こにちは")
-    //   ];
-      
-      //console.log(redisWords[0][0].getEnglish()); // Output: [ 'hi', 'hello' ]
-      //console.log(redisWords[0][0].getJapanese()); // Output: "こんにちは"  
-    //fetchKanjiWords("食", context.redis); // You can change this to any kanji you want to test
-    
-    // useEffect(() => {
-    //   jishoFetch('物');
-    // }, []);
+
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
     const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
@@ -140,22 +103,6 @@ Devvit.addCustomPostType({
     const [username, setUsername] = useState(async () => {
       return await context.reddit.getCurrentUsername();
     });
-
-    /*useEffect(() => {
-      const fetchUsername = async () => {
-        try{
-        const currUsername = await context.reddit.getCurrentUsername;
-        setUsername(currUsername);
-        }
-      catch (error){
-        console.error("Failed to fetch userrname", error);
-        }
-      };
-
-      fetchUsername();
-    },[]);*/
-
-
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
