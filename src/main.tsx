@@ -5,15 +5,16 @@ import type { DevvitMessage, WebViewMessage } from './message.js';
 import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
 import RedisUtil from './util/redisUtil.js';
 import { Word } from './util/word.js';
+import jishoFetch, {randomKanji} from './util2/jishoFetch.js';
 
 let redisWords: Word[][]; //[][]
-console.log('Devvit is running!');
 // Test fetching words for the kanji '食' (or any kanji you want)
 
 Devvit.configure({
   redditAPI: true,
   redis: true,
   http: true,
+  scheduler: true,
 });
 
 // Devvit.addSchedulerJob({
@@ -63,35 +64,74 @@ Devvit.configure({
   }
 }*/
 
-async function testJishoAPI(search: string): Promise<void>{
-  try{
-    const response = await fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(search)}`);
-    const jishoData = await response.json();
-
-    console.log("raw data", jishoData);
-  }
-  catch(error)
+// async function testJishoAPI(search: string): Promise<void>{
+//   try{
+//     const response = await fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(search)}`);
+//     const jishoData = await response.json();
+//
+//     console.log("raw data", jishoData);
+//   }
+//   catch(error)
+//     {
+//       console.log("jishodata didn't work");
+//     }
+// }
+Devvit.addSchedulerJob({
+  name: 'refreshWeeklyKanji',
+  OnRun: async() => {
+    //reset weeklyWords
+    for(let i = 0; i < 7; i++)
     {
-      console.log("jishodata didn't work");
+      try{
+        await context.redis.hDel("weeklyKanji", `day${i}`);
+      }
+      catch(error){
+        console.error("error when deleting words in refreshWeeklyKanji", error);
+      }
     }
-}
 
+    const randomKanjiSelected: Array<string> = randomKanji();
+
+    //put random kanji into weeklywords 
+    for(let i = 0; i < 7; i++)
+    {
+      try {
+        await context.redis.hSet("weeklyKanji", `day${i}`, randomKanjiSelected[i]);
+      }
+      catch (error){
+        console.error("error when setting kanji in refreshWeeklyKanji", error);
+      }
+    }
+  },
+})
+
+
+// selects the words for the day from weeklyWords, implement later
+// Devvit.addSchedulerJob({
+//   name: 'selectDailyWords',
+//   onRun: async() => {
+//     await context.redis.
+//   },
+// })
 
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
-    testJishoAPI("物");
-    redisWords=[];
-
-      redisWords[0]= [
-        new Word(['Hi', 'hello'], "こにちは")
-      ];
+    // testJishoAPI("物");
+    // redisWords=[];
+    //
+    //   redisWords[0]= [
+    //     new Word(['Hi', 'hello'], "こにちは")
+    //   ];
       
       //console.log(redisWords[0][0].getEnglish()); // Output: [ 'hi', 'hello' ]
       //console.log(redisWords[0][0].getJapanese()); // Output: "こんにちは"  
     //fetchKanjiWords("食", context.redis); // You can change this to any kanji you want to test
-
+    
+    // useEffect(() => {
+    //   jishoFetch('物');
+    // }, []);
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
     const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
@@ -122,6 +162,14 @@ Devvit.addCustomPostType({
       // Handle messages sent from the web view
       async onMessage(message, webView) {
         switch(message.type){
+          case 'fetchWords':
+            console.log(randomKanji());
+            //test how the random 
+            // webview.postMessage({
+            // type: "updateWords",
+            // data: jishoFetch(message.data.kanji),
+            // }); 
+            break;
           // case 'page':
           //   webView.postMessage({
           //     type: ''

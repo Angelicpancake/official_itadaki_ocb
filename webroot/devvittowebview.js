@@ -36,7 +36,7 @@ export default function handleDevvitMessage(ev) {
           let entryRank = message.data.rank;
           let entryName = message.data.leaderboard[0].username;
           let entryScore = message.data.leaderboard[0].score;
-          boardEntry.textContent = `${entryName}: ${entryScore}`;
+          boardEntry.textContent = `${entryRank}. ${entryName}: ${entryScore}`;
           boardEntry.value = entryRank;
           AppUtils.leaderboard.append(boardEntry);
         }
