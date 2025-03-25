@@ -1,5 +1,8 @@
-import { RedisClient } from "@devvit/public-api";
+import { Devvit, RedisClient } from "@devvit/public-api";
 import { Word } from "./word.js";
+import { JishoUtil } from "./jishoUtil.js";
+import * as fs from 'fs';
+import { randomInt } from "crypto";
 
 /*
 	HashMap of Japanese words with keys retrieved using the japanese word
@@ -106,3 +109,28 @@ export class RedisUtil {
 		redis.hSet(`dailyWords${new Date().getUTCDay()}`, redisWords);
 	}
 }
+
+Devvit.addSchedulerJob({
+	name: 'storeDailyKanji',
+	onRun: async (event, context) => {
+		var randomCharacter: string = await new Promise((resolve, reject) => {
+			fs.readFile('./kanji.txt', 'utf-8', (error, data) => {
+				if (error) {
+					return reject(error);
+				}
+				
+				
+				resolve(data[randomInt(0, data.length)]);
+			});
+		});
+
+		RedisUtil.setWords(context.redis, await JishoUtil.getWordsContaining(randomCharacter));
+
+		// Schedule this task again for tomorrow
+		context.scheduler.runJob({
+			name: 'storeDailyKanji',
+			// Tomorrow's date (24 hours = 24 * 60 minutes = 24 * 60 * 60 seconds = 24 * 60 * 60 * 1000 milliseconds)
+			runAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+		});
+	}
+});

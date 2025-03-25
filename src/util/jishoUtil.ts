@@ -19,7 +19,5 @@ export class JishoUtil {
 		console.log(jishoData.data[0].japanese[0].word);
 		
 		return words;
-
-		
 	}
 }
