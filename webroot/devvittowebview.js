@@ -6,6 +6,10 @@ export default function handleDevvitMessage(ev) {
     const { message } = ev.data.data;
 
     switch (message.type) {
+      case "updateWords":
+        AppUtils.words = message.data.words;
+        break;
+
       case "updateLeaderboard":
 
         AppUtils.leaderboard.replaceChildren();
@@ -46,7 +50,6 @@ export default function handleDevvitMessage(ev) {
       case "initialDataRecieved":
         console.log("initial data recieved");
         AppUtils.currentUsername = message.data.username;
-        console.log("this is the data yay {message.data.words}");
         break;
 
       default:

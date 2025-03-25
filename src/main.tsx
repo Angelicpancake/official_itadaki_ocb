@@ -100,6 +100,8 @@ Devvit.addCustomPostType({
 
     const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
 
+    const [day, setDay] = useState(new Date().getUTCDay);
+
     const [username, setUsername] = useState(async () => {
       return await context.reddit.getCurrentUsername();
     });
@@ -111,7 +113,19 @@ Devvit.addCustomPostType({
       async onMessage(message, webView) {
         switch(message.type){
           case 'fetchWords':
-            console.log(randomKanji());
+            //get the words for the current day, dayWords is an array
+            // const dayWords = await context.redis.hGet("dailyWords", `day${day}`);
+            const dayWords: Record<string, string[]> = {
+              "hi": ["sigma", "tax"];
+              "what": ["hello", "hi"];
+              "goon": ["chair", "chauncey"];
+            };
+            webView.postMessage({
+              type: updateWords,
+              data: {
+                words: dayWords
+              }
+            });
             //test how the random 
             // webview.postMessage({
             // type: "updateWords",
@@ -178,7 +192,7 @@ Devvit.addCustomPostType({
           case 'initialDataRequested':
             webView.postMessage({
               type: 'initialDataRecieved',
-              data: {username: username, words: redisWords}, 
+              data: {username: username}, 
             })
             break;
 

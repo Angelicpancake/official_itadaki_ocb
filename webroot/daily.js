@@ -1,3 +1,5 @@
+import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
+import AppUtils from './apputils.js';
 /*
     backend of the daily words grabber
 */
@@ -7,37 +9,86 @@
 /*
     buttons
 */
-skipBtn =  (
+const currWord = (
+  document.querySelector('#currWord')
+);
+
+const skipBtn =  (
     document.querySelector('#skipBtn')
 );
 
-indexLabel = (
-  document.querySelector('#amtLeft')
-);
+// indexLabel = (
+//   document.querySelector('#amtLeft')
+// );
 
-textarea = (
+const textarea = (
   document.querySelector('#textarea-daily')
 );
 
-guess = (
+const guess = (
   document.querySelector('#guessBtn')
 );
 
-var currIndex = 1;
-var guessContent = "";
+let currIndex = 0;
+let words = {
+  "hi": ["sigma", "xion"],
+  "what": ["hello", "hi"],
+  "goon": ["e", "chauncey"]
+};
+let guessContent = "";
+let correctlyGuessed = 0;
+//wordsArray contains an array of each of the keys(japanese words) of the words Record
+let wordsArray = Object.keys(words);
+currWord.textContent = wordsArray[0];
+update(0);
 
 /*
     event listeners
 */
 
 function guessed(){
-    guessContent = textarea.value;
-    console.log(guessContent);
-    textarea.value = "";
+  guessContent = textarea.value;
+
+  if(words[wordsArray[currIndex]].includes(guessContent))
+    ++correctlyGuessed;
+
+  ++currIndex;
+
+  if(currIndex >= wordsArray.length)
+    {
+      restartGame();
+      return;
+    }
+
+  currWord.textContent = wordsArray[currIndex];
+  update(currIndex);
+
+  textarea.value = "";
+  console.log(guessContent);
 }
-this.guessBtn.addEventListener('click', ()=> {
+
+function skip(){
+  ++currIndex;
+  // currWord.value = words[currIndex];
+  update(currIndex);
+  if(currIndex >= wordsArray.length)
+  {
+    restartGame();
+    return;
+  }
+  currWord.textContent = wordsArray[currIndex];
+  textarea.value = "";
+}
+
+function restartGame(){
+  currIndex = 0;
+  correctlyGuessed = 0;
+  update(0);
+  currWord.textContent = wordsArray[0];
+}
+
+guess.addEventListener('click', ()=> {
     guessed();
-    
 });
 
 textarea.addEventListener('keydown', (event) => {
@@ -47,28 +98,31 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
-textarea.addEventListener('keydown', (event) => {
-  if (event.key==="Enter"){
-    event.preventDefault();
+// textarea.addEventListener('keydown', (event) => {
+//   if (event.key==="Enter"){
+//     event.preventDefault();
+//
+//   }
+// });
 
-  }
-});
-
-this.skipBtn.addEventListener('click', ()=> {
+skipBtn.addEventListener('click', ()=> {
     //test();
-    if (currIndex < 5)
-      currIndex++;
-    
-    console.log(currIndex);
-    update(currIndex);
+    skip();
 });
 
 function update(currIndex){
-    let value = document.getElementById("amtLeft");
-    let result = (currIndex + "/5");
+  let value = document.getElementById("amtLeft");
+  let correct = document.getElementById("amtCorrect");
+  let result = (`${currIndex}/${wordsArray.length}`);
+  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
 
-    value.textContent = result;
+  value.textContent = result;
+  correct.textContent = resultCorrect;
 }
+
+// function getWords(){
+//   web
+// }
 
 /*
     jisho api
