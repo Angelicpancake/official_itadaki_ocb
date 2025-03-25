@@ -44,6 +44,9 @@
     }
 
     .users {
+        margin-top: 10px;
+        height:300px; /* CHANGE THIS IF TOO SMALL OR LARGE*/
+        overflow:scroll;
         .profile {
             display: flex;
             justify-content: center;
@@ -64,7 +67,7 @@
     .return-leaderboard { 
         display: flex;
         justify-content: center;
-        margin-top: 450px;
+        margin-top: 20px;
         position: relative;
     }
 
@@ -73,19 +76,51 @@
         width: 250px;
         height: auto;
         margin-left: -123px;
+        -webkit-transition: 0s all;   
+        -moz-transition: 0s all;   
+        -ms-transition: 0s all;   
+        -o-transition: 0s all;   
+        transition: 0s all;   
     }
 
+    /* refer to the comment in the howto part of this file for
+    an explanation of these lines.  */
     #leaderboardRefresh_highlight {
         visibility: hidden;
         margin-left: -127px;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh:hover {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh:hover ~ #leaderboardRefresh_highlight {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh_highlight:hover {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh_highlight:hover ~ #leaderboardRefresh {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     }
 }
 
@@ -279,7 +314,7 @@
     .return-howto {
         display: flex;
         justify-content: center;
-        margin-top: 300px;
+        margin-top: 200px;
         position: relative;
     }
 
@@ -288,22 +323,54 @@
         width: 250px;
         height: auto;
         margin-left: -123px;
+        -webkit-transition: 0s all;   
+        -moz-transition: 0s all;   
+        -ms-transition: 0s all;   
+        -o-transition: 0s all;   
+        transition: 0s all;  
     }
 
     /* This mess of code essentially just hides the top button when hovering and unhides the bottom button, then
     vice versa when not hovering. The top button is the unhighlighted version, while the bottom button is the
     highlighted one (saved as return_hover.png in webroot/assets). */
+    /* The many different versions of "transition-delay" are for 
+    browser compatability. */
     #howtoBtn_highlight {
         visibility: hidden;
         margin-left: -127px;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn:hover {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn:hover ~ #howtoBtn_highlight {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn_highlight:hover {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn_highlight:hover ~ #howtoBtn {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     }
 }
 
