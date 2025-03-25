@@ -1,6 +1,6 @@
 import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
 import AppUtils from './apputils.js';
-import switchPage, {reset} from './home.js';
+import switchPage, {reset, end} from './home.js';
 /*
     backend of the daily words grabber
 */
@@ -104,13 +104,6 @@ textarea.addEventListener('keydown', (event) => {
     guessed();
   }
 });
-
-// textarea.addEventListener('keydown', (event) => {
-//   if (event.key==="Enter"){
-//     event.preventDefault();
-//
-//   }
-// });
 
 skipBtn.addEventListener('click', ()=> {
     //test();

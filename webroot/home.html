@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <title>Home</title>
+    <title>Itadaki</title>
+    <link rel="icon" type="image/x-icon" href="./assets/icon.png">
     
 </head>
 <body>
@@ -24,7 +25,7 @@
                     <img><img src="./assets/daily.png" class="daily-logo">
                     <h1 id="amtLeft" class="amtLeft"></h1>
                     <hi id="amtCorrect" class="amtLeft"></h1>
-                    
+
                 </header>
             </div>
 
@@ -69,13 +70,19 @@
             <div class="profile">
                 <ul id="leaderboard"></ul>
            </div>
-        
         </div>
 
-        <input type="button" id="refreshLeaderboardBtn" value="Refresh Leaderboard">
+        <!-- testing -->
         <input type="button" id="testing" value="add entries">
         <input type="button" id="testingRemove" value="remove all entries">
-        
+
+
+        <div class="return-leaderboard">
+            <header> 
+                    <img><img src="./assets/refresh.png" id="leaderboardRefresh" class="leaderboardRefresh">
+                    <img><img src="./assets/refresh_hover.png" id="leaderboardRefresh_highlight" class="leaderboardRefresh">
+            </header>
+        </div>
     </div>
 
     <!--Rapid-->
@@ -113,10 +120,43 @@
 
     <!--Howto-->
     <div class="howto page hidden">
-        <div class="spacer-howto"></div>
-        <div class="content-howto">
-            <h>howto</h>
-            <button id='howtoBtn'>switch to home</button> <!--onclick="switchPage('home')-->
+        <container class="container-howto">
+            <div class="content-howto">
+                <h>Placeholder text!</h>
+            </div>
+        </container>
+
+        <div class="return-howto">
+            <header> 
+                    <img><img src="./assets/return.png" id="howtoBtn" class="howtoBtn">
+                    <img><img src="./assets/return_hover.png" id="howtoBtn_highlight" class="howtoBtn">
+            </header>
+        </div>
+    </div>
+
+    <div class="end page hidden">
+        <div class="title-congrats">
+            <b>🎉Congratulations!🎉</b>
+        </div>
+
+
+        <div class="content-congrats">
+            <br><br>
+            You've finished all of the kanji.
+            <br>
+            Finishing Results:
+        </div>
+
+
+        <div class="results" id="results">
+            null/null
+        </div>
+
+        <div class="return-end">
+            <header> 
+                    <img><img src="./assets/return.png" id="endBtn" class="endBtn">
+                    <img><img src="./assets/return_hover.png" id="endBtn_highlight" class="endBtn">
+            </header>
         </div>
     </div>
 
@@ -141,7 +181,7 @@
     <script type="module" src="apputils.js"></script>
 </body>
 </html>
+<<<<<<< HEAD
 <script type="module" src="home.js"></script>
 <script type="module" src="daily.js"></script>
 <script type="module" src="rapid.js"></script>
-
