@@ -8,19 +8,19 @@
     buttons
 */
 skipBtn =  (
-    document.querySelector('#skipBtn')
+    document.querySelector('#skipBtnRapid')
 );
 
 indexLabel = (
-  document.querySelector('#amtLeft')
+  document.querySelector('#amtLeftRapid')
 );
 
 textarea = (
-  document.querySelector('#textarea-daily')
+  document.querySelector('#textarea-rapid')
 );
 
-guess = (
-  document.querySelector('#guessBtn')
+guessBtn = (
+  document.querySelector('#guessBtnRapid')
 );
 
 var currIndex = 1;
@@ -47,16 +47,10 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
-textarea.addEventListener('keydown', (event) => {
-  if (event.key==="Enter"){
-    event.preventDefault();
-
-  }
-});
 
 this.skipBtn.addEventListener('click', ()=> {
     //test();
-    if (currIndex < 5)
+    if (currIndex < 35)
       currIndex++;
     
     console.log(currIndex);
@@ -64,8 +58,8 @@ this.skipBtn.addEventListener('click', ()=> {
 });
 
 function update(currIndex){
-    let value = document.getElementById("amtLeft");
-    let result = (currIndex + "/5");
+    let value = document.getElementById("amtLeftRapid");
+    let result = (currIndex + "/35");
 
     value.textContent = result;
 }
@@ -161,7 +155,4 @@ class Daily { //define word
         console.log("Error in testRandomKanji:", error);
       }
     }*/
-
-
-
 

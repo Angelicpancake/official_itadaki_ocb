@@ -22,7 +22,7 @@
                 <header>
                     <img><img src="./assets/menu.png" id="dailyBtn" class="dailyBtn">
                     <img><img src="./assets/daily.png" class="daily-logo">
-                    <h1 id="amtLeft" class="amtLeft">2/3</h1>
+                    <h1 id="amtLeft" class="amtLeft">1/5</h1>
                     
                 </header>
             </div>
@@ -80,10 +80,34 @@
     <!--Rapid-->
     <div class="rapid page hidden">
         <div class="spacer-rapid"></div>
-        <div class="content-rapid">
+
+        <container class= "container-rapid">
+            <div class="content-rapid">
+                <header>
+                    <img src="./assets/menu.png" id="rapidBtn" class="rapidBtn">
+                    <img src="./assets/rapid.png" id ="rapidLogo" class="rapidLogo">
+                    <h1 id="amtLeftRapid" class="amtLeftRapid">1/35</h1>
+                </header>
+            </div>
+
+            <div class="spacer2-rapid"></div>
+
+            <div class="word-rapid">
+                <h1>飲み物</h1>
+            </div>
+
+            <div class="spacer3-rapid"></div>
+
+            <div class="function-rapid">
+                <img src="./assets/skip.png" id="skipBtnRapid" class="skipBtnRapid">
+                <textarea id="textarea-rapid" class="textarea-rapid" id="textarea-rapid" placeholder="Enter the English Definition"></textarea>
+                <img src="./assets/guess.png" id="guessBtnRapid" class="guessBtnRapid">
+            </div>
+        </container>
+        <!--<div class="content-rapid">
             <h>rapid</h>
-            <button id='rapidBtn'>switch to home</button> <!--onclick="switchPage('home')-->
-        </div>
+            <button id='rapidBtn'>switch to home</button> <!--onclick="switchPage('home')
+        </div>-->
     </div>
 
     <!--Howto-->
@@ -117,4 +141,5 @@
 </html>
 <script type="application/javascript" src="home.js"></script>
 <script type="application/javascript" src="daily.js"></script>
+<script type="application/javascript" src="rapid.js"></script>
 
