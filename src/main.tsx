@@ -98,9 +98,9 @@ Devvit.addCustomPostType({
 
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
-    const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
+    // const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
 
-    const [day, setDay] = useState(new Date().getUTCDay);
+    const [day, setDay] = useState(new Date().getUTCDay());
 
     const [username, setUsername] = useState(async () => {
       return await context.reddit.getCurrentUsername();
@@ -116,33 +116,23 @@ Devvit.addCustomPostType({
             //get the words for the current day, dayWords is an array
             // const dayWords = await context.redis.hGet("dailyWords", `day${day}`);
             const dayWords: Record<string, string[]> = {
-              "hi": ["sigma", "tax"];
-              "what": ["hello", "hi"];
-              "goon": ["chair", "chauncey"];
+              "hi": ["sigma", "tax"],
+              "what": ["hello", "hi"],
+              "goon": ["chair", "chauncey"],
             };
             webView.postMessage({
-              type: updateWords,
+              type: "updateWords",
               data: {
-                words: dayWords
+                words: dayWords,
               }
             });
-            //test how the random 
-            // webview.postMessage({
-            // type: "updateWords",
-            // data: jishoFetch(message.data.kanji),
-            // }); 
             break;
-          // case 'page':
-          //   webView.postMessage({
-          //     type: ''
-          // })
-          // case 'boardPageLoaded':
-          // going to make this case happen on load later
           case 'fetchLeaderboard':
             const highScore = await context.redis.zScore("leaderboard", username);
             const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
             const currLeaderboardLength = await context.redis.zCard("leaderboard");
             const currLeaderboard = await context.redis.zRange("leaderboard", currLeaderboardLength - 100, currLeaderboardLength - 1, {BY: 'SCORE', WITHSCORES: true});
+            let updatedLeaderboard = null;
 
             try {
 
@@ -159,16 +149,16 @@ Devvit.addCustomPostType({
                   username: username,
                   score: highScore,
                 }
-                setLeaderboard([newEntry,...leaderboardWithScores]);
+                updatedLeaderboard = [newEntry,...leaderboardWithScores];
               }
               else
               {
-                setLeaderboard(leaderboardWithScores);
+                updatedLeaderboard = leaderboardWithScores;
               }  
-                            
+
               webView.postMessage({
                 type: 'updateLeaderboard',
-                data: {leaderboard: leaderboard, rank: currLeaderboardLength - currRank},
+                data: {leaderboard: updatedLeaderboard, rank: currLeaderboardLength - currRank},
               })
 
             } catch(error){
@@ -185,11 +175,13 @@ Devvit.addCustomPostType({
             break;
 
           case 'removeBoardEntry':
-            await context.redis.zRemByRangeByScore("leaderboard", 0, 200);
+            const currLeaderboardLength2: number = await context.redis.zCard("leaderboard");
+            await context.redis.del("leaderboard");
             break;
             
 
           case 'initialDataRequested':
+            console.log(Object.keys(context.redis));
             webView.postMessage({
               type: 'initialDataRecieved',
               data: {username: username}, 

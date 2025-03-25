@@ -1,5 +1,6 @@
 import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
 import AppUtils from './apputils.js';
+import switchPage, {reset} from './home.js';
 /*
     backend of the daily words grabber
 */
@@ -30,17 +31,27 @@ const guess = (
 );
 
 let currIndex = 0;
-let words = {
-  "hi": ["sigma", "xion"],
-  "what": ["hello", "hi"],
-  "goon": ["e", "chauncey"]
-};
 let guessContent = "";
+let words = null;
+let wordsArray = null;
 let correctlyGuessed = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
-let wordsArray = Object.keys(words);
-currWord.textContent = wordsArray[0];
-update(0);
+
+async function waitForWords() {
+    // Wait until AppUtils.words is initialized
+    while (!AppUtils.words) {
+        await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
+    }
+
+    // Once AppUtils.words is initialized, run the following code
+    words = AppUtils.words;
+    wordsArray = Object.keys(words);
+    currWord.textContent = wordsArray[0];
+    update(0);
+}
+
+// Call the waitForWords function to initiate the process
+waitForWords();
 
 /*
     event listeners
@@ -56,14 +67,13 @@ function guessed(){
 
   if(currIndex >= wordsArray.length)
     {
-      restartGame();
+      update(currIndex);
+      endGame();
       return;
     }
 
   currWord.textContent = wordsArray[currIndex];
   update(currIndex);
-
-  textarea.value = "";
   console.log(guessContent);
 }
 
@@ -73,18 +83,15 @@ function skip(){
   update(currIndex);
   if(currIndex >= wordsArray.length)
   {
-    restartGame();
+    endGame();
     return;
   }
   currWord.textContent = wordsArray[currIndex];
-  textarea.value = "";
 }
 
-function restartGame(){
-  currIndex = 0;
-  correctlyGuessed = 0;
-  update(0);
-  currWord.textContent = wordsArray[0];
+function endGame(){
+  switchPage('end');
+  return;
 }
 
 guess.addEventListener('click', ()=> {
@@ -118,6 +125,7 @@ function update(currIndex){
 
   value.textContent = result;
   correct.textContent = resultCorrect;
+  textarea.value = "";
 }
 
 // function getWords(){

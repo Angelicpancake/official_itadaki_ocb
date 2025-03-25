@@ -145,7 +145,7 @@ howtoBtn.addEventListener('click', ()=> {
     switchPage('home')
 });
 
-function reset()
+export function reset()
 {
 
     let hiddenElements = document.querySelectorAll('.page');
@@ -154,7 +154,7 @@ function reset()
     });
 }
 
-function switchPage(page)
+export default function switchPage(page)
 {
     reset();
 

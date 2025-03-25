@@ -8,6 +8,7 @@ export default function handleDevvitMessage(ev) {
     switch (message.type) {
       case "updateWords":
         AppUtils.words = message.data.words;
+        console.log(AppUtils.words);
         break;
 
       case "updateLeaderboard":
