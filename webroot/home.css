@@ -148,8 +148,6 @@
         color:white;
         
     }
-
-    
 }
 /*
     rapid
@@ -240,13 +238,26 @@
     howto
 */
 .howto {
-    .spacer-howto {
-        height: 250px;
+    .container-howto {
+        display: flex;
+        justify-content: center;
+        margin-top: 200px;
     }
 
     .content-howto {
+        font-size: 22px;
+        color:white;
+    }
+
+    .return-howto {
         display: flex;
         justify-content: center;
+        margin-top: 300px;
+    }
+
+    .howtoBtn {
+        width:250px;
+        height:auto;
     }
 }
 

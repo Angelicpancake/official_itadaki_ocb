@@ -116,15 +116,15 @@ dailyBtn.addEventListener('click', ()=> {
     switchPage('home')
 });
 rapidBtn.addEventListener('click', ()=> {
-    console.log('dailyBtn');
+    console.log('rapidBtn');
     switchPage('home')
 });
 leaderboardBtn.addEventListener('click', ()=> {
-    console.log('dailyBtn');
+    console.log('leaderboardBtn');
     switchPage('home')
 });
 howtoBtn.addEventListener('click', ()=> {
-    console.log('dailyBtn');
+    console.log('howtoBtn');
     switchPage('home')
 });
 
