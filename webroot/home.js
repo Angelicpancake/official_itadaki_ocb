@@ -2,6 +2,23 @@ import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
 import AppUtils from './apputils.js';
 
 AppUtils.initialStartup();
+
+/* declaring global vars for keeping track of correct guesses*/
+var guesses = {
+    correct:0,
+    incorrect:0
+}
+/* function to update end screen when necessary */
+function end() {
+    console.log("end");
+    let result = document.getElementById("results")
+    let total = (guesses.incorrect + guesses.correct);
+    result.textContent = guesses.correct + " / " + total;
+    let color = "rgb(" + (guesses.incorrect / total * 255) + ", " + (guesses.correct / total * 255) + ", 0)";
+    result.style.setProperty('--results-color', color);
+}
+
+
 /*
     Buttons@ home
 */
@@ -64,8 +81,16 @@ const rapidBtn =  /** @type {HTMLButtonElement} */ (
  *    how to buttons
  */
 const howtoBtn =  /** @type {HTMLButtonElement} */ (
-    document.querySelector('#howtoBtn_highlight') /* had to change this to fit button highlighting*/
+    document.querySelector('#howtoBtn_highlight') 
 );
+/*
+ * end buttons
+*/ 
+const endBtn = /** @type {HTMLButtonElement} */ (
+    document.querySelector('#endBtn_highlight')
+);
+
+
 
 /*
     event listeners
@@ -125,6 +150,10 @@ leaderboardBtn.addEventListener('click', ()=> {
 });
 howtoBtn.addEventListener('click', ()=> {
     console.log('howtoBtn');
+    switchPage('home')
+});
+endBtn.addEventListener('click', ()=> {
+    console.log('endBtn');
     switchPage('home')
 });
 
