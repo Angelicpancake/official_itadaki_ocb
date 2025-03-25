@@ -4,9 +4,24 @@
 
 //import {JishoUtil} from "../src/util/jishoUtil";
 
+const wordsJapanese = [
+    "食べ物", "飲み物", "買い物", "動物", "植物", "生き物", "建物", "荷物", "贈り物", "着物",  
+    "物語", "物事", "見物", "読物", "書物", "名物", "食物", "物音", "物資", "物価",  
+    "動物園", "怪物", "果物", "鉱物", "財物", "事物", "漁物", "貨物", "農作物", "人物",  
+    "好物", "薬物", "鉄道物語", "物騒", "物理"
+];
+
 /*
     buttons
 */
+
+wordRapid = (
+    document.querySelector('#word-rapid')
+)
+
+theWord = (
+    document.querySelector('#wordrapid')
+);
 skipBtnRapid =  (
     document.querySelector('#skipBtnRapid')
 );
@@ -30,6 +45,11 @@ var guessContentRapid = "";
     event listeners
 */
 
+function correctRapid()
+{
+    theWord.textContent = wordsJapanese[currIndexRapid] + "";
+    //t.style.fontSize = '36px'; // Ensure the font size is set
+}
 function guessedRapid(){
     guessContentRapid = textareaRapid.value;
     console.log(guessContentRapid);
@@ -50,9 +70,10 @@ textareaRapid.addEventListener('keydown', (event) => {
 
 this.skipBtnRapid.addEventListener('click', ()=> {
     //test();
-    if (currIndexRapid < 35)
+    if (currIndexRapid < 35){
       currIndexRapid++;
-    
+      correctRapid();
+    }
     console.log(currIndexRapid);
     updateRapid(currIndexRapid);
 });

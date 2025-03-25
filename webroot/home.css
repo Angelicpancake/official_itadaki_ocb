@@ -229,7 +229,7 @@
     }
 
     .word-rapid {
-        font-size: xx-large;
+        font-size: 32px !important;
         color: white;
     }
 
