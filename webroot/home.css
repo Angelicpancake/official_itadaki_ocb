@@ -77,16 +77,16 @@
     }
 
     .skipBtn, .guessBtn {
-        height: 50px;
+        height: 60px;
     }
 
     .textarea-daily {
-        font-size: 15px;
+        font-size: 19px;
         border: 3px solid #272629;
         border-radius: 15px;
-        width: 240px;
+        width: 290px;
         padding: 10px;
-        height: 27px;
+        height: 35px;
         text-align:center;
         color: white;
         background-color: #4C4D5B;
@@ -96,7 +96,7 @@
     }
 
     .textarea-daily::placeholder {
-        font-size: 15px;
+        font-size: 19px;
         color: rgb(185, 180, 180);
     }
 
@@ -110,11 +110,11 @@
     }
 
     .spacer2-daily {
-        height: 45px;
+        height: 100px;
     }
 
     .spacer3-daily {
-        height:100px;
+        height: 150px;
     }
 
     .content-daily {
@@ -144,7 +144,7 @@
     }
 
     .word-daily {
-        font-size: x-large;
+        font-size: xx-large;
         color:white;
         
     }
@@ -167,16 +167,16 @@
     }
 
     .skipBtnRapid, .guessBtnRapid {
-        height: 50px;
+        height: 60px;
     }
 
     .textarea-rapid {
-        font-size: 15px;
+        font-size: 19px;
         border: 3px solid #272629;
         border-radius: 15px;
-        width: 240px;
+        width: 290px;
         padding: 10px;
-        height: 27px;
+        height: 35px;
         text-align: center;
         color: white;
         background-color: #4C4D5B;
@@ -185,7 +185,7 @@
     }
 
     .textarea-rapid::placeholder{
-        font-size: 15px;
+        font-size: 19px;
         color: rgb(185, 180, 180);
     }
 
@@ -199,11 +199,11 @@
     }
 
     .spacer2-rapid {
-        height: 45px;
+        height: 100px;
     }
 
     .spacer3-rapid {
-        height: 100px;
+        height: 150px;
     }
 
     .content-daily {
@@ -213,7 +213,7 @@
 
     .rapidLogo {
         height: 35px;
-        margin-right: 65px;
+        margin-right: 55px;
     }
 
     .amtLeftRapid {
@@ -224,12 +224,12 @@
     }
 
     .rapidBtn {
-        margin-right: 125px;
+        margin-right: 115px;
         height: 35px;
     }
 
     .word-rapid {
-        font-size: x-large;
+        font-size: xx-large;
         color: white;
     }
 

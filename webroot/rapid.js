@@ -7,61 +7,61 @@
 /*
     buttons
 */
-skipBtn =  (
+skipBtnRapid =  (
     document.querySelector('#skipBtnRapid')
 );
 
-indexLabel = (
+indexLabelRapid = (
   document.querySelector('#amtLeftRapid')
 );
 
-textarea = (
+textareaRapid = (
   document.querySelector('#textarea-rapid')
 );
 
-guessBtn = (
+guessBtnRapid = (
   document.querySelector('#guessBtnRapid')
 );
 
-var currIndex = 1;
-var guessContent = "";
+var currIndexRapid = 1;
+var guessContentRapid = "";
 
 /*
     event listeners
 */
 
-function guessed(){
-    guessContent = textarea.value;
-    console.log(guessContent);
-    textarea.value = "";
+function guessedRapid(){
+    guessContentRapid = textareaRapid.value;
+    console.log(guessContentRapid);
+    textareaRapid.value = "";
 }
-this.guessBtn.addEventListener('click', ()=> {
-    guessed();
+this.guessBtnRapid.addEventListener('click', ()=> {
+    guessedRapid();
     
 });
 
-textarea.addEventListener('keydown', (event) => {
+textareaRapid.addEventListener('keydown', (event) => {
   if (event.key==="Enter"){
     event.preventDefault();
-    guessed();
+    guessedRapid();
   }
 });
 
 
-this.skipBtn.addEventListener('click', ()=> {
+this.skipBtnRapid.addEventListener('click', ()=> {
     //test();
-    if (currIndex < 35)
-      currIndex++;
+    if (currIndexRapid < 35)
+      currIndexRapid++;
     
-    console.log(currIndex);
-    update(currIndex);
+    console.log(currIndexRapid);
+    updateRapid(currIndexRapid);
 });
 
-function update(currIndex){
-    let value = document.getElementById("amtLeftRapid");
-    let result = (currIndex + "/35");
+function updateRapid(currIndexRapid){
+    let valueRapid = document.getElementById("amtLeftRapid");
+    let resultRapid = (currIndexRapid + "/35");
 
-    value.textContent = result;
+    valueRapid.textContent = resultRapid;
 }
 
 /*
