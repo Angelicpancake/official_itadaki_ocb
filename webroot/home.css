@@ -1,5 +1,5 @@
 * {
-    /*overflow: hidden; /*remove scrollbar*/*/
+    /*overflow: hidden; /*remove scrollbar*/
     margin: 0;
     background-color: #333445;
 }
@@ -77,24 +77,26 @@
     }
 
     .skipBtn, .guessBtn {
-        height: 50px;
+        height: 60px;
     }
 
     .textarea-daily {
-        font-size: 15px;
+        font-size: 19px;
         border: 3px solid #272629;
         border-radius: 15px;
-        width: 240px;
+        width: 290px;
         padding: 10px;
-        height: 27px;
+        height: 35px;
         text-align:center;
         color: white;
         background-color: #4C4D5B;
+        resize: none;
+        overflow: hidden;
 
     }
 
     .textarea-daily::placeholder {
-        font-size: 15px;
+        font-size: 19px;
         color: rgb(185, 180, 180);
     }
 
@@ -108,11 +110,11 @@
     }
 
     .spacer2-daily {
-        height: 45px;
+        height: 100px;
     }
 
     .spacer3-daily {
-        height:100px;
+        height: 150px;
     }
 
     .content-daily {
@@ -123,17 +125,26 @@
     .daily-logo {
 
         height: 35px;
-        margin-right: 170px;
+        margin-right: 65px;
       
+    }
+
+    .amtLeft {
+        display: inline-block;
+        margin: 0;
+        margin-right: 100px;
+        color: white;
+        
     }
 
     .dailyBtn {
         margin-right: 125px;
         height: 35px
+        
     }
 
     .word-daily {
-        font-size: x-large;
+        font-size: xx-large;
         color:white;
         
     }
@@ -144,14 +155,85 @@
     rapid
 */
 .rapid {
-    .spacer-rapid {
-        height: 250px;
+   
+    font-family: "Hachi Maru Pop", cursive;
+    font-weight: 400;
+    font-style: normal;
+
+    .container-rapid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .content-rapid {
+    .skipBtnRapid, .guessBtnRapid {
+        height: 60px;
+    }
+
+    .textarea-rapid {
+        font-size: 19px;
+        border: 3px solid #272629;
+        border-radius: 15px;
+        width: 290px;
+        padding: 10px;
+        height: 35px;
+        text-align: center;
+        color: white;
+        background-color: #4C4D5B;
+        resize: none;
+        overflow: hidden;
+    }
+
+    .textarea-rapid::placeholder{
+        font-size: 19px;
+        color: rgb(185, 180, 180);
+    }
+
+    .textarea-rapid:focus{
+        outline: none;
+        border-color: #FF9E42;
+    }
+
+    .spacer-rapid {
+        height: 25px;
+    }
+
+    .spacer2-rapid {
+        height: 100px;
+    }
+
+    .spacer3-rapid {
+        height: 150px;
+    }
+
+    .content-daily {
         display: flex;
         justify-content: center;
     }
+
+    .rapidLogo {
+        height: 35px;
+        margin-right: 55px;
+    }
+
+    .amtLeftRapid {
+        display: inline-block;
+        margin: 0;
+        margin-right: 100px;
+        color: white;
+    }
+
+    .rapidBtn {
+        margin-right: 115px;
+        height: 35px;
+    }
+
+    .word-rapid {
+        font-size: 32px !important;
+        color: white;
+    }
+
+
 }
 
 /*

@@ -4,70 +4,85 @@
 
 //import {JishoUtil} from "../src/util/jishoUtil";
 
+const wordsJapanese = [
+    "食べ物", "飲み物", "買い物", "動物", "植物", "生き物", "建物", "荷物", "贈り物", "着物",  
+    "物語", "物事", "見物", "読物", "書物", "名物", "食物", "物音", "物資", "物価",  
+    "動物園", "怪物", "果物", "鉱物", "財物", "事物", "漁物", "貨物", "農作物", "人物",  
+    "好物", "薬物", "鉄道物語", "物騒", "物理"
+];
+
 /*
     buttons
 */
-skipBtn =  (
-    document.querySelector('#skipBtn')
+
+wordRapid = (
+    document.querySelector('#word-rapid')
+)
+
+theWord = (
+    document.querySelector('#wordrapid')
+);
+skipBtnRapid =  (
+    document.querySelector('#skipBtnRapid')
 );
 
-indexLabel = (
-  document.querySelector('#amtLeft')
+indexLabelRapid = (
+  document.querySelector('#amtLeftRapid')
 );
 
-textarea = (
-  document.querySelector('#textarea-daily')
+textareaRapid = (
+  document.querySelector('#textarea-rapid')
 );
 
-guess = (
-  document.querySelector('#guessBtn')
+guessBtnRapid = (
+  document.querySelector('#guessBtnRapid')
 );
 
-var currIndex = 1;
-var guessContent = "";
+var currIndexRapid = 1;
+var guessContentRapid = "";
 
 /*
     event listeners
 */
 
-function guessed(){
-    guessContent = textarea.value;
-    console.log(guessContent);
-    textarea.value = "";
+function correctRapid()
+{
+    theWord.textContent = wordsJapanese[currIndexRapid] + "";
+    //t.style.fontSize = '36px'; // Ensure the font size is set
 }
-this.guessBtn.addEventListener('click', ()=> {
-    guessed();
+function guessedRapid(){
+    guessContentRapid = textareaRapid.value;
+    console.log(guessContentRapid);
+    textareaRapid.value = "";
+}
+this.guessBtnRapid.addEventListener('click', ()=> {
+    guessedRapid();
     
 });
 
-textarea.addEventListener('keydown', (event) => {
+textareaRapid.addEventListener('keydown', (event) => {
   if (event.key==="Enter"){
     event.preventDefault();
-    guessed();
+    guessedRapid();
   }
 });
 
-textarea.addEventListener('keydown', (event) => {
-  if (event.key==="Enter"){
-    event.preventDefault();
 
-  }
-});
-
-this.skipBtn.addEventListener('click', ()=> {
+this.skipBtnRapid.addEventListener('click', ()=> {
     //test();
-    if (currIndex < 5)
-      currIndex++;
-    
-    console.log(currIndex);
-    update(currIndex);
+    if (currIndexRapid < 35){
+      currIndexRapid++;
+      correctRapid();
+    }
+    console.log(currIndexRapid);
+    updateRapid(currIndexRapid);
 });
 
-function update(currIndex){
-    let value = document.getElementById("amtLeft");
-    let result = (currIndex + "/5");
+function updateRapid(currIndexRapid){
+    let valueRapid = document.getElementById("amtLeftRapid");
+    let resultRapid = (currIndexRapid + "/35");
 
-    value.textContent = result;
+    valueRapid.textContent = resultRapid;
 }
 
 /*
@@ -161,7 +176,4 @@ class Daily { //define word
         console.log("Error in testRandomKanji:", error);
       }
     }*/
-
-
-
 

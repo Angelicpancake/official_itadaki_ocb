@@ -1,7 +1,8 @@
+import { Word } from "./util/word.js";
+
 export type DevvitMessage =
-  | { type: "initialDataRecieved"; data: {username: string}}
-  | { type: "updateLeaderboard"; data: {leaderboard: Array<{username: string, score: number}>, rank: number}}
-  | { type: 'words'; data: {words: Word[][]}}; //export words[][]
+  | { type: "initialDataRecieved"; data: {username: string, words: Word[][]}}
+  | { type: "updateLeaderboard"; data: {leaderboard: Array<{username: string, score: number}>, rank: number}};
  
 
 /* Message from the web view to Devvit. */

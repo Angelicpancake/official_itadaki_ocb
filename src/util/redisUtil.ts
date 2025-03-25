@@ -18,7 +18,7 @@ import { Word } from "./word.js";
 
 	retrieve by hGet
 */
-export class RedisUtil {
+export default class RedisUtil {
 	private static words: Word[][] | null; //creates a 2d array of Word or sets to null
 
 	//return type Word[][] or null and returns the words array
@@ -62,6 +62,7 @@ export class RedisUtil {
 		if (this.words == null) {
 			this.words = [];
 			for (var i: number = 0; i < 7; i++) {
+				this.words[i] = [];
 				// Days of the week are represent as numbers from 0-6, Sunday-Saturday
 				const dailyWords: Record<string, string> = await redis.hGetAll(`dailyWords${i}`);
 
@@ -95,14 +96,19 @@ export class RedisUtil {
 		'dailyWords${~}' => dailyWords0 ..etc
 	*/
 	public static setWords(redis: RedisClient, words: Word[]): void {
-		var redisWords: {[key: string]: string} = {};
+		try {
+			var redisWords: {[key: string]: string} = {};
 
-		words.forEach((word: Word) => {
-			for (const englishDefinition in word.getEnglish()) {
-				redisWords[englishDefinition] = word.getJapanese();
-			}
-		});
-
-		redis.hSet(`dailyWords${new Date().getUTCDay()}`, redisWords);
+			words.forEach((word: Word) => {
+				for (const englishDefinition in word.getEnglish()) {
+					redisWords[englishDefinition] = word.getJapanese();
+				}
+			});
+	
+			redis.hSet(`dailyWords${new Date().getUTCDay()}`, redisWords);
+		} catch (error) {
+			console.error("error in RedisUtil", error);
+		}
+		
 	}
 }
