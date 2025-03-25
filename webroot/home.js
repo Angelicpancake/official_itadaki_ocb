@@ -64,7 +64,7 @@ const rapidBtn =  /** @type {HTMLButtonElement} */ (
  *    how to buttons
  */
 const howtoBtn =  /** @type {HTMLButtonElement} */ (
-    document.querySelector('#howtoBtn')
+    document.querySelector('#howtoBtn_highlight') /* had to change this to fit button highlighting*/
 );
 
 /*

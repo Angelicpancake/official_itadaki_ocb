@@ -253,11 +253,30 @@
         display: flex;
         justify-content: center;
         margin-top: 300px;
+        position: relative;
     }
 
     .howtoBtn {
-        width:250px;
-        height:auto;
+        position: absolute;
+        width: 250px;
+        height: auto;
+        margin-left: -123px;
+    }
+
+    /* This mess of code essentially just hides the top button when hovering and unhides the bottom button, then
+    vice versa when not hovering. The top button is the unhighlighted version, while the bottom button is the
+    highlighted one (saved as return_hover.png in webroot/assets). */
+    #howtoBtn_highlight {
+        visibility: hidden;
+        margin-left: -127px;
+    } #howtoBtn:hover {
+        visibility: hidden;
+    } #howtoBtn:hover ~ #howtoBtn_highlight {
+        visibility: visible;
+    } #howtoBtn_highlight:hover {
+        visibility: visible;
+    } #howtoBtn_highlight:hover ~ #howtoBtn {
+        visibility: hidden;
     }
 }
 
@@ -307,6 +326,7 @@
     width: 290px;
     height: 35px;
     border-width: 2px;
+    transition-duration: 0.3s;
     
     font-size: 12px;
     font-weight: 600;
