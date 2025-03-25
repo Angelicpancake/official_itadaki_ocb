@@ -47,13 +47,6 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
-textarea.addEventListener('keydown', (event) => {
-  if (event.key==="Enter"){
-    event.preventDefault();
-
-  }
-});
-
 this.skipBtn.addEventListener('click', ()=> {
     //test();
     if (currIndex < 5)

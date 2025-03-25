@@ -41,7 +41,7 @@ const leaderboardBtn =  /** @type {HTMLButtonElement} */ (
 );
 
 const refreshLeaderboardBtn = /**@type {HTMLButtonElement} */(
-    document.querySelector('#refreshLeaderboardBtn')
+    document.querySelector('#leaderboardRefresh_highlight')
 );
 
 const testAddOneEntryBtn = /**@type {HTMLButtonElement} */(

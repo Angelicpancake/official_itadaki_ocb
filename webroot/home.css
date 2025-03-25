@@ -60,6 +60,33 @@
             }
         }
     }
+
+    .return-leaderboard { 
+        display: flex;
+        justify-content: center;
+        margin-top: 450px;
+        position: relative;
+    }
+
+    .leaderboardRefresh {
+        position: absolute;
+        width: 250px;
+        height: auto;
+        margin-left: -123px;
+    }
+
+    #leaderboardRefresh_highlight {
+        visibility: hidden;
+        margin-left: -127px;
+    } #leaderboardRefresh:hover {
+        visibility: hidden;
+    } #leaderboardRefresh:hover ~ #leaderboardRefresh_highlight {
+        visibility: visible;
+    } #leaderboardRefresh_highlight:hover {
+        visibility: visible;
+    } #leaderboardRefresh_highlight:hover ~ #leaderboardRefresh {
+        visibility: hidden;
+    }
 }
 
 /*
