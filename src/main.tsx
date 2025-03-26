@@ -115,11 +115,11 @@ Devvit.addCustomPostType({
           case 'fetchWords':
             //get the words for the current day, dayWords is an array
             // const dayWords = await context.redis.hGet("dailyWords", `day${day}`);
-            const dayWords: Record<string, string[]> = {
+            const dayWords: Record<string, string[]> = jishoFetch("山");/* {
               "hi": ["sigma", "tax"],
               "what": ["hello", "hi"],
               "goon": ["chair", "chauncey"],
-            };
+            }; */
             webView.postMessage({
               type: "updateWords",
               data: {

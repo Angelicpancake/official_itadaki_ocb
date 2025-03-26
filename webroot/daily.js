@@ -91,6 +91,7 @@ function skip(){
 
 function endGame(){
   switchPage('end');
+  end(wordsArray.length, correctlyGuessed);
   return;
 }
 

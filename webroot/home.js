@@ -17,7 +17,7 @@ const fetchWords = (
 );
 
 /* function to update end screen when necessary */
-function end(total, correct) {
+export function end(total, correct) {
     console.log("end");
     let result = document.getElementById("results")
     result.textContent = correct + " / " + total;
