@@ -32,7 +32,7 @@ const guess = (
 
 let currIndex = 0;
 let guessContent = "";
-export default let words = null;
+let words = null;
 let wordsArray = null;
 let correctlyGuessed = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
@@ -52,6 +52,8 @@ async function waitForWords() {
 
 // Call the waitForWords function to initiate the process
 waitForWords();
+
+export default words;
 
 /*
     event listeners
