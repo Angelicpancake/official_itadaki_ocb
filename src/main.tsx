@@ -51,35 +51,35 @@ Devvit.configure({
 //       console.log("jishodata didn't work");
 //     }
 // }
-selects kanji for everyday of the week, implement later
-Devvit.addSchedulerJob({
-  name: 'refreshWeeklyKanji',
-  OnRun: async() => {
-    //reset weeklyWords
-    for(let i = 0; i < 7; i++)
-    {
-      try{
-        await context.redis.hDel("weeklyKanji", `day${i}`);
-      }
-      catch(error){
-        console.error("error when deleting words in refreshWeeklyKanji", error);
-      }
-    }
-
-    const randomKanjiSelected: Array<string> = randomKanji();
-
-    //put random kanji into weeklywords 
-    for(let i = 0; i < 7; i++)
-    {
-      try {
-        await context.redis.hSet("weeklyKanji", `day${i}`, randomKanjiSelected[i]);
-      }
-      catch (error){
-        console.error("error when setting kanji in refreshWeeklyKanji", error);
-      }
-    }
-  },
-})
+// selects kanji for everyday of the week, implement later
+// Devvit.addSchedulerJob({
+//   name: 'refreshWeeklyKanji',
+//   OnRun: async() => {
+//     //reset weeklyWords
+//     for(let i = 0; i < 7; i++)
+//     {
+//       try{
+//         await context.redis.hDel("weeklyKanji", `day${i}`);
+//       }
+//       catch(error){
+//         console.error("error when deleting words in refreshWeeklyKanji", error);
+//       }
+//     }
+//
+//     const randomKanjiSelected: Array<string> = randomKanji();
+//
+//     //put random kanji into weeklywords 
+//     for(let i = 0; i < 7; i++)
+//     {
+//       try {
+//         await context.redis.hSet("weeklyKanji", `day${i}`, randomKanjiSelected[i]);
+//       }
+//       catch (error){
+//         console.error("error when setting kanji in refreshWeeklyKanji", error);
+//       }
+//     }
+//   },
+// })
 
 
 // selects the words for the day from weeklyWords, implement later
