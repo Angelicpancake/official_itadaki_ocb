@@ -58,12 +58,13 @@ waitForWords();
 */
 
 function guessed(){
-  guessContent = textarea.value;
+  guessContent = (textarea.value).toLowerCase();
 
   if(words[wordsArray[currIndex]].includes(guessContent))
+  {
     ++correctlyGuessed;
-
-  ++currIndex;
+    ++currIndex;
+  }
 
   if(currIndex >= wordsArray.length)
     {
