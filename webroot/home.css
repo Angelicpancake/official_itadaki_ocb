@@ -427,9 +427,12 @@
         color:var(--results-color);
     }
 
-    .definitions {
-        position: absolute;
-        height:100px;
+
+    /*.definitions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
         left: 50%;
         margin-right: -50%;
         transform: translate(-50%, 10px);
@@ -442,11 +445,19 @@
         font-size: 15px;
         height:200px;
         
-        overflow-y: scroll;
+       overflow-y: scroll;
         scrollbar-width: thin;
         scrollbar-color: #4C4D5B;
         background-color: #C9534F;
         color:white;
+        text-align: center;
+    }*/
+    .definition {
+        font-size: 10px;
+        /*overflow-y: scroll;*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         text-align: center;
     }
 
