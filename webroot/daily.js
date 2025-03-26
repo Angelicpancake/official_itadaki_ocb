@@ -19,7 +19,7 @@ const skipBtn =  (
 );
 
 const definitions = (
-  document.querySelector('#results')
+  document.querySelector('#definitions')
 );
 
 const textarea = (
