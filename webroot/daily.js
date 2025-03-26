@@ -50,8 +50,11 @@ async function waitForWords() {
     update(0);
 }
 
+
 // Call the waitForWords function to initiate the process
 waitForWords();
+export default words;
+
 
 /*
     event listeners

@@ -17,6 +17,81 @@ Devvit.configure({
   scheduler: true,
 });
 
+Devvit.addSchedulerJob({
+	name: 'getWeeklyKanji',
+	onRun: async (event, context) => {
+    let weeklyChars: Array<string> = [];
+    //count stores how many characters are currently in weeklyChars
+    let count = 0;
+    while(count < 7){
+      try {
+        let randomCharacter: string = await new Promise((resolve, reject) => {
+          fs.readFile('./util/kanji.txt', 'utf-8', (error, data) => {
+            if (error) {
+              return reject(error);
+            }
+            
+            resolve(data[Math.random() * data.length]);
+          });
+        });
+
+        if(weeklyChars.includes(randomCharacter))
+          continue;
+        
+        weeklyChars[count] = randomCharacter;
+        ++count;
+      }
+      catch (error){
+        console.error("failed to get new weekly kanji", error);
+      }
+    }
+      
+    let count2 = 0;
+    while (count2 < 7){
+      try {
+        await context.redis.hset("dailyKanji", `day${count2}`, weeklyChars[count2]);
+        ++count2;
+      } catch (error) {
+        console.error("failed to update weeklyKanji database", error);
+      }
+    }
+    
+    		// Tomorrow at midnight (the morning)
+		let scheduledDate: Date = new Date();
+		scheduledDate.setUTCDate(1);
+		scheduledDate.setUTCHours(0, 0, 0, 0);
+
+		// Schedule this task again for tomorrow
+		context.scheduler.runJob({
+			name: 'getWeeklyKanji',
+			runAt: scheduledDate,
+		});
+	}
+});
+
+
+Devvit.addSchedulerJob({
+  name: "getDailyWords",
+  onRun: async (event, context) => {
+    const date = new Date();
+    const currentDay = date.getUTCDay();
+    const kanji = await context.redis.hGet("dailyKanji", `day${currentDay}`);
+    const japaneseWords: Record<string, string[]> = jishoFetch(kanji);
+
+    await context.redis.set("todaysWords", japaneseWords); 
+
+    date.setUTCDate((currentDay + 1) % 7);
+    date.setUTCHours(0, 0, 0, 0);
+    
+    context.scheduler.runJob({
+      name: 'getDailyWords',
+      runAt: date,
+    })
+  }
+
+  
+});
+
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
@@ -41,7 +116,7 @@ Devvit.addCustomPostType({
           case 'fetchWords':
             //get the words for the current day, dayWords is an array
             // const dayWords = await context.redis.hGet("dailyWords", `day${day}`);
-            const dayWords: Record<string, string[]> = await jishoFetch("水");/* {
+            const dayWords: Record<string, string[]> = await context.redis.get("todaysWords");/* {
               "hi": ["sigma", "tax"],
               "what": ["hello", "hi"],
               "goon": ["chair", "chauncey"],
