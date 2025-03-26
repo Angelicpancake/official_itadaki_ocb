@@ -159,7 +159,7 @@ leaderboardBtn.addEventListener('click', ()=> {
 });
 howtoBtn.addEventListener('click', ()=> {
     console.log('howtoBtn');
-    switchPage('home')
+    switchPage('home');
 });
 endBtn.addEventListener('click', ()=> {
     console.log('endBtn');

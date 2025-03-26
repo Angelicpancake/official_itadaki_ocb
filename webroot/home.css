@@ -399,14 +399,15 @@
     end page
 */
 .end {
-    font-family: "Hachi Maru Pop", cursive;
+    font-family: "Hachi Maru Pop";
     font-weight: 400;
     font-style: normal;
 
+    
     .title-congrats {
         display: flex;
         justify-content: center;
-        margin-top: 100px;
+        margin-top: 75px;
         font-size: 30px;
         color: white;
     }
@@ -421,15 +422,38 @@
     .results {
         display: flex;
         justify-content: center;
-        margin-top: 100px;
+        margin-top: 25px;
         font-size: 30px;
         color:var(--results-color);
+    }
+
+    .definitions {
+        position: absolute;
+        height:100px;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, 10px);
+        border: grey;
+        border-width: 2px;
+        border-style: solid;
+
+        width:400px;
+        margin-top: 5px;
+        font-size: 22px;
+        height:200px;
+        
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #4C4D5B;
+        background-color: #C9534F;
+        color:white;
+        text-align: center;
     }
 
     .return-end {
         display: flex;
         justify-content: center;
-        margin-top: 100px;
+        margin-top: 250px;
         position: relative;
     }
 
