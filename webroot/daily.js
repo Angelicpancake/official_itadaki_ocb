@@ -22,6 +22,10 @@ const skipBtn =  (
 //   document.querySelector('#amtLeft')
 // );
 
+const definitions = (
+  document.querySelector('#definitions')
+);
+
 const textarea = (
   document.querySelector('#textarea-daily')
 );
@@ -35,6 +39,7 @@ let guessContent = "";
 let words = null;
 let wordsArray = null;
 let correctlyGuessed = 0;
+let definitionWords = "";
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
 
 async function waitForWords() {
@@ -92,6 +97,15 @@ function skip(){
 
 function endGame(){
   switchPage('end');
+
+  wordsArray.forEach((japaneseWord) => {
+    definitionWords += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}` + "\n");
+});
+
+  definitions.textContent = definitionWords;
+  
+
+  console.log(definitionWords);
   end(wordsArray.length, correctlyGuessed);
   return;
 }
