@@ -17,12 +17,13 @@ const fetchWords = (
 );
 
 /* function to update end screen when necessary */
-export function end(total, correct) {
+export function end(total, correct, score) {
     console.log("end");
     let result = document.getElementById("results")
     result.textContent = correct + " / " + total;
     let color = "rgb(" + ((total - correct) / total * 255) + ", " + (correct / total * 255) + ", 0)";
     result.style.setProperty('--results-color', color);
+
 }
 
 /*

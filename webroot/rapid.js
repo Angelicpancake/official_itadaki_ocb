@@ -15,82 +15,138 @@ const wordsJapanese = [
     buttons
 */
 
-wordRapid = (
-    document.querySelector('#word-rapid')
-)
-
-theWord = (
+const currWord = (
     document.querySelector('#wordrapid')
 );
-skipBtnRapid =  (
+const skipBtn =  (
     document.querySelector('#skipBtnRapid')
 );
 
-indexLabelRapid = (
-  document.querySelector('#amtLeftRapid')
+const definitions = (
+  document.querySelector('#definitions')
 );
 
-textareaRapid = (
+const textarea = (
   document.querySelector('#textarea-rapid')
 );
 
-guessBtnRapid = (
+const guess = (
   document.querySelector('#guessBtnRapid')
 );
 
-var currIndexRapid = 1;
-var guessContentRapid = "";
+let currIndex = 0;
+let guessContent = "";
+let words = null;
+let wordsArray = null;
+let correctlyGuessed = 0;
+let definitionWords = "";
+let guesses = 0;
+let score = 0;
+//wordsArray contains an array of each of the keys(japanese words) of the words Record
 
+async function waitForWords() {
+  // Wait until AppUtils.words is initialized
+  while (!AppUtils.wordsWeekly) {
+      await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
+  }
+
+  // Once AppUtils.words is initialized, run the following code
+  words = AppUtils.wordsWeekly;
+  wordsArray = Object.keys(words);
+  currWord.textContent = wordsArray[0];
+  update(0);
+}
+
+// Call the waitForWords function to initiate the process
+waitForWords();
 /*
     event listeners
 */
 
-function correctRapid()
-{
-    theWord.textContent = wordsJapanese[currIndexRapid] + "";
-    //t.style.fontSize = '36px'; // Ensure the font size is set
+let guessed = function (){
+  guessContent = (textarea.value).toLowerCase();
+  guesses++;
+  if(words[wordsArray[currIndex]].includes(guessContent))
+  {
+    ++correctlyGuessed;
+    ++currIndex;
+    score += (5 - guesses) > 0 ? (4 - guesses) : 0;
+    guesses = 0;
+  }
+
+  if(currIndex >= wordsArray.length)
+    {
+      update(currIndex);
+      endGame();
+      return;
+    }
+
+  currWord.textContent = wordsArray[currIndex];
+  update(currIndex);
+  console.log(guessContent);
 }
-function guessedRapid(){
-    guessContentRapid = textareaRapid.value;
-    console.log(guessContentRapid);
-    textareaRapid.value = "";
-    /* NEED TO : 
-    check if guess is correct
-    if not, add to guesses.incorrect and do stuff
-    if so, add to guesses.correct and do stuff
-    after all guesses done, go to end screen
-    AND call end() function
-    */
+
+let skip = function (){
+  guesses = 0;
+  ++currIndex;
+  // currWord.value = words[currIndex];
+  update(currIndex);
+  if(currIndex >= wordsArray.length)
+  {
+    endGame();
+    return;
+  }
+  currWord.textContent = wordsArray[currIndex];
 }
-this.guessBtnRapid.addEventListener('click', ()=> {
-    guessedRapid();
-    
+
+let endGame = function (){
+  switchPage('end');
+
+  wordsArray.forEach((japaneseWord) => {
+    definitionWords += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}` + "\n");
 });
 
-textareaRapid.addEventListener('keydown', (event) => {
+  definitions.textContent = definitionWords;
+  
+
+  console.log(definitionWords);
+  end(wordsArray.length, correctlyGuessed, score);
+  return;
+}
+
+guess.addEventListener('click', ()=> {
+    guessed();
+});
+
+textarea.addEventListener('keydown', (event) => {
   if (event.key==="Enter"){
     event.preventDefault();
-    guessedRapid();
+    guessed();
   }
 });
 
-
-this.skipBtnRapid.addEventListener('click', ()=> {
+skipBtn.addEventListener('click', ()=> {
     //test();
-    if (currIndexRapid < 35){
-      currIndexRapid++;
-      correctRapid();
-    }
-    console.log(currIndexRapid);
-    updateRapid(currIndexRapid);
+    skip();
 });
 
+let update = function (currIndex){
+  let value = document.getElementById("amtLeft");
+  let correct = document.getElementById("amtCorrect");
+  let result = (`${currIndex}/${wordsArray.length}`);
+  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
+
+  value.textContent = result;
+  correct.textContent = resultCorrect;
+  textarea.value = "";
+}
+/*
 function updateRapid(currIndexRapid){
     let valueRapid = document.getElementById("amtLeftRapid");
     let resultRapid = (currIndexRapid + "/35");
 
     valueRapid.textContent = resultRapid;
-}
+} */
 
 /*
     jisho api

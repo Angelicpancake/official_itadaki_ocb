@@ -18,9 +18,9 @@ const skipBtn =  (
     document.querySelector('#skipBtn')
 );
 
-// indexLabel = (
-//   document.querySelector('#amtLeft')
-// );
+const definitions = (
+  document.querySelector('#results')
+);
 
 const textarea = (
   document.querySelector('#textarea-daily')
@@ -35,6 +35,9 @@ let guessContent = "";
 let words = null;
 let wordsArray = null;
 let correctlyGuessed = 0;
+let definitionWords = "";
+let guesses = 0;
+let score = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
 
 async function waitForWords() {
@@ -57,13 +60,15 @@ waitForWords();
     event listeners
 */
 
-function guessed(){
+let guessed = function (){
   guessContent = (textarea.value).toLowerCase();
-
+  guesses++;
   if(words[wordsArray[currIndex]].includes(guessContent))
   {
     ++correctlyGuessed;
     ++currIndex;
+    score += (5 - guesses) > 0 ? (4 - guesses) : 0;
+    guesses = 0;
   }
 
   if(currIndex >= wordsArray.length)
@@ -78,7 +83,8 @@ function guessed(){
   console.log(guessContent);
 }
 
-function skip(){
+let skip = function (){
+  guesses = 0;
   ++currIndex;
   // currWord.value = words[currIndex];
   update(currIndex);
@@ -90,9 +96,25 @@ function skip(){
   currWord.textContent = wordsArray[currIndex];
 }
 
-function endGame(){
+let endGame = function (){
   switchPage('end');
-  end(wordsArray.length, correctlyGuessed);
+  let index = 1;
+  let def;
+
+  wordsArray.forEach((japaneseWord) => {
+    def = document.getElementById(`word${index}`);
+  
+    console.log(`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
+    def.textContent = (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
+    //(`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
+    index += 1;
+});
+
+  definitions.textContent = definitionWords;
+  
+
+  console.log(definitionWords);
+  end(wordsArray.length, correctlyGuessed, score);
   return;
 }
 
@@ -112,7 +134,7 @@ skipBtn.addEventListener('click', ()=> {
     skip();
 });
 
-function update(currIndex){
+let update = function (currIndex){
   let value = document.getElementById("amtLeft");
   let correct = document.getElementById("amtCorrect");
   let result = (`${currIndex}/${wordsArray.length}`);
