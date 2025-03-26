@@ -35,7 +35,6 @@ let guessContent = "";
 let words = null;
 let wordsArray = null;
 let correctlyGuessed = 0;
-let definitionWords = "";
 let guesses = 0;
 let score = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
@@ -98,22 +97,10 @@ let skip = function (){
 
 let endGame = function (){
   switchPage('end');
-  let index = 1;
-  let def;
 
   wordsArray.forEach((japaneseWord) => {
-    def = document.getElementById(`word${index}`);
-  
-    console.log(`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
-    def.textContent = (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
-    //(`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
-    index += 1;
+    definitions.textContent += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
 });
-
-  definitions.textContent = definitionWords;
-  
-
-  console.log(definitionWords);
   end(wordsArray.length, correctlyGuessed, score);
   return;
 }

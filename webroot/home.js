@@ -23,7 +23,6 @@ export function end(total, correct, score) {
     result.textContent = correct + " / " + total;
     let color = "rgb(" + ((total - correct) / total * 255) + ", " + (correct / total * 255) + ", 0)";
     result.style.setProperty('--results-color', color);
-
 }
 
 /*

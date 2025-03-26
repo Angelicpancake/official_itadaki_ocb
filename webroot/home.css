@@ -448,6 +448,7 @@
         background-color: #C9534F;
         color:white;
         text-align: center;
+        white-space: pre-line;
     }
 
     .return-end {

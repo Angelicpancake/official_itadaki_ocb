@@ -4,12 +4,12 @@
 
 //import {JishoUtil} from "../src/util/jishoUtil";
 
-const wordsJapanese = [
+/*const wordsJapanese = [
     "食べ物", "飲み物", "買い物", "動物", "植物", "生き物", "建物", "荷物", "贈り物", "着物",  
     "物語", "物事", "見物", "読物", "書物", "名物", "食物", "物音", "物資", "物価",  
     "動物園", "怪物", "果物", "鉱物", "財物", "事物", "漁物", "貨物", "農作物", "人物",  
     "好物", "薬物", "鉄道物語", "物騒", "物理"
-];
+];*/
 
 /*
     buttons
@@ -39,26 +39,26 @@ let guessContent = "";
 let words = null;
 let wordsArray = null;
 let correctlyGuessed = 0;
-let definitionWords = "";
 let guesses = 0;
 let score = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
 
 async function waitForWords() {
-  // Wait until AppUtils.words is initialized
-  while (!AppUtils.wordsWeekly) {
-      await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
-  }
+    // Wait until AppUtils.words is initialized
+    while (!AppUtils.wordsWeekly) {
+        await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
+    }
 
-  // Once AppUtils.words is initialized, run the following code
-  words = AppUtils.wordsWeekly;
-  wordsArray = Object.keys(words);
-  currWord.textContent = wordsArray[0];
-  update(0);
+    // Once AppUtils.words is initialized, run the following code
+    words = AppUtils.wordsWeekly;
+    wordsArray = Object.keys(words);
+    currWord.textContent = wordsArray[0];
+    update(0);
 }
 
 // Call the waitForWords function to initiate the process
 waitForWords();
+
 /*
     event listeners
 */
@@ -103,13 +103,8 @@ let endGame = function (){
   switchPage('end');
 
   wordsArray.forEach((japaneseWord) => {
-    definitionWords += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}` + "\n");
+    definitions.textContent += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
 });
-
-  definitions.textContent = definitionWords;
-  
-
-  console.log(definitionWords);
   end(wordsArray.length, correctlyGuessed, score);
   return;
 }
@@ -131,13 +126,10 @@ skipBtn.addEventListener('click', ()=> {
 });
 
 let update = function (currIndex){
-  let value = document.getElementById("amtLeft");
-  let correct = document.getElementById("amtCorrect");
+  let value = document.getElementById("amtLeftRapid");
   let result = (`${currIndex}/${wordsArray.length}`);
-  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
 
   value.textContent = result;
-  correct.textContent = resultCorrect;
   textarea.value = "";
 }
 /*
