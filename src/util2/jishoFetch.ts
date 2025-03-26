@@ -13,6 +13,7 @@ export default async function jishoFetch (kanji: string) {
     //go through each object and create a string array holding the english defintions of the word
     
     jishoObjArray.forEach((object) => {
+
       if(!(object.is_common)){
         //if word is not common, skip to next iteration
         return;
@@ -23,6 +24,51 @@ export default async function jishoFetch (kanji: string) {
       let englishDefinitionArray: string[] = [];
 
       object.senses.forEach((sensesObject) => {
+        //skips uncommon words
+        let uncommonWord = false;
+
+        const uncommonTags: Array<string> = [
+          "Obsolete",
+          "Rare",
+          "Dialect",
+          "Technical",
+          "Obscure",
+          "Historical",
+          "Archaic",
+          "Exotic",
+          "Exotic Names",
+          "Obsolete Kanji",
+          "Slang",
+          "Archaic",
+        ];
+        
+        //looks through objects for tags in uncommonTags, if found skip definitions
+        if(sensesObject.tags){
+          sensesObject.tags.forEach((tagsArray) => {
+
+            uncommonTags.forEach((tag) => 
+            {
+              if(tagsArray.includes(tag)){
+                if(uncommonWord)
+                  return;
+
+                uncommonWord = true;
+                return;
+              }
+            });
+
+            if(uncommonWord)
+              return;
+          });
+        }
+        
+        if(uncommonWord)
+          return;
+        
+        for(let i = 0; i < sensesObject.english_definitions.length; i++)
+        {
+          sensesObject.english_definitions[i] = cleanWord(sensesObject.english_definitions[i]).toLowerCase();
+        }
         //add on english definitions for word to array
         englishDefinitionArray = englishDefinitionArray.concat(sensesObject.english_definitions);
       })
@@ -62,6 +108,11 @@ export default async function jishoFetch (kanji: string) {
 //
 //   return Array.from(kanjiSet);
 // }
+function cleanWord(word: string): string {
+  //typescript stuff for searching for patterns in strings
+  //removes all occurences of parantheses and removes trailing spaces
+  return word.replace(/\(.*?\)/g, '').trim();
+}
 
 export function randomKanji () {
   const usefulKanji = [

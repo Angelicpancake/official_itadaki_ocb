@@ -1,131 +1,96 @@
-import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
-import AppUtils from './apputils.js';
-import switchPage, {reset, end} from './home.js';
 /*
     backend of the daily words grabber
 */
 
 //import {JishoUtil} from "../src/util/jishoUtil";
 
+const wordsJapanese = [
+    "食べ物", "飲み物", "買い物", "動物", "植物", "生き物", "建物", "荷物", "贈り物", "着物",  
+    "物語", "物事", "見物", "読物", "書物", "名物", "食物", "物音", "物資", "物価",  
+    "動物園", "怪物", "果物", "鉱物", "財物", "事物", "漁物", "貨物", "農作物", "人物",  
+    "好物", "薬物", "鉄道物語", "物騒", "物理"
+];
+
 /*
     buttons
 */
-const currWord = (
-  document.querySelector('#currWord')
+
+wordRapid = (
+    document.querySelector('#word-rapid')
+)
+
+theWord = (
+    document.querySelector('#wordrapid')
+);
+skipBtnRapid =  (
+    document.querySelector('#skipBtnRapid')
 );
 
-const skipBtn =  (
-    document.querySelector('#skipBtn')
+indexLabelRapid = (
+  document.querySelector('#amtLeftRapid')
 );
 
-// indexLabel = (
-//   document.querySelector('#amtLeft')
-// );
-
-const textarea = (
-  document.querySelector('#textarea-daily')
+textareaRapid = (
+  document.querySelector('#textarea-rapid')
 );
 
-const guess = (
-  document.querySelector('#guessBtn')
+guessBtnRapid = (
+  document.querySelector('#guessBtnRapid')
 );
 
-let currIndex = 0;
-let guessContent = "";
-let words = null;
-let wordsArray = null;
-let correctlyGuessed = 0;
-//wordsArray contains an array of each of the keys(japanese words) of the words Record
-
-async function waitForWords() {
-    // Wait until AppUtils.words is initialized
-    while (!AppUtils.words) {
-        await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
-    }
-
-    // Once AppUtils.words is initialized, run the following code
-    words = AppUtils.words;
-    wordsArray = Object.keys(words);
-    currWord.textContent = wordsArray[0];
-    update(0);
-}
-
-// Call the waitForWords function to initiate the process
-waitForWords();
+var currIndexRapid = 1;
+var guessContentRapid = "";
 
 /*
     event listeners
 */
 
-function guessed(){
-  guessContent = (textarea.value).toLowerCase();
-
-  if(words[wordsArray[currIndex]].includes(guessContent))
-  {
-    ++correctlyGuessed;
-    ++currIndex;
-  }
-
-  if(currIndex >= wordsArray.length)
-    {
-      update(currIndex);
-      endGame();
-      return;
-    }
-
-  currWord.textContent = wordsArray[currIndex];
-  update(currIndex);
-  console.log(guessContent);
+function correctRapid()
+{
+    theWord.textContent = wordsJapanese[currIndexRapid] + "";
+    //t.style.fontSize = '36px'; // Ensure the font size is set
 }
-
-function skip(){
-  ++currIndex;
-  // currWord.value = words[currIndex];
-  update(currIndex);
-  if(currIndex >= wordsArray.length)
-  {
-    endGame();
-    return;
-  }
-  currWord.textContent = wordsArray[currIndex];
+function guessedRapid(){
+    guessContentRapid = textareaRapid.value;
+    console.log(guessContentRapid);
+    textareaRapid.value = "";
+    /* NEED TO : 
+    check if guess is correct
+    if not, add to guesses.incorrect and do stuff
+    if so, add to guesses.correct and do stuff
+    after all guesses done, go to end screen
+    AND call end() function
+    */
 }
-
-function endGame(){
-  switchPage('end');
-  end(wordsArray.length, correctlyGuessed);
-  return;
-}
-
-guess.addEventListener('click', ()=> {
-    guessed();
+this.guessBtnRapid.addEventListener('click', ()=> {
+    guessedRapid();
+    
 });
 
-textarea.addEventListener('keydown', (event) => {
+textareaRapid.addEventListener('keydown', (event) => {
   if (event.key==="Enter"){
     event.preventDefault();
-    guessed();
+    guessedRapid();
   }
 });
 
-skipBtn.addEventListener('click', ()=> {
+
+this.skipBtnRapid.addEventListener('click', ()=> {
     //test();
-    skip();
+    if (currIndexRapid < 35){
+      currIndexRapid++;
+      correctRapid();
+    }
+    console.log(currIndexRapid);
+    updateRapid(currIndexRapid);
 });
 
-function update(currIndex){
-  let value = document.getElementById("amtLeft");
-  let correct = document.getElementById("amtCorrect");
-  let result = (`${currIndex}/${wordsArray.length}`);
-  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
+function updateRapid(currIndexRapid){
+    let valueRapid = document.getElementById("amtLeftRapid");
+    let resultRapid = (currIndexRapid + "/35");
 
-  value.textContent = result;
-  correct.textContent = resultCorrect;
-  textarea.value = "";
+    valueRapid.textContent = resultRapid;
 }
-
-// function getWords(){
-//   web
-// }
 
 /*
     jisho api
@@ -218,7 +183,4 @@ class Daily { //define word
         console.log("Error in testRandomKanji:", error);
       }
     }*/
-
-
-
 

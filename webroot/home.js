@@ -16,6 +16,15 @@ const fetchWords = (
     document.querySelector('#debugFetchJishoWords')
 );
 
+/* function to update end screen when necessary */
+export function end(total, correct) {
+    console.log("end");
+    let result = document.getElementById("results")
+    result.textContent = correct + " / " + total;
+    let color = "rgb(" + ((total - correct) / total * 255) + ", " + (correct / total * 255) + ", 0)";
+    result.style.setProperty('--results-color', color);
+}
+
 /*
     Buttons@ home
 */
@@ -55,7 +64,7 @@ const leaderboardBtn =  /** @type {HTMLButtonElement} */ (
 );
 
 const refreshLeaderboardBtn = /**@type {HTMLButtonElement} */(
-    document.querySelector('#refreshLeaderboardBtn')
+    document.querySelector('#leaderboardRefresh_highlight')
 );
 
 
@@ -71,8 +80,16 @@ const rapidBtn =  /** @type {HTMLButtonElement} */ (
  *    how to buttons
  */
 const howtoBtn =  /** @type {HTMLButtonElement} */ (
-    document.querySelector('#howtoBtn')
+    document.querySelector('#how-tobtn') 
 );
+/*
+ * end buttons
+*/ 
+const endBtn = /** @type {HTMLButtonElement} */ (
+    document.querySelector('#endBtn_highlight')
+);
+
+
 
 /*
  * debug event listeners (REMOVE LATER)
@@ -108,6 +125,7 @@ refreshLeaderboardBtn.addEventListener('click', () => {
 
 dailyHomeBtn.addEventListener('click', ()=> {
     console.log('dailyHome');
+    postWebViewMessage({type: "fetchWords"});
     switchPage('daily')
 });
 
@@ -132,19 +150,23 @@ dailyBtn.addEventListener('click', ()=> {
     switchPage('home')
 });
 rapidBtn.addEventListener('click', ()=> {
-    console.log('dailyBtn');
+    console.log('rapidBtn');
     switchPage('home')
 });
 leaderboardBtn.addEventListener('click', ()=> {
-    console.log('dailyBtn');
+    console.log('leaderboardBtn');
     switchPage('home')
 });
 howtoBtn.addEventListener('click', ()=> {
-    console.log('dailyBtn');
+    console.log('howtoBtn');
+    switchPage('home')
+});
+endBtn.addEventListener('click', ()=> {
+    console.log('endBtn');
     switchPage('home')
 });
 
-function reset()
+export function reset()
 {
 
     let hiddenElements = document.querySelectorAll('.page');
@@ -153,7 +175,7 @@ function reset()
     });
 }
 
-function switchPage(page)
+export default function switchPage(page)
 {
     reset();
 

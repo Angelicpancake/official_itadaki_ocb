@@ -5,12 +5,11 @@ export type DevvitMessage =
   | { type: "initialDataRecieved", data: {username: string, words: Word[][]}}
   | { type: "updateLeaderboard", data: {leaderboard: Array<{username: string, score: number}>, rank: number}}
   | { type: "updateWords", data: {words: Record<string, string[]>}};
- 
 
 /* Message from the web view to Devvit. */
 export type WebViewMessage =
   | { type: "fetchLeaderboard",}
-  | { type: "fetchWords", data: {kanji: string}}
+  | { type: "fetchWords"}
   | { type: "page", data: { newPage: string } }
   | { type: "initialDataRequested" }
   | { type: "removeBoardEntry"}

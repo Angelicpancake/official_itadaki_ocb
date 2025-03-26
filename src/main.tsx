@@ -17,86 +17,20 @@ Devvit.configure({
   scheduler: true,
 });
 
-// Add a custom post type to Devvit
-// Devvit.addSchedulerJob({
-//   name: 'refreshWeeklyKanji',
-//   OnRun: async() => {
-//     //reset weeklyWords
-//     for(let i = 0; i < 7; i++)
-//     {
-//       try{
-//         await context.redis.hDel("weeklyKanji", `day${i}`);
-//       }
-//       catch(error){
-//         console.error("error when deleting words in refreshWeeklyKanji", error);
-//       }
-//     }
-//
-//     const randomKanjiSelected: Array<string> = randomKanji();
-//
-//     //put random kanji into weeklywords 
-//     for(let i = 0; i < 7; i++)
-//     {
-//       try {
-//         await context.redis.hSet("weeklyKanji", `day${i}`, randomKanjiSelected[i]);
-//       }
-//       catch (error){
-//         console.error("error when setting kanji in refreshWeeklyKanji", error);
-//       }
-//     }
-//   },
-// })
-
-
-// selects the words for the day from weeklyWords, implement later
-// Devvit.addSchedulerJob({
-//   name: 'selectDailyWords',
-//   onRun: async() => {
-//     await context.redis.
-//   },
-// })
-
 Devvit.addCustomPostType({
   name: 'sushisushi',
   height: 'tall',
   render: (context) => {
-    // testJishoAPI("物");
-    // redisWords=[];
-    //
-    //   redisWords[0]= [
-    //     new Word(['Hi', 'hello'], "こにちは")
-    //   ];
-      
-      //console.log(redisWords[0][0].getEnglish()); // Output: [ 'hi', 'hello' ]
-      //console.log(redisWords[0][0].getJapanese()); // Output: "こんにちは"  
-    //fetchKanjiWords("食", context.redis); // You can change this to any kanji you want to test
-    
-    // useEffect(() => {
-    //   jishoFetch('物');
-    // }, []);
+
     const [newPage, change] = useState('home.html'); // Use state for page switches
 
-    const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
+    // const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
+
+    const [day, setDay] = useState(new Date().getUTCDay());
 
     const [username, setUsername] = useState(async () => {
       return await context.reddit.getCurrentUsername();
     });
-
-    /*useEffect(() => {
-      const fetchUsername = async () => {
-        try{
-        const currUsername = await context.reddit.getCurrentUsername;
-        setUsername(currUsername);
-        }
-      catch (error){
-        console.error("Failed to fetch userrname", error);
-        }
-      };
-
-      fetchUsername();
-    },[]);*/
-
-
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -105,24 +39,26 @@ Devvit.addCustomPostType({
       async onMessage(message, webView) {
         switch(message.type){
           case 'fetchWords':
-            console.log(randomKanji());
-            //test how the random 
-            // webview.postMessage({
-            // type: "updateWords",
-            // data: jishoFetch(message.data.kanji),
-            // }); 
+            //get the words for the current day, dayWords is an array
+            // const dayWords = await context.redis.hGet("dailyWords", `day${day}`);
+            const dayWords: Record<string, string[]> = await jishoFetch("水");/* {
+              "hi": ["sigma", "tax"],
+              "what": ["hello", "hi"],
+              "goon": ["chair", "chauncey"],
+            }; */
+            webView.postMessage({
+              type: "updateWords",
+              data: {
+                words: dayWords,
+              }
+            });
             break;
-          // case 'page':
-          //   webView.postMessage({
-          //     type: ''
-          // })
-          // case 'boardPageLoaded':
-          // going to make this case happen on load later
           case 'fetchLeaderboard':
             const highScore = await context.redis.zScore("leaderboard", username);
             const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
             const currLeaderboardLength = await context.redis.zCard("leaderboard");
             const currLeaderboard = await context.redis.zRange("leaderboard", currLeaderboardLength - 100, currLeaderboardLength - 1, {BY: 'SCORE', WITHSCORES: true});
+            let updatedLeaderboard = null;
 
             try {
 
@@ -139,16 +75,16 @@ Devvit.addCustomPostType({
                   username: username,
                   score: highScore,
                 }
-                setLeaderboard([newEntry,...leaderboardWithScores]);
+                updatedLeaderboard = [newEntry,...leaderboardWithScores];
               }
               else
               {
-                setLeaderboard(leaderboardWithScores);
+                updatedLeaderboard = leaderboardWithScores;
               }  
-                            
+
               webView.postMessage({
                 type: 'updateLeaderboard',
-                data: {leaderboard: leaderboard, rank: currLeaderboardLength - currRank},
+                data: {leaderboard: updatedLeaderboard, rank: currLeaderboardLength - currRank},
               })
 
             } catch(error){
@@ -165,14 +101,16 @@ Devvit.addCustomPostType({
             break;
 
           case 'removeBoardEntry':
-            await context.redis.zRemByRangeByScore("leaderboard", 0, 200);
+            const currLeaderboardLength2: number = await context.redis.zCard("leaderboard");
+            await context.redis.del("leaderboard");
             break;
             
 
           case 'initialDataRequested':
+            console.log(Object.keys(context.redis));
             webView.postMessage({
               type: 'initialDataRecieved',
-              data: {username: username, words: redisWords}, 
+              data: {username: username}, 
             })
             break;
 

@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <title>Home</title>
+    <title>Itadaki</title>
+    <link rel="icon" type="image/x-icon" href="./assets/icon.png">
     
 </head>
 <body>
@@ -22,14 +23,16 @@
                 <header>
                     <img><img src="./assets/menu.png" id="dailyBtn" class="dailyBtn">
                     <img><img src="./assets/daily.png" class="daily-logo">
-                    <!--<h1>2/3</h1 id="amtLeft" class="amtLeft"-->
+                    <h1 id="amtLeft" class="amtLeft"></h1>
+                    <hi id="amtCorrect" class="amtLeft"></h1>
+
                 </header>
             </div>
 
             <div class="spacer2-daily"></div>
 
-            <div class="word-daily">
-                <h1>食べ物</h1>
+            <div class="word-daily" id ="word-daily">
+                <h1 id="currWord">食べ物</h1>
             </div>
 
             <div class="spacer3-daily"></div>
@@ -67,30 +70,103 @@
             <div class="profile">
                 <ul id="leaderboard"></ul>
            </div>
-        
         </div>
 
-        <input type="button" id="refreshLeaderboardBtn" value="Refresh Leaderboard">
+        <!-- testing -->
         <input type="button" id="testing" value="add entries">
         <input type="button" id="testingRemove" value="remove all entries">
-        
+
+
+        <div class="return-leaderboard">
+            <header> 
+                    <img><img src="./assets/refresh.png" id="leaderboardRefresh" class="leaderboardRefresh">
+                    <img><img src="./assets/refresh_hover.png" id="leaderboardRefresh_highlight" class="leaderboardRefresh">
+            </header>
+        </div>
     </div>
 
     <!--Rapid-->
     <div class="rapid page hidden">
         <div class="spacer-rapid"></div>
-        <div class="content-rapid">
+
+        <container class= "container-rapid">
+            <div class="content-rapid">
+                <header>
+                    <img src="./assets/menu.png" id="rapidBtn" class="rapidBtn">
+                    <img src="./assets/rapid.png" id ="rapidLogo" class="rapidLogo">
+                    <h1 id="amtLeftRapid" class="amtLeftRapid">1/35</h1>
+                </header>
+            </div>
+
+            <div class="spacer2-rapid"></div>
+
+            <div class="word-rapid" id ="word-rapid">
+                <h1 id="wordrapid">飲み物</h1>
+            </div>
+
+            <div class="spacer3-rapid"></div>
+
+            <div class="function-rapid">
+                <img src="./assets/skip.png" id="skipBtnRapid" class="skipBtnRapid">
+                <textarea id="textarea-rapid" class="textarea-rapid" id="textarea-rapid" placeholder="Enter the English Definition"></textarea>
+                <img src="./assets/guess.png" id="guessBtnRapid" class="guessBtnRapid">
+            </div>
+        </container>
+        <!--<div class="content-rapid">
             <h>rapid</h>
-            <button id='rapidBtn'>switch to home</button> <!--onclick="switchPage('home')-->
-        </div>
+            <button id='rapidBtn'>switch to home</button> <!--onclick="switchPage('home')
+        </div>-->
     </div>
 
     <!--Howto-->
     <div class="howto page hidden">
-        <div class="spacer-howto"></div>
-        <div class="content-howto">
-            <h>howto</h>
-            <button id='howtoBtn'>switch to home</button> <!--onclick="switchPage('home')-->
+        
+        <container class="container-howto">
+            <header class>
+                <img src="./assets/menu.png" class="how-tobtn" id="how-tobtn">
+                <img src="./assets/howtoTitle.png" class="howtoLogo" id="howtoLogo">
+                
+            </header>
+
+            <div class="spacer-howto"></div>
+
+            <div class="content-howto">
+                <img src="./assets/howto.png" class="howtoinfo">
+            </div>
+        </container>
+
+
+       <!-- <div class="return-howto">
+            <header> 
+                    <img><img src="./assets/return.png" id="howtoBtn" class="howtoBtn">
+                    <img><img src="./assets/return_hover.png" id="howtoBtn_highlight" class="howtoBtn">
+            </header>-->
+        </div>`
+    </div>
+
+    <div class="end page hidden">
+        <div class="title-congrats">
+            <b>🎉Congratulations!🎉</b>
+        </div>
+
+
+        <div class="content-congrats">
+            <br><br>
+            You've finished all of the kanji.
+            <br>
+            Finishing Results:
+        </div>
+
+
+        <div class="results" id="results">
+            null/null
+        </div>
+
+        <div class="return-end">
+            <header> 
+                    <img><img src="./assets/return.png" id="endBtn" class="endBtn">
+                    <img><img src="./assets/return_hover.png" id="endBtn_highlight" class="endBtn">
+            </header>
         </div>
     </div>
 
@@ -100,14 +176,15 @@
         <div class="spacer1"></div>     
         <header class="header"> 
             <!--title-->
-            <img id="logo"><img src="../../assets/home.png" alt="Logo" class="logo">
+            <img id="logo"><img src="./assets/home.png" alt="Logo" class="logo">
         </header>
+        <h1 id ="wordOfDay" class="wordOfDay">Today's Kanji: ひ - "sun"</h1>
         <div class="spacer2"></div>
     
         <div class = "options">
             <button class="options-btn dailyHome" id="dailyHomeBtn">⌛ Daily</button> <!--onclick="switchPage('daily')"-->
             <button class="options-btn rapidHome" id="rapidHomeBtn">⏩ Rapid</button>
-            <button class="options-btn leaderboardHome" id="leaderboardHomeBtn">🏆 Leaderboard</button>
+            <button class="options-btn leaderboardHome" id="leaderboardHomeBtn">🏆 Leaderboard</button> 
             <button class="options-btn howtoHome" id="howtoHomeBtn">🤷 What is This?</button>
         </div>
     </div>
@@ -115,6 +192,6 @@
     <script type="module" src="apputils.js"></script>
 </body>
 </html>
-<script type="application/javascript" src="home.js"></script>
-<script type="application/javascript" src="daily.js"></script>
-
+<script type="module" src="home.js"></script>
+<script type="module" src="daily.js"></script>
+<script type="module" src="rapid.js"></script>
