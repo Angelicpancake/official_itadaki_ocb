@@ -17,93 +17,35 @@ Devvit.configure({
   scheduler: true,
 });
 
-// Devvit.addSchedulerJob({
-//   name: 'refreshRedisBoard',
-//   onRun: async (event, context) => {
-//      const leaderboard = 
-//   },
-// });
-
 // Add a custom post type to Devvit
-
-/*async function fetchKanjiData(kanji: string): Promise<void> {
-  const url = `https://jisho.org/api/v1/search/words?keyword=${kanji}`;
-
-  try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      console.log("Jisho API Response:", data); // Logs the raw API response
-
-      // Store the raw response in a variable (or in a database)
-      const storedData = data; // This is where you store it for later use
-  } catch (error) {
-      console.error("Error fetching from Jisho API:", error);
-  }
-}*/
-
-/*async function fetchKanjiWords(kanji: string, context: RedisClient) {
-  try {
-    // Fetch words containing the kanji
-    //const words = await JishoUtil.getWordsContaining(kanji);
-
-    //RedisUtil.setWords(context, words);
-    //redisWords = await RedisUtil.getWords(context);
-    //redisWords = words;
-   // redisWords= new Word[][];
-
-    // Log the results to the console for testing
-    /*console.log(`Words containing "${kanji}":`);
-    words.forEach((word) => {
-      console.log(`English Definition: ${word.getEnglish()}`);
-      console.log(`Japanese Word: ${word.getJapanese()}`);
-    });
-    fetchKanjiData(kanji);
-  } catch (error) {
-    console.error("Error fetching kanji words:", error);
-  }
-}*/
-
-// async function testJishoAPI(search: string): Promise<void>{
-//   try{
-//     const response = await fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(search)}`);
-//     const jishoData = await response.json();
-//
-//     console.log("raw data", jishoData);
-//   }
-//   catch(error)
+// Devvit.addSchedulerJob({
+//   name: 'refreshWeeklyKanji',
+//   OnRun: async() => {
+//     //reset weeklyWords
+//     for(let i = 0; i < 7; i++)
 //     {
-//       console.log("jishodata didn't work");
+//       try{
+//         await context.redis.hDel("weeklyKanji", `day${i}`);
+//       }
+//       catch(error){
+//         console.error("error when deleting words in refreshWeeklyKanji", error);
+//       }
 //     }
-// }
-Devvit.addSchedulerJob({
-  name: 'refreshWeeklyKanji',
-  OnRun: async() => {
-    //reset weeklyWords
-    for(let i = 0; i < 7; i++)
-    {
-      try{
-        await context.redis.hDel("weeklyKanji", `day${i}`);
-      }
-      catch(error){
-        console.error("error when deleting words in refreshWeeklyKanji", error);
-      }
-    }
-
-    const randomKanjiSelected: Array<string> = randomKanji();
-
-    //put random kanji into weeklywords 
-    for(let i = 0; i < 7; i++)
-    {
-      try {
-        await context.redis.hSet("weeklyKanji", `day${i}`, randomKanjiSelected[i]);
-      }
-      catch (error){
-        console.error("error when setting kanji in refreshWeeklyKanji", error);
-      }
-    }
-  },
-})
+//
+//     const randomKanjiSelected: Array<string> = randomKanji();
+//
+//     //put random kanji into weeklywords 
+//     for(let i = 0; i < 7; i++)
+//     {
+//       try {
+//         await context.redis.hSet("weeklyKanji", `day${i}`, randomKanjiSelected[i]);
+//       }
+//       catch (error){
+//         console.error("error when setting kanji in refreshWeeklyKanji", error);
+//       }
+//     }
+//   },
+// })
 
 
 // selects the words for the day from weeklyWords, implement later
