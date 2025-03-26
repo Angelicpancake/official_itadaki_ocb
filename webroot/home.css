@@ -11,11 +11,10 @@
 /*
     shared
 */
-.daily, .rapid, .leaderboard, .howto {
+.daily, .rapid, .leaderboard, .howto, .end {
     width: 100%;
     height: 100vh;
     background-color: #333445;
-    
 }
 
 /*
@@ -44,6 +43,8 @@
     }
 
     .users {
+        margin-top: 10px;
+        height:300px; /* CHANGE THIS IF TOO SMALL OR LARGE*/
         .profile {
             display: flex;
             justify-content: center;
@@ -64,7 +65,7 @@
     .return-leaderboard { 
         display: flex;
         justify-content: center;
-        margin-top: 450px;
+        margin-top: 20px;
         position: relative;
     }
 
@@ -73,19 +74,51 @@
         width: 250px;
         height: auto;
         margin-left: -123px;
+        -webkit-transition: 0s all;   
+        -moz-transition: 0s all;   
+        -ms-transition: 0s all;   
+        -o-transition: 0s all;   
+        transition: 0s all;   
     }
 
+    /* refer to the comment in the howto part of this file for
+    an explanation of these lines.  */
     #leaderboardRefresh_highlight {
         visibility: hidden;
         margin-left: -127px;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh:hover {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh:hover ~ #leaderboardRefresh_highlight {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh_highlight:hover {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #leaderboardRefresh_highlight:hover ~ #leaderboardRefresh {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     }
 }
 
@@ -265,21 +298,44 @@
     howto
 */
 .howto {
+    font-family: "Hachi Maru Pop", cursive;
+    font-weight: 400;
+    font-style: normal;
+    
+
     .container-howto {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
-        margin-top: 200px;
+        margin-top: 25px;
     }
 
-    .content-howto {
-        font-size: 22px;
-        color:white;
+    .howtoLogo {
+        height: 30px;
+        margin-right: 160px;
     }
+    
+    .how-tobtn {
+        height: 30px;
+        margin-right: 90px;
+    }
+
+    .howtoinfo {
+        height: 400px;
+        margin-left: 50px;
+    }
+
+    .spacer-howto {
+        height: 65px;
+    }
+
+
 
     .return-howto {
         display: flex;
         justify-content: center;
-        margin-top: 300px;
+        margin-top: 200px;
         position: relative;
     }
 
@@ -287,25 +343,149 @@
         position: absolute;
         width: 250px;
         height: auto;
-        margin-left: -123px;
+        margin-left: -122px;
+        -webkit-transition: 0s all;   
+        -moz-transition: 0s all;   
+        -ms-transition: 0s all;   
+        -o-transition: 0s all;   
+        transition: 0s all;  
     }
 
     /* This mess of code essentially just hides the top button when hovering and unhides the bottom button, then
     vice versa when not hovering. The top button is the unhighlighted version, while the bottom button is the
     highlighted one (saved as return_hover.png in webroot/assets). */
+    /* The many different versions of "transition-delay" are for 
+    browser compatability. */
     #howtoBtn_highlight {
         visibility: hidden;
         margin-left: -127px;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn:hover {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn:hover ~ #howtoBtn_highlight {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn_highlight:hover {
         visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     } #howtoBtn_highlight:hover ~ #howtoBtn {
         visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
     }
 }
+
+/* 
+    end page
+*/
+.end {
+    font-family: "Hachi Maru Pop", cursive;
+    font-weight: 400;
+    font-style: normal;
+
+    .title-congrats {
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+        font-size: 30px;
+        color: white;
+    }
+    .content-congrats {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin-top: 100px;
+        font-size: 22px;
+        color:white;
+    }
+    .results {
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+        font-size: 30px;
+        color:var(--results-color);
+    }
+
+    .return-end {
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+        position: relative;
+    }
+
+    .endBtn {
+        position: absolute;
+        width: 250px;
+        height: auto;
+        margin-left: -123px;
+        -webkit-transition: 0s all;   
+        -moz-transition: 0s all;   
+        -ms-transition: 0s all;   
+        -o-transition: 0s all;   
+        transition: 0s all;  
+    }
+
+    /* see the comment in howto div for explanation*/
+    #endBtn_highlight {
+        visibility: hidden;
+        margin-left: -128px;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #endBtn:hover {
+        visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #endBtn:hover ~ #endBtn_highlight {
+        visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #endBtn_highlight:hover {
+        visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #endBtn_highlight:hover ~ #endBtn {
+        visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    }
+}
+
+
 
 /*
     home
@@ -319,7 +499,14 @@
     padding: 0;
     
 }
+.wordOfDay {
+    color: rgb(192, 125, 125);
+    text-align: center;
+    margin-top: 10px;
+    font-size: 25px;
+    
 
+}
 .spacer1 {
     flex-grow: 1;
     height: 50px;
@@ -333,8 +520,8 @@
 .header {
     justify-content: center; /*center the header*/
     display: flex;
-    height: 100px;
-  
+    height: 85px;
+    margin-right: 45px;
 }
 
 .options {

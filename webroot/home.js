@@ -2,6 +2,29 @@ import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
 import AppUtils from './apputils.js';
 
 AppUtils.initialStartup();
+/* debugging delete later
+ */
+const testAddOneEntryBtn = /**@type {HTMLButtonElement} */(
+    document.querySelector('#testing')
+);
+
+const testRemoveAllEntryBtn = /**@type {HTMLButtonElement} */(
+    document.querySelector('#testingRemove')
+);
+
+const fetchWords = (
+    document.querySelector('#debugFetchJishoWords')
+);
+
+/* function to update end screen when necessary */
+export function end(total, correct) {
+    console.log("end");
+    let result = document.getElementById("results")
+    result.textContent = correct + " / " + total;
+    let color = "rgb(" + ((total - correct) / total * 255) + ", " + (correct / total * 255) + ", 0)";
+    result.style.setProperty('--results-color', color);
+}
+
 /*
     Buttons@ home
 */
@@ -44,13 +67,6 @@ const refreshLeaderboardBtn = /**@type {HTMLButtonElement} */(
     document.querySelector('#leaderboardRefresh_highlight')
 );
 
-const testAddOneEntryBtn = /**@type {HTMLButtonElement} */(
-    document.querySelector('#testing')
-);
-
-const testRemoveAllEntryBtn = /**@type {HTMLButtonElement} */(
-    document.querySelector('#testingRemove')
-);
 
 /*
    * rapid buttons
@@ -64,12 +80,25 @@ const rapidBtn =  /** @type {HTMLButtonElement} */ (
  *    how to buttons
  */
 const howtoBtn =  /** @type {HTMLButtonElement} */ (
-    document.querySelector('#howtoBtn_highlight') /* had to change this to fit button highlighting*/
+    document.querySelector('#how-tobtn') 
+);
+/*
+ * end buttons
+*/ 
+const endBtn = /** @type {HTMLButtonElement} */ (
+    document.querySelector('#endBtn_highlight')
 );
 
+
+
 /*
-    event listeners
-*/
+ * debug event listeners (REMOVE LATER)
+ */
+
+fetchWords.addEventListener('click', () => {
+  postWebViewMessage({type: "fetchWords"});
+})
+
 testRemoveAllEntryBtn.addEventListener('click', () => {
   console.log("entries removed");
   postWebViewMessage({type: "removeBoardEntry"});
@@ -85,6 +114,10 @@ testAddOneEntryBtn.addEventListener('click', () => {
     ]});
 });
 
+/*
+    event listeners
+*/
+
 refreshLeaderboardBtn.addEventListener('click', () => {
   console.log("leaderboard refreshed");
   postWebViewMessage({type: "fetchLeaderboard"});
@@ -92,6 +125,7 @@ refreshLeaderboardBtn.addEventListener('click', () => {
 
 dailyHomeBtn.addEventListener('click', ()=> {
     console.log('dailyHome');
+    postWebViewMessage({type: "fetchWords"});
     switchPage('daily')
 });
 
@@ -127,8 +161,12 @@ howtoBtn.addEventListener('click', ()=> {
     console.log('howtoBtn');
     switchPage('home')
 });
+endBtn.addEventListener('click', ()=> {
+    console.log('endBtn');
+    switchPage('home')
+});
 
-function reset()
+export function reset()
 {
 
     let hiddenElements = document.querySelectorAll('.page');
@@ -137,7 +175,7 @@ function reset()
     });
 }
 
-function switchPage(page)
+export default function switchPage(page)
 {
     reset();
 

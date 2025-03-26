@@ -1,3 +1,6 @@
+import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
+import AppUtils from './apputils.js';
+import switchPage, {reset, end} from './home.js';
 /*
     backend of the daily words grabber
 */
@@ -7,37 +10,94 @@
 /*
     buttons
 */
-skipBtn =  (
+const currWord = (
+  document.querySelector('#currWord')
+);
+
+const skipBtn =  (
     document.querySelector('#skipBtn')
 );
 
-indexLabel = (
-  document.querySelector('#amtLeft')
-);
+// indexLabel = (
+//   document.querySelector('#amtLeft')
+// );
 
-textarea = (
+const textarea = (
   document.querySelector('#textarea-daily')
 );
 
-guess = (
+const guess = (
   document.querySelector('#guessBtn')
 );
 
-var currIndex = 1;
-var guessContent = "";
+let currIndex = 0;
+let guessContent = "";
+let words = null;
+let wordsArray = null;
+let correctlyGuessed = 0;
+//wordsArray contains an array of each of the keys(japanese words) of the words Record
+
+async function waitForWords() {
+    // Wait until AppUtils.words is initialized
+    while (!AppUtils.words) {
+        await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
+    }
+
+    // Once AppUtils.words is initialized, run the following code
+    words = AppUtils.words;
+    wordsArray = Object.keys(words);
+    currWord.textContent = wordsArray[0];
+    update(0);
+}
+
+// Call the waitForWords function to initiate the process
+waitForWords();
 
 /*
     event listeners
 */
 
 function guessed(){
-    guessContent = textarea.value;
-    console.log(guessContent);
-    textarea.value = "";
+  guessContent = (textarea.value).toLowerCase();
+
+  if(words[wordsArray[currIndex]].includes(guessContent))
+  {
+    ++correctlyGuessed;
+    ++currIndex;
+  }
+
+  if(currIndex >= wordsArray.length)
+    {
+      update(currIndex);
+      endGame();
+      return;
+    }
+
+  currWord.textContent = wordsArray[currIndex];
+  update(currIndex);
+  console.log(guessContent);
 }
-this.guessBtn.addEventListener('click', ()=> {
+
+function skip(){
+  ++currIndex;
+  // currWord.value = words[currIndex];
+  update(currIndex);
+  if(currIndex >= wordsArray.length)
+  {
+    endGame();
+    return;
+  }
+  currWord.textContent = wordsArray[currIndex];
+}
+
+function endGame(){
+  switchPage('end');
+  end(wordsArray.length, correctlyGuessed);
+  return;
+}
+
+guess.addEventListener('click', ()=> {
     guessed();
-    
 });
 
 textarea.addEventListener('keydown', (event) => {
@@ -47,21 +107,25 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
-this.skipBtn.addEventListener('click', ()=> {
+skipBtn.addEventListener('click', ()=> {
     //test();
-    if (currIndex < 5)
-      currIndex++;
-    
-    console.log(currIndex);
-    update(currIndex);
+    skip();
 });
 
 function update(currIndex){
-    let value = document.getElementById("amtLeft");
-    let result = (currIndex + "/5");
+  let value = document.getElementById("amtLeft");
+  let correct = document.getElementById("amtCorrect");
+  let result = (`${currIndex}/${wordsArray.length}`);
+  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
 
-    value.textContent = result;
+  value.textContent = result;
+  correct.textContent = resultCorrect;
+  textarea.value = "";
 }
+
+// function getWords(){
+//   web
+// }
 
 /*
     jisho api

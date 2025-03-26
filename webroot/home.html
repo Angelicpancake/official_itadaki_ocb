@@ -23,14 +23,16 @@
                 <header>
                     <img><img src="./assets/menu.png" id="dailyBtn" class="dailyBtn">
                     <img><img src="./assets/daily.png" class="daily-logo">
-                    <h1 id="amtLeft" class="amtLeft">1/5</h1>
+                    <h1 id="amtLeft" class="amtLeft"></h1>
+                    <hi id="amtCorrect" class="amtLeft"></h1>
+
                 </header>
             </div>
 
             <div class="spacer2-daily"></div>
 
             <div class="word-daily" id ="word-daily">
-                <h1>食べ物</h1>
+                <h1 id="currWord">食べ物</h1>
             </div>
 
             <div class="spacer3-daily"></div>
@@ -118,33 +120,71 @@
 
     <!--Howto-->
     <div class="howto page hidden">
+        
         <container class="container-howto">
+            <header class>
+                <img src="./assets/menu.png" class="how-tobtn" id="how-tobtn">
+                <img src="./assets/howtoTitle.png" class="howtoLogo" id="howtoLogo">
+                
+            </header>
+
+            <div class="spacer-howto"></div>
+
             <div class="content-howto">
-                <h>Placeholder text!</h>
+                <img src="./assets/howto.png" class="howtoinfo">
             </div>
         </container>
 
-        <div class="return-howto">
+
+       <!-- <div class="return-howto">
             <header> 
                     <img><img src="./assets/return.png" id="howtoBtn" class="howtoBtn">
                     <img><img src="./assets/return_hover.png" id="howtoBtn_highlight" class="howtoBtn">
+            </header>-->
+        </div>`
+    </div>
+
+    <div class="end page hidden">
+        <div class="title-congrats">
+            <b>🎉Congratulations!🎉</b>
+        </div>
+
+
+        <div class="content-congrats">
+            <br><br>
+            You've finished all of the kanji.
+            <br>
+            Finishing Results:
+        </div>
+
+
+        <div class="results" id="results">
+            null/null
+        </div>
+
+        <div class="return-end">
+            <header> 
+                    <img><img src="./assets/return.png" id="endBtn" class="endBtn">
+                    <img><img src="./assets/return_hover.png" id="endBtn_highlight" class="endBtn">
             </header>
         </div>
     </div>
 
     <!--Home-->
     <div class = "home page">
+      <input type="button" id="debugFetchJishoWords" value="fetchJishoWords">
         <div class="spacer1"></div>     
         <header class="header"> 
             <!--title-->
-            <img id="logo"><img src="../../assets/home.png" alt="Logo" class="logo">
+            <img id="logo"><img src="./assets/home.png" alt="Logo" class="logo">
         </header>
+        <h1 id ="wordOfDay" class="wordOfDay">Today's Kanji: ひ - "sun"</h1>
         <div class="spacer2"></div>
     
         <div class = "options">
             <button class="options-btn dailyHome" id="dailyHomeBtn">⌛ Daily</button> <!--onclick="switchPage('daily')"-->
             <button class="options-btn rapidHome" id="rapidHomeBtn">⏩ Rapid</button>
-            <button class="options-btn leaderboardHome" id="leaderboardHomeBtn">🏆 Leaderboard</button>
+            <button class="options-btn leaderboardHome" id="leaderboardHomeBtn">🏆 Leaderboard</button> 
             <button class="options-btn howtoHome" id="howtoHomeBtn">🤷 What is This?</button>
         </div>
     </div>
@@ -152,7 +192,6 @@
     <script type="module" src="apputils.js"></script>
 </body>
 </html>
-<script type="application/javascript" src="home.js"></script>
-<script type="application/javascript" src="daily.js"></script>
-<script type="application/javascript" src="rapid.js"></script>
-
+<script type="module" src="home.js"></script>
+<script type="module" src="daily.js"></script>
+<script type="module" src="rapid.js"></script>

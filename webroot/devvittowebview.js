@@ -6,6 +6,12 @@ export default function handleDevvitMessage(ev) {
     const { message } = ev.data.data;
 
     switch (message.type) {
+      case "updateWords":
+        console.log(message.data.words);
+        AppUtils.words = message.data.words;
+        console.log(AppUtils.words);
+        break;
+
       case "updateLeaderboard":
 
         AppUtils.leaderboard.replaceChildren();
@@ -36,7 +42,7 @@ export default function handleDevvitMessage(ev) {
           let entryRank = message.data.rank;
           let entryName = message.data.leaderboard[0].username;
           let entryScore = message.data.leaderboard[0].score;
-          boardEntry.textContent = `${entryName}: ${entryScore}`;
+          boardEntry.textContent = `${entryRank}. ${entryName}: ${entryScore}`;
           boardEntry.value = entryRank;
           AppUtils.leaderboard.append(boardEntry);
         }
@@ -46,7 +52,6 @@ export default function handleDevvitMessage(ev) {
       case "initialDataRecieved":
         console.log("initial data recieved");
         AppUtils.currentUsername = message.data.username;
-        console.log("this is the data yay {message.data.words}");
         break;
 
       default:

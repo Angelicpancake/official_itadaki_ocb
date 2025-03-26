@@ -54,6 +54,13 @@ function guessedRapid(){
     guessContentRapid = textareaRapid.value;
     console.log(guessContentRapid);
     textareaRapid.value = "";
+    /* NEED TO : 
+    check if guess is correct
+    if not, add to guesses.incorrect and do stuff
+    if so, add to guesses.correct and do stuff
+    after all guesses done, go to end screen
+    AND call end() function
+    */
 }
 this.guessBtnRapid.addEventListener('click', ()=> {
     guessedRapid();
