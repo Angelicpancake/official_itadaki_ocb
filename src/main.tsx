@@ -88,8 +88,6 @@ Devvit.addSchedulerJob({
       runAt: date,
     })
   }
-
-  
 });
 
 Devvit.addCustomPostType({
