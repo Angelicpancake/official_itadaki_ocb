@@ -6,6 +6,7 @@ import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class f
 import RedisUtil from './util/redisUtil.js';
 import { Word } from './util/word.js';
 import jishoFetch, {randomKanji} from './util2/jishoFetch.js';
+import * as fs from 'fs';
 
 let redisWords: Word[][]; //[][]
 // Test fetching words for the kanji '食' (or any kanji you want)
@@ -293,6 +294,34 @@ Devvit.addCustomPostType({
       </vstack>
     );
   },
+});
+
+Devvit.addSchedulerJob({
+	name: 'storeDailyKanji',
+	onRun: async (event, context) => {
+		var randomCharacter: string = await new Promise((resolve, reject) => {
+			fs.readFile('./util/kanji.txt', 'utf-8', (error, data) => {
+				if (error) {
+					return reject(error);
+				}
+				
+				resolve(data[Math.random() * data.length]);
+			});
+		});
+
+		RedisUtil.setWords(context.redis, await JishoUtil.getWordsContaining(randomCharacter));
+
+		// Tomorrow at midnight (the morning)
+		var scheduledDate: Date = new Date();
+		scheduledDate.setUTCDate(scheduledDate.getDate() + 1);
+		scheduledDate.setUTCHours(0, 0, 0, 0);
+
+		// Schedule this task again for tomorrow
+		context.scheduler.runJob({
+			name: 'storeDailyKanji',
+			runAt: scheduledDate,
+		});
+	}
 });
 
 export default Devvit;

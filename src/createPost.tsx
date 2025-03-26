@@ -45,3 +45,16 @@ Devvit.addMenuItem({
     ui.navigateTo(post);
   },
 });
+
+// Schedule word generation
+Devvit.addMenuItem({
+  label: 'Run Word Generation',
+  location: 'subreddit',
+  onPress: async (event, context) => {
+    await context.scheduler.runJob({
+      name: 'storeDailyKanji',
+      runAt: new Date() // Right now
+    });
+    context.ui.showToast('Picking a new kanji for today and scheduling the next selection for tomorrow morning (midnight UTC)');
+  },
+});
