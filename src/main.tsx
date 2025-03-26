@@ -181,7 +181,6 @@ Devvit.addCustomPostType({
             
 
           case 'initialDataRequested':
-            console.log(Object.keys(context.redis));
             webView.postMessage({
               type: 'initialDataRecieved',
               data: {username: username}, 

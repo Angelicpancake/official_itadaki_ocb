@@ -1,5 +1,6 @@
 import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
 import AppUtils from './apputils.js';
+import words from './daily.js';
 
 AppUtils.initialStartup();
 /* debugging delete later

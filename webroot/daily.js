@@ -32,7 +32,7 @@ const guess = (
 
 let currIndex = 0;
 let guessContent = "";
-let words = null;
+export default let words = null;
 let wordsArray = null;
 let correctlyGuessed = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
