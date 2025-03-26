@@ -313,19 +313,22 @@
     }
 
     .howtoLogo {
-        height: 40px;
+        height: 30px;
+        margin-right: 160px;
     }
-    .howtoBtn {
-        height: 50px;
+    
+    .how-tobtn {
+        height: 30px;
+        margin-right: 90px;
     }
 
     .howtoinfo {
-        height: 500px;
+        height: 400px;
         margin-left: 50px;
     }
 
     .spacer-howto {
-        height: 75px;
+        height: 65px;
     }
 
 

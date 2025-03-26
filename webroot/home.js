@@ -80,7 +80,7 @@ const rapidBtn =  /** @type {HTMLButtonElement} */ (
  *    how to buttons
  */
 const howtoBtn =  /** @type {HTMLButtonElement} */ (
-    document.querySelector('#howtoBtn_highlight') 
+    document.querySelector('#how-tobtn') 
 );
 /*
  * end buttons
