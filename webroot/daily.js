@@ -23,7 +23,7 @@ const skipBtn =  (
 // );
 
 const definitions = (
-  document.querySelector('#results')
+  document.querySelector('#definitions')
 );
 
 const textarea = (
@@ -97,16 +97,9 @@ function skip(){
 
 function endGame(){
   switchPage('end');
-  let index = 1;
-  let def;
 
   wordsArray.forEach((japaneseWord) => {
-    def = document.getElementById(`word${index}`);
-  
-    console.log(`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
-    def.textContent = (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
-    //(`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}`);
-    index += 1;
+    definitionWords += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]}` + "\n");
 });
 
   definitions.textContent = definitionWords;
