@@ -129,11 +129,11 @@ export function randomKanji () {
   "始", "終", "楽", "歌", "英", "薬", "病", "院", "通", "働"
   ];
 
-  let randomKanjiArray: Array<string> = {};
-  let selected: Array<number> = {};
+  let randomKanjiArray: Array<string> = [];
+  let selected: Array<number> = [];
   let count = 0;
 
-  while(randomKanjiArray.size < 7)
+  while(randomKanjiArray.length < 7)
   {
     const selection = Math.floor(Math.random() * 50);
     if(!(selected.includes(selection)))
