@@ -45,7 +45,6 @@
     .users {
         margin-top: 10px;
         height:300px; /* CHANGE THIS IF TOO SMALL OR LARGE*/
-        overflow:scroll;
         .profile {
             display: flex;
             justify-content: center;
@@ -523,7 +522,6 @@
     display: flex;
     height: 85px;
     margin-right: 45px;
-  
 }
 
 .options {
