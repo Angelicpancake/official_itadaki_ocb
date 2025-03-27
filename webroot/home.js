@@ -12,9 +12,9 @@ const testRemoveAllEntryBtn = /**@type {HTMLButtonElement} */(
     document.querySelector('#testingRemove')
 );
 
-const fetchWords = (
-    document.querySelector('#debugFetchJishoWords')
-);
+// const fetchWords = (
+//     document.querySelector('#debugFetchJishoWords')
+// );
 
 /* function to update end screen when necessary */
 export function end(total, correct, score) {
@@ -24,6 +24,9 @@ export function end(total, correct, score) {
     let color = "rgb(" + ((total - correct) / total * 255) + ", " + (correct / total * 255) + ", 0)";
     result.style.setProperty('--results-color', color);
 
+    postWebViewMessage({type: "addBoardEntry", data: [
+      {score: score, member: AppUtils.currentUsername},
+    ]});
 }
 
 /*
@@ -96,10 +99,10 @@ const endBtn = /** @type {HTMLButtonElement} */ (
  * debug event listeners (REMOVE LATER)
  */
 
-fetchWords.addEventListener('click', () => {
-  postWebViewMessage({type: "fetchWords2"});
-})
-
+// fetchWords.addEventListener('click', () => {
+//   postWebViewMessage({type: "fetchWords2"});
+// })
+//
 testRemoveAllEntryBtn.addEventListener('click', () => {
   console.log("entries removed");
   postWebViewMessage({type: "removeBoardEntry"});
