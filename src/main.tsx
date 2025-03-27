@@ -329,7 +329,7 @@ Devvit.addCustomPostType({
       <blocks>
       <zstack width="100%" height="100%">
       <image 
-        url="cute.png" 
+        url="cute3.png" 
         imageWidth={1500} 
         imageHeight={1024} 
         width="100%" 
@@ -344,25 +344,25 @@ Devvit.addCustomPostType({
       <vstack height="100%" width="100%" alignment="center" gap="small" backgroundColor="rgba(0, 0, 0, 0.14)">
         
       
-        <hstack height="25%" width="100%" alignment="top center" />
+        <hstack height="20%" width="100%" alignment="top center" />
       
      
-        <hstack height="30%" width="100%" alignment="top center">
+        <hstack height="25%" width="100%" alignment="top center">
         
           <image
-            url="home.png"
+            url="home3.png"
             description="itadaki"
             imageHeight={30}
             imageWidth={256}
-            height="100px"
+            height="100px"  
             width="500px"
           />
 
         </hstack>
 
-        <hstack height="20%" width="100%" alignment="top center">
+        <hstack height="10%" width="50%" alignment="top center">
           <button
-           appearance='secondary'
+           appearance='secondary' size="small"
            onPress={() => webView.mount()}>
               Play Game
             </button>
