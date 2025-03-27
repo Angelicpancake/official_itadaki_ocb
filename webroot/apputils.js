@@ -13,6 +13,7 @@ const AppUtils = {
       postWebViewMessage({ type: "initialDataRequested" });
       postWebViewMessage({ type: "fetchLeaderboard"});
       postWebViewMessage({ type: "fetchWords"});
+      //postWebViewMessage({ type : "fetchWords2"});
     });
   },
 };

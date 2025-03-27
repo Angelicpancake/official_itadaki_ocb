@@ -50,6 +50,7 @@ async function waitForWords() {
     wordsArray = Object.keys(words);
     currWord.textContent = wordsArray[0];
     update(0);
+    console.log('web view' + wordsArray);
 }
 
 
@@ -100,10 +101,12 @@ let skip = function (){
 
 let endGame = function (){
   switchPage('end');
-
+  let defs = "";
   wordsArray.forEach((japaneseWord) => {
-    definitions.textContent += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
+    defs += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
 });
+
+  definitions.textContent = defs;
   const tempCorrectlyGuessed = correctlyGuessed;
   const tempScore = score;
 

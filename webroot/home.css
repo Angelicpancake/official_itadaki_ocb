@@ -2,6 +2,9 @@
     /*overflow: hidden; /*remove scrollbar*/
     margin: 0;
     background-color: #333445;
+ 
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: transparent transparent; /* For Firefox */
 }
 
 .hidden {
@@ -32,20 +35,23 @@
 
     .leaderboard-logo {
 
-        height: 35px;
-        margin-right: 170px;
+        height: 30px;
+        margin-right: 160px;
       
     }
 
     .leaderboardBtn {
         margin-right: 125px;
-        height: 35px
+        height: 30px
     }
 
     .users {
-        margin-top: 10px;
         height:300px; /* CHANGE THIS IF TOO SMALL OR LARGE*/
         .profile {
+            font-family: "Georama", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            
             display: flex;
             justify-content: center;
             font-size:larger;
@@ -126,7 +132,7 @@
     daily
 */
 .daily {
-    font-family: "Hachi Maru Pop", cursive;
+    font-family: "Inter";
     font-weight: 400;
     font-style: normal;
     
@@ -214,7 +220,7 @@
 */
 .rapid {
    
-    font-family: "Hachi Maru Pop", cursive;
+    font-family: "Inter";
     font-weight: 400;
     font-style: normal;
 
@@ -399,7 +405,7 @@
     end page
 */
 .end {
-    font-family: "Hachi Maru Pop";
+    font-family: "Inter";
     font-weight: 400;
     font-style: normal;
 
@@ -454,7 +460,7 @@
     .return-end {
         display: flex;
         justify-content: center;
-        margin-top: 100px;
+        margin-top: 230px;
         position: relative;
     }
 

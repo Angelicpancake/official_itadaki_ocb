@@ -48,16 +48,20 @@ let score = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
 
 async function waitForWords() {
-    // Wait until AppUtils.words is initialized
-    while (!AppUtils.wordsWeekly) {
+    while (!AppUtils.words) {//change to weekly words when we have
         await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
     }
 
     // Once AppUtils.words is initialized, run the following code
-    words = AppUtils.wordsWeekly;
+   /* words = AppUtils.wordsWeekly;*/ //uncomment when we have wordsWeekly
+    words = AppUtils.words;
     wordsArray = Object.keys(words);
+    console.log("web view rapid" + wordsArray);
+   
     currWord.textContent = wordsArray[0];
     update(0);
+
+
 }
 
 // Call the waitForWords function to initiate the process
@@ -68,6 +72,7 @@ waitForWords();
 */
 
 let guessed = function (){
+  console.log('guessed rapid');
   guessContent = (textarea.value).toLowerCase();
   guesses++;
   if(words[wordsArray[currIndex]].includes(guessContent))
@@ -91,6 +96,7 @@ let guessed = function (){
 }
 
 let skip = function (){
+  console.log('skip rapid');
   guesses = 0;
   ++currIndex;
   // currWord.value = words[currIndex];
@@ -106,9 +112,15 @@ let skip = function (){
 let endGame = function (){
   switchPage('end');
 
+  let defs = "";
   wordsArray.forEach((japaneseWord) => {
-    definitions.textContent += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
+    defs += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
 });
+
+  definitions.textContent = defs;
+  currIndex = 0;
+  update(currIndex);
+  currWord.textContent = wordsArray[currIndex];
   end(wordsArray.length, correctlyGuessed, score);
   return;
 }

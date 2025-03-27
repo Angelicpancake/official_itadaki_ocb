@@ -19,7 +19,7 @@ export default function handleDevvitMessage(ev) {
 
         AppUtils.leaderboard.replaceChildren();
 
-        for(let i = message.data.leaderboard.length - 1; i >= 0 && i >= message.data.leaderboard.length - 100; i--)
+        for(let i = message.data.leaderboard.length - 1; i >= 0 && i >= message.data.leaderboard.length - 10; i--)
         {
           let boardEntry = document.createElement('li');
           let entryName = message.data.leaderboard[i].username;
@@ -27,28 +27,40 @@ export default function handleDevvitMessage(ev) {
           
           if(i === message.data.leaderboard.length - 1){
            boardEntry.textContent = `🥇. ${entryName}: ${entryScore}`;
+           boardEntry.style.fontSize = "22px";
+           boardEntry.style.marginBottom= "5px";
+           boardEntry.style.color = "#FF9E42";
           }
           else if(i === message.data.leaderboard.length - 2){
             boardEntry.textContent = `🥈. ${entryName}: ${entryScore}`;
+            boardEntry.style.fontSize = "22px";
+            boardEntry.style.marginBottom = "5px";
+            boardEntry.style.color = "#FF9E42";
           }
           else if(i === message.data.leaderboard.length - 3){
             boardEntry.textContent = `🥉. ${entryName}: ${entryScore}`;
+            boardEntry.style.fontSize = "22px";
+            boardEntry.style.marginBottom = "5px";
+            boardEntry.style.color = "#FF9E42";
           }
           else{
-            boardEntry.textContent = `${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+            boardEntry.textContent = `🍜 ${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+            boardEntry.style.fontSize = "20px";
+            boardEntry.style.marginBottom = "3px";
           }
           AppUtils.leaderboard.append(boardEntry);
         }
 
-        if(message.data.leaderboard.length === 101){
           let boardEntry = document.createElement('li');
           let entryRank = message.data.rank;
           let entryName = message.data.leaderboard[0].username;
           let entryScore = message.data.leaderboard[0].score;
-          boardEntry.textContent = `${entryRank}. ${entryName}: ${entryScore}`;
+          boardEntry.textContent = `🐦‍🔥 ${entryRank}. ${entryName}: ${entryScore}`;
           boardEntry.value = entryRank;
+          boardEntry.style.color = "#C9534F";
+          boardEntry.style.fontSize = "22px";
           AppUtils.leaderboard.append(boardEntry);
-        }
+        
 
         break;
 
