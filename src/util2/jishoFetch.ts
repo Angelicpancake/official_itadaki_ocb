@@ -76,7 +76,7 @@ export default async function jishoFetch (kanji: string) {
       japaneseToEnglishMap[currWord] = englishDefinitionArray;
     });
 
-    console.log(japaneseToEnglishMap);
+    // console.log(japaneseToEnglishMap);
 
     return japaneseToEnglishMap;
 
