@@ -165,10 +165,17 @@ skipBtn.addEventListener('click', ()=> {
 
 let update = function (currIndex){
   let value = document.getElementById("amtLeftRapid");
-  let result = (`${currIndex}/${wordsArray.length}`);
+  let correct = document.getElementById("amtCorrectRapid");
+  let result = `${currIndex}/${wordsArray.length}`;
+  let resultCorrect = `${correctlyGuessed}/${wordsArray.length}`;
 
   value.textContent = result;
+  correct.textContent = resultCorrect;
   textarea.value = "";
+
+  currWord.classList.remove('animation2');
+  void currWord.offsetWidth; // This triggers reflow to reset the animation
+  currWord.classList.add('animation2');
 }
 /*
 function updateRapid(currIndexRapid){
