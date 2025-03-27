@@ -1,4 +1,6 @@
 import AppUtils from './apputils.js';
+import {waitForWordsWeekly} from './rapid.js';
+import {waitForWordsDaily} from './daily.js';
 
 export default function handleDevvitMessage(ev) {
     if (ev.data.type !== "devvit-message") return;
@@ -12,6 +14,10 @@ export default function handleDevvitMessage(ev) {
       case "updateWords":
         // console.log(message.data.words);
         AppUtils.words = message.data.words;
+        AppUtils.weekly = message.data.weeklyWords;
+        waitForWordsWeekly();
+        waitForWordsDaily();
+        // console.log(AppUtils.weekly, "hi this is apputils.weekly");
         // console.log(AppUtils.words);
         break;
 
@@ -19,7 +25,7 @@ export default function handleDevvitMessage(ev) {
 
         AppUtils.leaderboard.replaceChildren();
 
-        for(let i = message.data.leaderboard.length - 1; i >= 0 && i >= message.data.leaderboard.length - 10; i--)
+        for(let i = message.data.leaderboard.length - 1; i > 0 && i >= message.data.leaderboard.length - 10; i--)
         {
           let boardEntry = document.createElement('li');
           let entryName = message.data.leaderboard[i].username;
@@ -51,6 +57,7 @@ export default function handleDevvitMessage(ev) {
           AppUtils.leaderboard.append(boardEntry);
         }
 
+        if(message.data.leaderboard.length > 10){
           let boardEntry = document.createElement('li');
           let entryRank = message.data.rank;
           let entryName = message.data.leaderboard[0].username;
@@ -60,7 +67,7 @@ export default function handleDevvitMessage(ev) {
           boardEntry.style.color = "#C9534F";
           boardEntry.style.fontSize = "22px";
           AppUtils.leaderboard.append(boardEntry);
-        
+        }
 
         break;
 

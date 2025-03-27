@@ -1,6 +1,7 @@
 import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
 import AppUtils from './apputils.js';
 import switchPage, {reset, end} from './home.js';
+import randomize from './rapid.js';
 /*
     backend of the daily words grabber
 */
@@ -39,7 +40,7 @@ let guesses = 0;
 let score = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
 
-async function waitForWords() {
+export async function waitForWordsDaily() {
     // Wait until AppUtils.words is initialized
     while (!AppUtils.words) {
         await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
@@ -48,16 +49,18 @@ async function waitForWords() {
     // Once AppUtils.words is initialized, run the following code
     words = AppUtils.words;
     wordsArray = Object.keys(words);
+
+    randomize(wordsArray);
+
     currWord.textContent = wordsArray[0];
     update(0);
-    console.log('web view' + wordsArray);
+    // console.log('web view' + wordsArray);
 }
 
 
 // Call the waitForWords function to initiate the process
-waitForWords();
 export default words;
-
+//
 
 /*
     event listeners
@@ -102,15 +105,14 @@ let skip = function (){
 let endGame = function (){
   switchPage('end');
   let defs = "";
+
   wordsArray.forEach((japaneseWord) => {
     defs += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
-});
+  });
 
   definitions.textContent = defs;
   const tempCorrectlyGuessed = correctlyGuessed;
   const tempScore = score;
-
-  console.log(tempCorrectlyGuessed, score);
 
   end(wordsArray.length, tempCorrectlyGuessed, tempScore);
   currIndex = 0;
@@ -118,6 +120,7 @@ let endGame = function (){
   guesses = 0;
   score = 0;
   update(currIndex);
+  randomize(wordsArray);
   currWord.textContent = wordsArray[currIndex];
   return;
 }

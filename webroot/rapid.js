@@ -46,27 +46,36 @@ let correctlyGuessed = 0;
 let guesses = 0;
 let score = 0;
 //wordsArray contains an array of each of the keys(japanese words) of the words Record
+export default function randomize(wordArray)
+{
+  for(let i = 0; i < wordArray.length; i++)
+  {
+    const indexToSwap = Math.floor(Math.random() * wordArray.length);
+    const temp = wordArray[i];
+    wordArray[i] = wordArray[indexToSwap];
+    wordArray[indexToSwap] = temp;
+  }
+}
 
-async function waitForWords() {
-    while (!AppUtils.words) {//change to weekly words when we have
+export async function waitForWordsWeekly() {
+    while (!AppUtils.weekly) {//change to weekly words when we have
         await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
     }
 
     // Once AppUtils.words is initialized, run the following code
    /* words = AppUtils.wordsWeekly;*/ //uncomment when we have wordsWeekly
-    words = AppUtils.words;
+    words = AppUtils.weekly;
+
     wordsArray = Object.keys(words);
-    console.log("web view rapid" + wordsArray);
+
+    randomize(wordsArray);
+    // console.log("web view rapid" + wordsArray);
    
     currWord.textContent = wordsArray[0];
     update(0);
-
-
 }
 
 // Call the waitForWords function to initiate the process
-waitForWords();
-
 /*
     event listeners
 */
@@ -111,17 +120,30 @@ let skip = function (){
 
 let endGame = function (){
   switchPage('end');
-
   let defs = "";
+
   wordsArray.forEach((japaneseWord) => {
     defs += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
-});
+  });
 
   definitions.textContent = defs;
-  currIndex = 0;
-  update(currIndex);
-  currWord.textContent = wordsArray[currIndex];
+  const tempCorrectlyGuessed = correctlyGuessed;
+  const tempScore = score;
+  console.log(tempCorrectlyGuessed, score);
+
   end(wordsArray.length, correctlyGuessed, score);
+  const tempCorrectlyGuessed = correctlyGuessed;
+  const tempScore = score;
+
+  end(wordsArray.length, tempCorrectlyGuessed, tempScore);
+  currIndex = 0;
+  correctlyGuessed = 0;
+  guesses = 0;
+  score = 0;
+  update(currIndex);
+  randomize(wordsArray);
+  currWord.textContent = wordsArray[currIndex];
+  
   return;
 }
 

@@ -21,46 +21,49 @@ export default async function jishoFetch (kanji: string) {
 
       const currWord = object.japanese[0].word;
 
+      if(!(currWord.includes(kanji)))
+        return;
+
       let englishDefinitionArray: string[] = [];
 
       object.senses.forEach((sensesObject) => {
         //skips uncommon words
         let uncommonWord = false;
 
-        const uncommonTags: Array<string> = [
-          "Obsolete",
-          "Rare",
-          "Dialect",
-          "Technical",
-          "Obscure",
-          "Historical",
-          "Archaic",
-          "Exotic",
-          "Exotic Names",
-          "Obsolete Kanji",
-          "Slang",
-          "Archaic",
-        ];
+        // const uncommonTags: Array<string> = [
+        //   "Obsolete",
+        //   "Rare",
+        //   "Dialect",
+        //   "Technical",
+        //   "Obscure",
+        //   "Historical",
+        //   "Archaic",
+        //   "Exotic",
+        //   "Exotic Names",
+        //   "Obsolete Kanji",
+        //   "Slang",
+        //   "Archaic",
+        // ];
         
         //looks through objects for tags in uncommonTags, if found skip definitions
-        if(sensesObject.tags){
-          sensesObject.tags.forEach((tagsArray) => {
-
-            uncommonTags.forEach((tag) => 
-            {
-              if(tagsArray.includes(tag)){
-                if(uncommonWord)
-                  return;
-
-                uncommonWord = true;
-                return;
-              }
-            });
-
-            if(uncommonWord)
-              return;
-          });
-        }
+        // if(sensesObject.tags){
+        //   sensesObject.tags.forEach((tagsArray) => {
+        //
+        //     uncommonTags.forEach((tag) => 
+        //     {
+        //       if(tagsArray.includes(tag)){
+        //         if(uncommonWord)
+        //           return;
+        //
+        //         uncommonWord = true;
+        //         return;
+        //       }
+        //     });
+        //
+        //     if(uncommonWord)
+        //       return;
+        //   });
+        // }
         
         if(uncommonWord)
           return;
