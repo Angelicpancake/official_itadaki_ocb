@@ -39,7 +39,7 @@
 
         height: 30px;
         margin-right: 160px;
-        animation: bounceIn 0.8s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
       
     }
 
@@ -161,7 +161,7 @@
         align-items: center;
     }
     .dailyBtn, .daily-logo {
-        animation: bounceIn 0.8s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
     }
 
     .skipBtn, .guessBtn {
@@ -248,8 +248,30 @@
     .word-daily {
         font-size: xx-large;
         color:white;
+       
         
     }
+
+    .animation {
+        animation: bounceIn 0.6s ease-out forwards;
+    }
+
+
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.1);
+          opacity: 0;
+        }
+
+        60% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          font-size: xx-large;
+        }
+      }
 }
 /*
     rapid
@@ -267,7 +289,7 @@
         
     }
     .rapidLogo, .rapidBtn{
-        animation: bounceIn 0.8s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
     }
     @keyframes bounceIn {
         0% {
@@ -351,6 +373,28 @@
         color: white;
     }
 
+    
+    .animation2 {
+        animation: bounceIn 0.6s ease-out forwards;
+    }
+
+
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.1);
+          opacity: 0;
+        }
+
+        60% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          font-size: xx-large;
+        }
+      }
+
 
 }
 
@@ -390,13 +434,13 @@
     .howtoLogo {
         height: 30px;
         margin-right: 160px;
-        animation: bounceIn 0.8s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
     }
     
     .how-tobtn {
         height: 30px;
         margin-right: 90px;
-        animation: bounceIn 0.8s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
     }
 
     .content-howto {
@@ -642,7 +686,7 @@
     font-size: 25px;
 /*    animation: popIn 1s ease-out forwards;
     animation: fadeIn 1s ease-in-out forwards;*/
-    animation: bounceIn 0.8s ease-out forwards;
+    animation: bounceIn 0.6s ease-out forwards;
 }
 
 /*@keyframes bounce {
@@ -687,7 +731,7 @@
     display: flex;
     height: 85px;
     margin-right: 45px;
-    animation: bounceIn 0.8s ease-out forwards;
+    animation: bounceIn 0.6s ease-out forwards;
 }
 
 .options {
@@ -717,7 +761,7 @@
     /* animation*/
     opacity: 0;
     transform: scale(0.5);
-    animation: popUp 1s ease-in forwards;
+    animation: popUp 0.8s ease-in forwards;
     
  
 }

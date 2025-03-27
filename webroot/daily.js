@@ -84,6 +84,7 @@ let guessed = function (){
     }
 
   currWord.textContent = wordsArray[currIndex];
+  
   update(currIndex);
   console.log(guessContent);
 }
@@ -148,6 +149,12 @@ let update = function (currIndex){
   value.textContent = result;
   correct.textContent = resultCorrect;
   textarea.value = "";
+
+  currWord.classList.remove('animation');
+  void currWord.offsetWidth; // This triggers reflow to reset the animation
+  currWord.classList.add('animation');
+
+
 }
 
 // function getWords(){
