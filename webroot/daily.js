@@ -67,14 +67,13 @@ export default words;
 */
 
 let guessed = function (){
+  console.log('guessed daily');
   guessContent = (textarea.value).toLowerCase();
   guesses++;
   if(words[wordsArray[currIndex]].includes(guessContent))
   {
     ++correctlyGuessed;
     ++currIndex;
-    score += (5 - guesses) > 0 ? (4 - guesses) : 0;
-    guesses = 0;
   }
 
   if(currIndex >= wordsArray.length)
@@ -90,7 +89,6 @@ let guessed = function (){
 }
 
 let skip = function (){
-  // guesses = 0;
   ++currIndex;
   // currWord.value = words[currIndex];
   update(currIndex);
