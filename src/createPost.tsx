@@ -2,7 +2,7 @@ import { Devvit } from '@devvit/public-api';
 
 // TODO: Migrate these two posts to be automatic every day
 Devvit.addMenuItem({
-  label: "3/26",
+  label: "3/27",
   forUserType: 'moderator',
   location: 'subreddit',
   onPress: async (_event, context) => {

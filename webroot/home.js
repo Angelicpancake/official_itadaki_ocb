@@ -24,7 +24,6 @@ export function end(total, correct, score) {
     let color = "rgb(" + ((total - correct) / total * 255) + ", " + (correct / total * 255) + ", 0)";
     result.style.setProperty('--results-color', color);
 
-    console.logd
 }
 
 /*
