@@ -100,6 +100,8 @@ let guessed = function (){
     }
 
   currWord.textContent = wordsArray[currIndex];
+  document.getElementById('#amtCorrectRapid').textContent = score + "/" + wordsArray.length;
+  console.log(score + "/" + wordsArray.length);
   update(currIndex);
   console.log(guessContent);
 }
@@ -132,8 +134,6 @@ let endGame = function (){
   console.log(tempCorrectlyGuessed, score);
 
   end(wordsArray.length, correctlyGuessed, score);
-  const tempCorrectlyGuessed = correctlyGuessed;
-  const tempScore = score;
 
   end(wordsArray.length, tempCorrectlyGuessed, tempScore);
   currIndex = 0;

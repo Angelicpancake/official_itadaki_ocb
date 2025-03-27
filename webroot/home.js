@@ -129,8 +129,9 @@ refreshLeaderboardBtn.addEventListener('click', () => {
 
 dailyHomeBtn.addEventListener('click', ()=> {
     console.log('dailyHome');
-    postWebViewMessage({type: "fetchWords"});
+   // postWebViewMessage({type: "fetchWords"});
     switchPage('daily')
+
 });
 
 rapidHomeBtn.addEventListener('click', ()=> {
