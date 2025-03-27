@@ -129,11 +129,6 @@ let endGame = function (){
   definitions.textContent = defs;
   const tempCorrectlyGuessed = correctlyGuessed;
   const tempScore = score;
-  console.log(tempCorrectlyGuessed, score);
-
-  end(wordsArray.length, correctlyGuessed, score);
-  const tempCorrectlyGuessed = correctlyGuessed;
-  const tempScore = score;
 
   end(wordsArray.length, tempCorrectlyGuessed, tempScore);
   currIndex = 0;
@@ -164,10 +159,13 @@ skipBtn.addEventListener('click', ()=> {
 });
 
 let update = function (currIndex){
-  let value = document.getElementById("amtLeftRapid");
-  let result = (`${currIndex}/${wordsArray.length}`);
+  const value = document.getElementById("amtLeftRapid");
+  const correct = document.getElementById("amtCorrectRapid");
+  const result = (`${currIndex}/${wordsArray.length}`);
+  const resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
 
   value.textContent = result;
+  correct.textContent = resultCorrect;
   textarea.value = "";
 }
 /*

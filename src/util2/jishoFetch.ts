@@ -28,7 +28,7 @@ export default async function jishoFetch (kanji: string) {
 
       object.senses.forEach((sensesObject) => {
         //skips uncommon words
-        let uncommonWord = false;
+        /* let uncommonWord = false; */
 
         // const uncommonTags: Array<string> = [
         //   "Obsolete",
@@ -65,8 +65,8 @@ export default async function jishoFetch (kanji: string) {
         //   });
         // }
         
-        if(uncommonWord)
-          return;
+        // if(uncommonWord)
+        //   return;
         
         for(let i = 0; i < sensesObject.english_definitions.length; i++)
         {

@@ -84,9 +84,14 @@ Devvit.addSchedulerJob({
       }
     }
     
+    function nextMonday(date: Date){
+      const dayOfWeek = date.getUTCDay();
+      const daysUntilMonday = (dayOfWeek === 0 ? 1 : 7 - (dayOfWeek - 1));
+      date.setUTCDate(date.getUTCDate() + daysUntilMonday);
+    }
     		// sunday at midnight (monday morning)
 		let scheduledDate: Date = new Date();
-		scheduledDate.setUTCDate(1);
+    nextMonday(scheduledDate);
 		scheduledDate.setUTCHours(0, 0, 0, 0);
 
 		// Schedule this task again for sunday
