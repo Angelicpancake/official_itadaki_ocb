@@ -96,7 +96,7 @@ const endBtn = /** @type {HTMLButtonElement} */ (
  */
 
 fetchWords.addEventListener('click', () => {
-  postWebViewMessage({type: "fetchWords"});
+  postWebViewMessage({type: "fetchWords2"});
 })
 
 testRemoveAllEntryBtn.addEventListener('click', () => {
