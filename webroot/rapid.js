@@ -90,6 +90,8 @@ let guessed = function (){
     ++currIndex;
     score += (5 - guesses) > 0 ? (4 - guesses) : 0;
     guesses = 0;
+    update(currIndex);
+
   }
 
   if(currIndex >= wordsArray.length)
@@ -100,10 +102,12 @@ let guessed = function (){
     }
 
   currWord.textContent = wordsArray[currIndex];
+ // document.getElementById('#amtCorrectRapid').textContent = "hi";
   document.getElementById('#amtCorrectRapid').textContent = score + "/" + wordsArray.length;
   console.log(score + "/" + wordsArray.length);
   update(currIndex);
   console.log(guessContent);
+  textarea.textContent = "";
 }
 
 let skip = function (){
@@ -172,6 +176,7 @@ let update = function (currIndex){
   value.textContent = result;
   correct.textContent = resultCorrect;
   textarea.value = "";
+
 
   currWord.classList.remove('animation2');
   void currWord.offsetWidth; // This triggers reflow to reset the animation
