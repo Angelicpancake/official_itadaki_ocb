@@ -33,10 +33,13 @@
         justify-content: center;
     }
 
+    
+
     .leaderboard-logo {
 
         height: 30px;
         margin-right: 160px;
+        animation: bounceIn 0.8s ease-out forwards;
       
     }
 
@@ -44,6 +47,22 @@
         margin-right: 125px;
         height: 30px
     }
+
+        
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
 
     .users {
         height:300px; /* CHANGE THIS IF TOO SMALL OR LARGE*/
@@ -141,10 +160,27 @@
         flex-direction: column;
         align-items: center;
     }
+    .dailyBtn, .daily-logo {
+        animation: bounceIn 0.8s ease-out forwards;
+    }
 
     .skipBtn, .guessBtn {
         height: 60px;
     }
+    
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
 
     .textarea-daily {
         font-size: 19px;
@@ -228,7 +264,25 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        
     }
+    .rapidLogo, .rapidBtn{
+        animation: bounceIn 0.8s ease-out forwards;
+    }
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
 
     .skipBtnRapid, .guessBtnRapid {
         height: 60px;
@@ -342,13 +396,29 @@
     .how-tobtn {
         height: 30px;
         margin-right: 90px;
-        animation: bounceIn 1.2s ease-out forwards;
+        animation: bounceIn 0.8s ease-out forwards;
+    }
+
+    .content-howto {
+        animation: zoomIn 0.7s ease-out forwards !important;
     }
 
     .howtoinfo {
         height: 400px;
         margin-left: 50px;
+
+
     }
+    @keyframes zoomIn {
+        from {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
 
     .spacer-howto {
         height: 65px;
