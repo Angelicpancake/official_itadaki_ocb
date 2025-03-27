@@ -40,57 +40,56 @@ Devvit.addSchedulerJob({
     }
     
     //create a new temp variable and store in the redis the kanji of that day
-    let count2 = 0;
-    while (count2 < 7){
-      try {
-        await context.redis.set(`kanjiday${count2}`, weeklyChars[count2]);
-        ++count2;
-      } catch (error) {
-        console.error("failed to update weeklyKanji database", error);
-      }
+    // let count2 = 0;
+    // while (count2 < 7){
+    //   try {
+    //     await context.redis.set(`kanjiday${count2}`, weeklyChars[count2]);
+    //     console.log(weeklyChars[count2]);
+    //     ++count2;
+    //   } catch (error) {
+    //     console.error("failed to update weeklyKanji database", error);
+    //   }
+    // }
+
+   // store redis of the week for rapid
+    /* const japaneseWords: Record<string, string[]> = await jishoFetch(kanji); */
+    // let weeklyWords: Array<Record<string, string[]>> = {}; //store a record of a record of 0-6 daily words
+
+    function delay(ms: number) {
+      return new Promise(resolve => setTimeout(resolve,ms));
     }
 
+    let amountOfKanji = 0;
+    while(amountOfKanji < 7) {
+      const kanji = weeklyChars[amountOfKanji];
 
+      try {
+        await context.redis.del(`todaysWords${amountOfKanji}`);
+
+        await delay(500);
+
+        const words: Record<string, string[]> = await jishoFetch(kanji);
+
+        const dailyWords = JSON.stringify(words);
+
+        await context.redis.set(`todaysWords${amountOfKanji}`, dailyWords);
+
+        console.log(`stored words for day ${amountOfKanji} in Redis`, dailyWords);
+
+        if(dailyWords)
+          ++amountOfKanji;
+      }
+      catch (error){
+          console.log(`error in storing redis weekly words`, error);
+      }
+    }
     
-  
-    // Tomorrow at midnight (the morning)
-    //
+    		// sunday at midnight (monday morning)
 		let scheduledDate: Date = new Date();
 		scheduledDate.setUTCDate(1);
 		scheduledDate.setUTCHours(0, 0, 0, 0);
 
-    /*
-    store redis words of the week for rapid
-    */
-    // ref const japaneseWords: Record<string, string[]> = await jishoFetch(kanji);
-   /* const weeklyWords: Record<string, Record<string, string[]>> = {}; //store a record of a record of 0-6 daily words
-    let words: Record<string, string[]>;
-
-    //return daily words for #kanji
-    async function fetchKanjiWords(kanji: string): Promise<Record<string, string[]>>{
-      words = (await jishoFetch(kanji)) || {};
-      return words;
-    }
-
-    for (let i = 0; i < weeklyChars.length; i++) {
-      let kanji = weeklyChars[i];
-
-      let words = await fetchKanjiWords(kanji);
-
-      weeklyWords[i] = words;
-
-      let redisKey = `kanji${i}`;
-      try {
-        await context.redis.set(redisKey, JSON.stringify(weeklyWords[i]));
-        console.log(`stored words for ${i} in Redis`, weeklyWords[i]);
-      }
-      catch (error){
-          console.log(`error in storing redis kanji words weely`, error);
-      }
-    }*/
-   
-
-		// Schedule this task again for tomorrow
+		// Schedule this task again for sunday
 		context.scheduler.runJob({
 			name: 'getWeeklyKanji',
 			runAt: scheduledDate,
@@ -102,7 +101,7 @@ Devvit.addSchedulerJob({
   Select new Kanji schedule
 */
 Devvit.addMenuItem({
-  label: "Select new weekly kanji",
+  label: "Get New Weekly Kanji",
   location: "subreddit",
   forUserType: "moderator",
   onPress: async (event, context) => {
@@ -121,47 +120,47 @@ Devvit.addMenuItem({
 /*
   get daily words schedule
 */
-Devvit.addSchedulerJob({
-  name: "getDailyWords",
-  onRun: async (event, context) => {
-    await context.redis.del("todaysWords");
-    const date = new Date();
-    const currentDay = date.getUTCDay();
-    // console.log(currentDay);
-    let kanji = null;
-
-    try{
-      kanji = await context.redis.get(`kanjiday${currentDay}`); //stores the kanji of the day
-    } catch (error) {
-      console.error("failed to get kanjis in getDailyWords", error);
-    }
-
-    // console.log(kanji);
-
-    const japaneseWords: Record<string, string[]> = await jishoFetch(kanji);
-
-    /* console.log(japaneseWords); */
-
-    const stringifiedMap = JSON.stringify(japaneseWords);
-
-    // console.log(stringifiedMap);
-
-    try {
-      await context.redis.set("todaysWords", stringifiedMap);
-    } catch (error) {
-      console.error("failed to updated todaysWords database", error);
-    }
-    
-    let scheduledDate: Date = new Date();
-    scheduledDate.setUTCDate((currentDay + 1) % 7);
-    scheduledDate.setUTCHours(0, 0, 10, 0);
-    
-    context.scheduler.runJob({
-      name: 'getDailyWords',
-      runAt: scheduledDate,
-    });
-  }
-});
+// Devvit.addSchedulerJob({
+//   name: "getDailyWords",
+//   onRun: async (event, context) => {
+//     await context.redis.del("todaysWords");
+//     const date = new Date();
+//     const currentDay = date.getUTCDay();
+//     // console.log(currentDay);
+//     let kanji = null;
+//
+//     try{
+//       kanji = await context.redis.get(`kanjiday${currentDay}`); //stores the kanji of the day
+//     } catch (error) {
+//       console.error("failed to get kanjis in getDailyWords", error);
+//     }
+//
+//     // console.log(kanji);
+//
+//     const japaneseWords: Record<string, string[]> = await jishoFetch(kanji);
+//
+//     /* console.log(japaneseWords); */
+//
+//     const stringifiedMap = JSON.stringify(japaneseWords);
+//
+//     // console.log(stringifiedMap);
+//
+//     try {
+//       await context.redis.set("todaysWords", stringifiedMap);
+//     } catch (error) {
+//       console.error("failed to updated todaysWords database", error);
+//     }
+//     
+//     let scheduledDate: Date = new Date();
+//     scheduledDate.setUTCDate((currentDay + 1) % 7);
+//     scheduledDate.setUTCHours(0, 0, 10, 0);
+//     
+//     context.scheduler.runJob({
+//       name: 'getDailyWords',
+//       runAt: scheduledDate,
+//     });
+//   }
+// });
 
 Devvit.addCustomPostType({
   name: 'sushisushi',
@@ -172,7 +171,7 @@ Devvit.addCustomPostType({
 
     // const [leaderboard, setLeaderboard] =  useState<Array<{member: string; score: number}>>([]);
 
-    const [day, setDay] = useState(new Date().getUTCDay());
+    // const [day, setDay] = useState(new Date().getUTCDay());
 
     const [username, setUsername] = useState(async () => {
       return await context.reddit.getCurrentUsername();
@@ -187,18 +186,17 @@ Devvit.addCustomPostType({
         
           case 'fetchWords':
 
-            /*
-              get weekly words
-            */  
-            context.scheduler.runJob({
-              name: 'getDailyWords',
-              runAt: new Date(),
-            });
+            const day = new Date().getUTCDay();
+           
+            // context.scheduler.runJob({
+            //   name: 'getDailyWords',
+            //   runAt: new Date(),
+            // });
 
             let rawData = null;
             while(!rawData || rawData === ""){
-              console.log("waiting for data...");
-              rawData = await context.redis.get("todaysWords");
+              // console.log("waiting for data...");
+              rawData = await context.redis.get(`todaysWords${day}`);
             }
 
             
@@ -219,19 +217,19 @@ Devvit.addCustomPostType({
             });
             break;
 
-          case 'fetchWords2':
-            
-            // context.scheduler.runJob(    {
-            //   name: 'getWeeklyKanji',
-            //   runAt: new Date(),
-            // });
-            //
-            // for(let i = 0; i < 7; i++){
-            //   const kanji = await context.redis.get(`kanjiday${i}`);
-            //   console.log(kanji);
-            // }
-            
-            break;
+          // case 'fetchWords2':
+          //   
+          //   context.scheduler.runJob({
+          //     name: 'getWeeklyKanji',
+          //     runAt: new Date(),
+          //   });
+          //
+          //   for(let i = 0; i < 7; i++){
+          //     const kanji = await context.redis.get(`kanjiday${i}`);
+          //     console.log(kanji);
+          //   }
+          //
+          //   break;
 
           case 'fetchLeaderboard':
             const highScore = await context.redis.zScore("leaderboard", username);

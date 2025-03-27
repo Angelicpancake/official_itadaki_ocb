@@ -14,10 +14,10 @@ export default async function jishoFetch (kanji: string) {
     
     jishoObjArray.forEach((object) => {
 
-      if(!(object.is_common)){
-        //if word is not common, skip to next iteration
-        return;
-      }
+      // if(!(object.is_common)){
+      //   //if word is not common, skip to next iteration
+      //   return;
+      // }
 
       const currWord = object.japanese[0].word;
 
