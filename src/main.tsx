@@ -57,6 +57,23 @@ Devvit.addSchedulerJob({
 	}
 });
 
+Devvit.addMenuItem({
+  label: "Select new weekly kanji",
+  location: "subreddit",
+  forUserType: "moderator",
+  onPress: async (event, context) => {
+    const location = event.location;
+    const targetId = event.targetId;
+
+    context.scheduler.runJob({
+      name: 'getWeeklyKanji',
+      runAt: new Date(),
+    })
+
+    context.ui.showToast({text: "Refreshed Weekly Kanji!"});
+  },
+});
+
 Devvit.addSchedulerJob({
   name: "getDailyWords",
   onRun: async (event, context) => {
@@ -67,7 +84,7 @@ Devvit.addSchedulerJob({
     let kanji = null;
 
     try{
-      kanji = await context.redis.get(`kanjiday6`);
+      kanji = await context.redis.get(`kanjiday${currentDay}`);
     } catch (error) {
       console.error("failed to get kanjis in getDailyWords", error);
     }
@@ -76,7 +93,7 @@ Devvit.addSchedulerJob({
 
     const japaneseWords: Record<string, string[]> = await jishoFetch(kanji);
 
-    // console.log(japaneseWords);
+    /* console.log(japaneseWords); */
 
     const stringifiedMap = JSON.stringify(japaneseWords);
 
@@ -95,7 +112,7 @@ Devvit.addSchedulerJob({
     context.scheduler.runJob({
       name: 'getDailyWords',
       runAt: scheduledDate,
-    })
+    });
   }
 });
 
@@ -122,15 +139,27 @@ Devvit.addCustomPostType({
         switch(message.type){
 
           case 'fetchWords':
+
+            context.scheduler.runJob({
+              name: 'getDailyWords',
+              runAt: new Date(),
+            });
+
             let rawData = null;
             while(!rawData || rawData === ""){
               console.log("waiting for data...");
               rawData = await context.redis.get("todaysWords");
             }
+
+            
             // console.log(rawData);
             const parsedData: Record<string, string[]> = JSON.parse(rawData);
 
             // console.log(parsedData);
+            webView.postMessage({
+              type: "dailyText",
+              data: {text: `Today's Kanji: ${Object.keys(parsedData)[0]} - "${parsedData[Object.keys(parsedData)[0]][0]}"`},
+            })
 
             webView.postMessage({
               type: "updateWords",
@@ -141,10 +170,16 @@ Devvit.addCustomPostType({
             break;
 
           case 'fetchWords2':
-            for(let i = 0; i < 7; i++){
-              const kanji = await context.redis.get(`kanjiday${i}`);
-              console.log(kanji);
-            }
+            
+            // context.scheduler.runJob({
+            //   name: 'getWeeklyKanji',
+            //   runAt: new Date(),
+            // });
+            //
+            // for(let i = 0; i < 7; i++){
+            //   const kanji = await context.redis.get(`kanjiday${i}`);
+            //   console.log(kanji);
+            // }
             
             break;
 

@@ -86,7 +86,7 @@ let guessed = function (){
 }
 
 let skip = function (){
-  guesses = 0;
+  // guesses = 0;
   ++currIndex;
   // currWord.value = words[currIndex];
   update(currIndex);
@@ -104,7 +104,18 @@ let endGame = function (){
   wordsArray.forEach((japaneseWord) => {
     definitions.textContent += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
 });
-  end(wordsArray.length, correctlyGuessed, score);
+  const tempCorrectlyGuessed = correctlyGuessed;
+  const tempScore = score;
+
+  console.log(tempCorrectlyGuessed, score);
+
+  end(wordsArray.length, tempCorrectlyGuessed, tempScore);
+  currIndex = 0;
+  correctlyGuessed = 0;
+  guesses = 0;
+  score = 0;
+  update(currIndex);
+  currWord.textContent = wordsArray[currIndex];
   return;
 }
 

@@ -1,3 +1,7 @@
+import handleDevvitMessage, {postWebViewMessage} from './devvittowebview.js';
+import AppUtils from './apputils.js';
+import switchPage, {reset, end} from './home.js';
+ 
 /*
     backend of the daily words grabber
 */

@@ -6,10 +6,13 @@ export default function handleDevvitMessage(ev) {
     const { message } = ev.data.data;
 
     switch (message.type) {
+      case "dailyText":
+        AppUtils.wordOfTheDay.textContent = message.data.text;
+        break;
       case "updateWords":
-        console.log(message.data.words);
+        // console.log(message.data.words);
         AppUtils.words = message.data.words;
-        console.log(AppUtils.words);
+        // console.log(AppUtils.words);
         break;
 
       case "updateLeaderboard":
