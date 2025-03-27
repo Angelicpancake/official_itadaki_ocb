@@ -67,7 +67,7 @@ Devvit.addSchedulerJob({
     let kanji = null;
 
     try{
-      kanji = await context.redis.get(`kanjiday6`);
+      kanji = await context.redis.get(`kanjiday${currentDay}`);
     } catch (error) {
       console.error("failed to get kanjis in getDailyWords", error);
     }
