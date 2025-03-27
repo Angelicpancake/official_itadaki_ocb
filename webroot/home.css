@@ -310,6 +310,7 @@
     
 
     .container-howto {
+        
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -317,14 +318,31 @@
         margin-top: 25px;
     }
 
+
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
     .howtoLogo {
         height: 30px;
         margin-right: 160px;
+        animation: bounceIn 0.8s ease-out forwards;
     }
     
     .how-tobtn {
         height: 30px;
         margin-right: 90px;
+        animation: bounceIn 1.2s ease-out forwards;
     }
 
     .howtoinfo {
@@ -522,22 +540,68 @@
     home
 */
 .home {
-    background-color: #333445;
+    /*background-color: #333445;
 
     height: 100vh; /*all of viewport height*/
     width: 100%; /*all of viewport width*/
     margin: 0;
     padding: 0;
+   
     
 }
+@keyframes bounceIn {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+
+
 .wordOfDay {
     color: rgb(192, 125, 125);
     text-align: center;
     margin-top: 10px;
     font-size: 25px;
-    
-
+/*    animation: popIn 1s ease-out forwards;
+    animation: fadeIn 1s ease-in-out forwards;*/
+    animation: bounceIn 0.8s ease-out forwards;
 }
+
+/*@keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(40px);
+    }
+  }*/
+ @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes popIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
 .spacer1 {
     flex-grow: 1;
     height: 50px;
@@ -553,6 +617,7 @@
     display: flex;
     height: 85px;
     margin-right: 45px;
+    animation: bounceIn 0.8s ease-out forwards;
 }
 
 .options {
@@ -578,7 +643,32 @@
     cursor:pointer;
     color: rgb(243, 241, 241);
     border: solid;
+
+    /* animation*/
+    opacity: 0;
+    transform: scale(0.5);
+    animation: popUp 1s ease-in forwards;
+    
  
+}
+@keyframes popUp {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    20% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    80% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .dailyHome, .rapidHome{
