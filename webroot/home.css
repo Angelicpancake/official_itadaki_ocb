@@ -55,7 +55,7 @@
           opacity: 0;
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.05);
           opacity: 1;
         }
         100% {
@@ -161,22 +161,14 @@
         align-items: center;
         gap: 20px;
     }
-    .dailyBtn, .daily-logo {
-        animation: bounceIn 0.6s ease-out forwards;
-    }
 
-    .dailyBtn {
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .skipBtn, .guessBtn{
+    .skipBtn, .guessBtn {
         height: 60px;
-        transition: transform 0.3s ease, filter 0.3s ease;
         margin: 0 auto;
     }
 
-    .skipBtn:hover, .guessBtn:hover, .dailyBtn:hover{
-        transform: scale(1.2);
+    .dailyBtn:hover{
+        transform: scale(1.05);
     }
     
     @keyframes bounceIn {
@@ -275,7 +267,7 @@
         }
 
         60% {
-          transform: scale(1.1);
+          transform: scale(1.05);
           opacity: 1;
         }
         100% {
@@ -288,7 +280,6 @@
     rapid
 */
 .rapid {
-   
     font-family: "Inter";
     font-weight: 400;
     font-style: normal;
@@ -297,10 +288,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        
-    }
-    .rapidLogo, .rapidBtn{
-        animation: bounceIn 0.6s ease-out forwards;
+        gap: 20px;
     }
 
     .rapidLogo {
@@ -314,7 +302,7 @@
           opacity: 0;
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.05);
           opacity: 1;
         }
         100% {
@@ -325,16 +313,11 @@
 
     .skipBtnRapid, .guessBtnRapid{
         height: 60px;
-        transition: transform 0.3s ease, filter 0.3s ease;
         margin: 0 auto;
     }
 
-    .rapidBtn {
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
-
     .skipBtnRapid:hover, .guessBtnRapid:hover, .rapidBtn:hover{
-        transform: scale(1.2);
+        transform: scale(1.05);
     }
 
     .textarea-rapid {
@@ -398,7 +381,7 @@
     }
     
     .animation2 {
-        animation: bounceIn 0.6s ease-out forwards;
+        animation: bounceIn 1s ease-out forwards;
     }
 
 
@@ -409,7 +392,7 @@
         }
 
         60% {
-          transform: scale(1.1);
+          transform: scale(1.05);
           opacity: 1;
         }
         100% {
@@ -444,7 +427,7 @@
           opacity: 0;
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.05);
           opacity: 1;
         }
         100% {
@@ -455,25 +438,23 @@
     .howtoLogo {
         height: 30px;
         margin-right: 160px;
-        animation: bounceIn 0.6s ease-out forwards;
+        animation: bounceIn 1s ease-out forwards;
     }
     
     .how-tobtn {
         height: 30px;
         margin-right: 90px;
-        animation: bounceIn 0.6s ease-out forwards;
     }
 
     .content-howto {
-        animation: zoomIn 0.7s ease-out forwards !important;
+        animation: zoomIn 1s ease-out forwards !important;
     }
 
     .howtoinfo {
         height: 400px;
         margin-left: 50px;
-
-
     }
+
     @keyframes zoomIn {
         from {
           transform: scale(0.5);
@@ -496,61 +477,6 @@
         justify-content: center;
         margin-top: 200px;
         position: relative;
-    }
-
-    .howtoBtn {
-        position: absolute;
-        width: 250px;
-        height: auto;
-        margin-left: -122px;
-        -webkit-transition: 0s all;   
-        -moz-transition: 0s all;   
-        -ms-transition: 0s all;   
-        -o-transition: 0s all;   
-        transition: 0s all;  
-    }
-
-    /* This mess of code essentially just hides the top button when hovering and unhides the bottom button, then
-    vice versa when not hovering. The top button is the unhighlighted version, while the bottom button is the
-    highlighted one (saved as return_hover.png in webroot/assets). */
-    /* The many different versions of "transition-delay" are for 
-    browser compatability. */
-    #howtoBtn_highlight {
-        visibility: hidden;
-        margin-left: -127px;
-        transition-delay: 50ms;
-        -o-transition-delay: 50ms; 
-        -ms-transition-delay: 50ms; 
-        -moz-transition-delay: 50ms; 
-        -webkit-transition-delay: 50ms; 
-    } #howtoBtn:hover {
-        visibility: hidden;
-        transition-delay: 50ms;
-        -o-transition-delay: 50ms; 
-        -ms-transition-delay: 50ms; 
-        -moz-transition-delay: 50ms; 
-        -webkit-transition-delay: 50ms; 
-    } #howtoBtn:hover ~ #howtoBtn_highlight {
-        visibility: visible;
-        transition-delay: 50ms;
-        -o-transition-delay: 50ms; 
-        -ms-transition-delay: 50ms; 
-        -moz-transition-delay: 50ms; 
-        -webkit-transition-delay: 50ms; 
-    } #howtoBtn_highlight:hover {
-        visibility: visible;
-        transition-delay: 50ms;
-        -o-transition-delay: 50ms; 
-        -ms-transition-delay: 50ms; 
-        -moz-transition-delay: 50ms; 
-        -webkit-transition-delay: 50ms; 
-    } #howtoBtn_highlight:hover ~ #howtoBtn {
-        visibility: hidden;
-        transition-delay: 50ms;
-        -o-transition-delay: 50ms; 
-        -ms-transition-delay: 50ms; 
-        -moz-transition-delay: 50ms; 
-        -webkit-transition-delay: 50ms; 
     }
 }
 
@@ -686,11 +612,11 @@
 }
 @keyframes bounceIn {
     0% {
-      transform: scale(0.3);
+      transform: scale(0.4);
       opacity: 0;
     }
     50% {
-      transform: scale(1.1);
+      transform: scale(1.05);
       opacity: 1;
     }
     100% {
@@ -707,7 +633,7 @@
     font-size: 25px;
 /*    animation: popIn 1s ease-out forwards;
     animation: fadeIn 1s ease-in-out forwards;*/
-    animation: bounceIn 0.6s ease-out forwards;
+    animation: bounceIn 1s ease-out forwards;
 }
 
 /*@keyframes bounce {
@@ -752,7 +678,7 @@
     display: flex;
     height: 85px;
     margin-right: 45px;
-    animation: bounceIn 0.6s ease-out forwards;
+    animation: bounceIn 1s ease-out forwards;
 }
 
 .options {
@@ -782,7 +708,7 @@
     /* animation*/
     opacity: 0;
     transform: scale(0.5);
-    animation: popUp 0.8s ease-in forwards;
+    animation: popUp 1s ease-in forwards;
     
  
 }
@@ -798,7 +724,7 @@
     }
     80% {
         opacity: 0.7;
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
     100% {
         opacity: 1;
