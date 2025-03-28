@@ -239,17 +239,20 @@
     .daily-logo {
       height: 35px;
       padding-left: 25px;
+      margin-left: 20px;
     }
 
     .amtLeft {
         display: inline-block;
         margin: 0;
         margin-right: 100px;
+        margin-left: 30px;
         color: white;
         
     }
 
     .dailyBtn {
+        margin-left: 25px;
         margin-right: 115px;
         padding-left: 6px;
         height: 35px
@@ -306,6 +309,7 @@
     .rapidLogo {
       height: 35px;
       padding-left: 25px;
+      margin-left: 7px;
     }
 
     @keyframes bounceIn {
@@ -332,10 +336,6 @@
 
     .rapidBtn {
       transition: transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .skipBtnRapid:hover, .guessBtnRapid:hover{
-        color: #C9534F;
     }
 
     .textarea-rapid {
@@ -384,10 +384,12 @@
         display: inline-block;
         margin: 0;
         margin-right: 100px;
+        margin-left: 30px;
         color: white;
     }
 
     .rapidBtn {
+        margin-left: 25px;
         margin-right: 115px;
         padding-left: 6px;
         height: 35px;
