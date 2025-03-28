@@ -126,8 +126,8 @@ let endGame = function (){
   });
 
   definitions.textContent = defs;
-  //score formula = (number correctly guessed) ^ ((accuracy^3) + 1);
-  score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3))); 
+  //score formula = (number correctly guessed) ^ ((accuracy^3) + 4);
+  score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 4))); 
 
   endScoreText.textContent = `Score: ${score}`;
   endScoreText.textContent = "";
