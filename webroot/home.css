@@ -262,7 +262,7 @@
         display: inline-block;
         margin: 0;
         margin-right: 100px;
-        margin-left: 30px;
+        margin-left: 50px;
         color: white;
         
     }
@@ -581,6 +581,10 @@
     font-weight: 400;
     font-style: normal;
 
+   /* .bonus {
+        width: 150px;
+        height: 45px;
+    }*/
     
     .title-congrats {
         display: flex;

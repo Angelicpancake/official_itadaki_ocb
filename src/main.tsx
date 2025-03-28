@@ -1,10 +1,12 @@
 import './createPost.js';
-import { Devvit, RedisClient, useState, useWebView } from '@devvit/public-api';
+import { Devvit, RedisClient, useState, useWebView, useAsync, useForm } from '@devvit/public-api';
 import type { DevvitMessage, WebViewMessage } from './message.js';
 import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
 import RedisUtil from './util/redisUtil.js';
 import { Word } from './util/word.js';
 import jishoFetch, {randomKanji} from './util2/jishoFetch.js';
+import kanjiList from './util2/kanjiList.js';
+import createDailyPost from './createDailyPost.js';
 
 Devvit.configure({
   redditAPI: true,
@@ -13,19 +15,21 @@ Devvit.configure({
   scheduler: true,
 });
 
+
 /*
   new kanji schedule job that updates the kanji of the week
 */
+let currentDay = (new Date()).getUTCDay();
+
+async function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve,ms));
+}
+
 Devvit.addSchedulerJob({
 	name: 'getWeeklyKanji',
 	onRun: async (event, context) => {
     //string of relevant kanji replace later with random kanji selector
-    let importantKanji:string = "安一飲右雨駅円火花下何会外学間気九休魚金空月見言古五後午語校口行高国今左三山四子耳時七車社手週十出書女小少上食新人水生西川千先前足多大男中長天店電土東道読南ニ日入年買白八半百父分聞母北木本毎話会同事自社発者地業方新場員立開手力問代明動京目通言理体田主題意不作用度強公持野以思家世多正安院心界教文元重近考画海売知道集別物使品計死特私始朝運終台広住真有口少町料工建空急止送切転研足究楽起着店病質待試族銀早映親験英医仕去味写字答夜音注帰古歌買悪図週室歩風紙黒花春赤青館屋色走秋夏習駅洋旅服夕借曜飲肉貸堂鳥飯勉冬昼茶弟牛魚兄犬妹姉漢政議民連対部合市内相定回選米実関決全表戦経最現調化当約首法性要制治務成期取都和機平加受続進数記初指権支産点報済活原共得解交資予向際勝面告反判認参利組信在件側任引求所次昨論官増係感情投示変打直両式確果容必演歳争談能位置流格疑過局放常状球職与供役構割費付由説難優夫収断石違消神番規術備宅害配警育席訪乗残想声念助労例然限追商葉伝働形景落好退頭負渡失差末守若種美命福望非観察段横深申様財港識呼達良候程満敗値突光路科積他処太客否師登易速存飛殺号単座破除完降責捕危給苦迎園具辞因馬愛富彼未舞亡冷適婦寄込顔類余王返妻背熱宿薬険頼覚船途許抜便留罪努精散静婚喜浮絶幸押倒等老曲払庭徒勤遅居雑招困欠更刻賛抱犯恐息遠戻願絵越欲痛笑互束似列探逃遊迷夢君閉緒折草暮酒悲晴掛到寝暗盗吸陽御歯忘雪吹娘誤洗慣礼窓昔貧怒泳祖杯疲皆鳴腹煙眠怖耳頂箱晩寒髪忙才靴恥偶偉猫幾党協総区領県設改府査委軍団各島革村勢減再税営比防補境導副算輸述線農州武象域額欧担準賞辺造被技低復移個門課脳極含蔵量型況針専谷史階管兵接細効丸湾録省旧橋岸周材戸央券編捜竹超並療採森競介根販歴将幅般貿講林装諸劇河航鉄児禁印逆換久短油暴輪占植清倍均億圧芸署伸停爆陸玉波帯延羽固則乱普測豊厚齢囲卒略承順岩練軽了庁城患層版令角絡損募裏仏績築貨混昇池血温季星永著誌庫刊像香坂底布寺宇巨震希触依籍汚枚複郵仲栄札板骨傾届巻燃跡包駐弱紹雇替預焼簡章臓律贈照薄群秒奥詰双刺純翌快片敬悩泉皮漁荒貯硬埋柱祭袋筆訓浴童宝封胸砂塩賢腕兆床毛緑尊祝柔殿濃液衣肩零幼荷泊黄甘臣浅掃雲掘捨軟沈凍乳恋紅郊腰炭踊冊勇械菜珍卵湖喫干虫刷湯溶鉱涙匹孫鋭枝塗軒毒叫拝氷乾棒祈拾粉糸綿汗銅湿瓶咲召缶隻脂蒸肌耕鈍泥隅灯辛磨麦姓筒鼻粒詞胃畳机膚濯塔沸灰菓帽枯涼舟貝符憎皿肯燥畜挟曇滴伺氏統保第結派案策基価提挙応企検藤沢裁証援施井護展態鮮視条幹独宮率衛張監環審義訴株姿閣衆評影松撃佐核整融製票渉響推請器士討攻崎督授催及憲離激摘系批郎健盟従修隊織拡故振弁就異献厳維浜遺塁邦素遣抗模雄益緊標宣昭廃伊江僚吉盛皇臨踏壊債興源儀創障継筋闘葬避司康善逮迫惑崩紀聴脱級博締救執房撤削密措志載陣我為抑幕染奈傷択秀徴弾償功拠秘拒刑塚致繰尾描鈴盤項喪伴養懸街契掲躍棄邸縮還属慮枠恵露沖緩節需射購揮充貢鹿却端賃獲郡併徹貴衝焦奪災浦析譲称納樹挑誘紛至宗促慎控智握宙俊銭渋銃操携診託撮誕侵括謝駆透津壁稲仮裂敏是排裕堅訳芝綱典賀扱顧弘看訟戒祉誉歓奏勧騒閥甲縄郷揺免既薦隣華範隠徳哲杉釈己妥威豪熊滞微隆症暫忠倉彦肝喚沿妙唱阿索誠襲懇俳柄驚麻李浩剤瀬趣陥斎貫仙慰序旬兼聖旨即柳舎偽較覇詳抵脅茂犠旗距雅飾網竜詩繁翼潟敵魅嫌斉敷擁圏酸罰滅礎腐脚潮梅尽僕桜滑孤炎賠句鋼頑鎖彩摩励縦輝蓄軸巡稼瞬砲噴誇祥牲秩帝宏唆阻泰賄撲堀菊絞縁唯膨矢耐塾漏慶猛芳懲剣棋丁恒揚冒之倫陳憶潜梨仁克岳概拘墓黙須偏雰遇諮狭卓亀糧簿炉牧殊殖艦輩穴奇慢鶴謀暖昌拍朗寛覆胞泣隔浄没暇肺貞靖鑑飼陰銘随烈尋稿丹啓也丘棟壌漫玄粘悟舗妊熟旭恩騰往豆遂狂岐陛緯培衰艇屈径淡抽披廷錦准暑磯奨浸剰胆繊駒虚霊帳悔諭惨虐翻墜沼据肥徐糖搭盾脈滝軌俵妨擦鯨荘諾雷漂懐勘栽拐駄添冠斜鏡聡浪亜覧詐壇勲魔酬紫曙紋卸奮欄逸涯拓眼獄尚彫穏顕巧矛垣欺釣萩粛栗愚嘉遭架鬼庶稚滋幻煮姫誓把践呈疎仰剛疾征砕謡嫁謙后嘆菌鎌巣頻琴班棚潔酷宰廊寂辰霞伏碁俗漠邪晶墨鎮洞履劣那殴娠奉憂朴亭淳怪鳩酔惜穫佳潤悼乏該赴桑桂髄虎盆晋穂壮堤飢傍疫累痴搬晃癒桐寸郭尿凶吐宴鷹賓虜陶鐘憾猪紘磁弥昆粗訂芽庄傘敦騎寧循忍怠如寮祐鵬鉛珠凝苗獣哀跳匠垂蛇澄縫僧眺亘呉凡憩媛溝恭刈睡錯伯笹穀陵霧魂弊妃舶餓窮掌麗綾臭悦刃縛暦宜盲粋辱毅轄猿弦稔窒炊洪摂飽冗桃狩朱渦紳枢碑鍛刀鼓裸猶塊旋弓幣膜扇腸槽慈楊伐駿漬糾亮墳坪紺娯椿舌羅峡俸厘峰圭醸蓮弔乙汁尼遍衡薫猟羊款閲偵喝敢胎酵憤豚遮扉硫赦窃泡瑞又慨紡恨肪扶戯伍忌濁奔斗蘭迅肖鉢朽殻享秦茅藩沙輔媒鶏禅嘱胴迭挿嵐椎絹陪剖譜郁悠淑帆暁傑楠笛玲奴錠拳翔遷拙侍尺峠篤肇渇叔雌亨堪叙酢吟逓嶺甚喬崇漆岬癖愉寅礁乃洲屯樺槙姻巌擬塀唇睦閑胡幽峻曹詠卑侮鋳抹尉槻隷禍蝶酪茎帥逝汽琢匿襟蛍蕉寡琉痢庸朋坑藍賊搾畔遼唄孔橘漱呂拷嬢苑巽杜渓翁廉謹瞳湧欣窯褒醜升殉煩巴禎劾堕租稜桟倭婿慕斐罷矯某囚魁虹鴻泌於赳漸蚊葵厄藻禄孟嫡尭嚇巳凸暢韻霜硝勅芹杏棺儒鳳馨慧愁楼彬匡眉欽薪褐賜嵯綜繕栓翠鮎榛凹艶惣蔦錬隼渚衷逐斥稀芙詔皐雛惟佑耀黛渥憧宵妄惇脩甫酌蚕嬉蒼暉頒只肢檀凱彗謄梓丑嗣叶汐絢朔伽畝抄爽黎惰蛮冴旺萌偲壱瑠允侯蒔鯉弧遥舜瑛附彪卯但綺芋茜凌皓洸毬婆緋鯛怜邑倣碧啄穣酉悌倹柚繭亦詢采紗賦眸玖弐錘諄倖痘笙侃裟洵爾耗昴銑莞伶碩宥滉晏伎朕迪綸且竣晨吏燦麿頌箇楓琳梧哉澪匁晟衿凪梢丙颯茄勺恕蕗瑚遵瞭燎虞柊侑謁斤嵩捺蓉茉袈燿誼冶栞墾勁菖旦椋叡紬胤凜亥爵脹麟莉汰瑶瑳耶椰絃丞璃奎塑昂柾熙菫諒鞠崚濫捷";
-
-    async function delay(ms: number) {
-      return new Promise(resolve => setTimeout(resolve,ms));
-    }
-
+    let importantKanji:string = kanjiList;
     let amountOfKanji = 0;
     let weeklyLength = 0;
     let weeklyChars: Array<string> = [];
@@ -41,7 +45,7 @@ Devvit.addSchedulerJob({
         //push the kanji to the array if its a new kanji
         weeklyChars.push(randomCharacter);
 
-        await context.redis.del(`todaysWords${amountOfKanji}`);
+        /* await context.redis.del(`todaysWords${amountOfKanji}`); */
 
         await delay(500);
 
@@ -53,15 +57,25 @@ Devvit.addSchedulerJob({
           continue;
         }
 
-        const dailyWords = JSON.stringify(words);
+        const kanjiArray: Array<string> = Object.keys(words);
 
-        await context.redis.set(`todaysWords${amountOfKanji}`, dailyWords);
+        // await context.redis.set('weeklyKanji', JSON.stringify(words));
 
-        const keysArrayLength: Array<string> = Object.keys(words).length;
+        const dailyWords: string = JSON.stringify(words);
+
+        // await context.redis.set(`todaysWords${amountOfKanji}`, dailyWords);
+
+        const keysArrayLength: number = Object.keys(words).length;
 
         const dailyMaxScore = JSON.stringify(Math.floor(Math.pow(keysArrayLength, (4/* Math.pow(correctlyGuessed / wordsArray.length, 3) + 3 */))));
 
-        await context.redis.set(`day${amountOfKanji}MaxScore`, dailyMaxScore); 
+        await Promise.all([
+          context.redis.set('weeklyKanji', JSON.stringify(words)),
+          context.redis.set(`todaysWords${amountOfKanji}`, dailyWords),
+          context.redis.set(`day${amountOfKanji}MaxScore`, dailyMaxScore),
+        ]);
+
+        // await context.redis.set(`day${amountOfKanji}MaxScore`, dailyMaxScore); 
 
         console.log(`stored words for day ${amountOfKanji} in Redis`, dailyWords);
 
@@ -102,17 +116,90 @@ Devvit.addSchedulerJob({
 	}
 });
 
-// Devvit.addSchedulerJob({
-//   name: "reset daily high scores",
-//   onRun: async (event, context) => {
-//     await context.redis.
-//   }
-// });
+Devvit.addSchedulerJob({
+  name: "resetDailyHighScores",
+  onRun: async (event, context) => {
+    await context.redis.del("dailyHighScores")
+
+    let scheduledDate: Date = new Date();
+    currentDay = scheduledDate.getUTCDay();
+    scheduledDate.setUTCDate(scheduledDate.getUTCDate + 1);
+    scheduledDate.setUTCHours(0, 0, 5, 0);
+    context.scheduler.runJob({
+      name: 'resetDailyHighScores',
+      runAt: scheduledDate,
+    });
+  }
+});
+
+
+Devvit.addSchedulerJob({
+  name: "readTopCommentWithKanji",
+  onRun: async(event, context) => {
+      try {
+        // Fetch comments using the postId
+        
+        const [comments, currentKanji] = await Promise.all([
+          context.reddit.getComments({postId: context.reddit.postId, depth: 1}), 
+          (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay],
+        ]);
+        
+        console.log(comments);
+
+        if (!comments || comments.length == 0) {
+          console.log("No comments found.");
+          return null;
+        }
+
+        /* const currentKanji = (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay]; */
+
+        // Sort comments by score in descending order to get the top one
+        const filteredComments = comments.filter(comment => comment.body.indexOf(currentKanji));
+        const commentsSortedByUpvotes = comments.sort((a, b) => b.score - a.score);
+        let topComment = commentsSortedByUpvotes[0];
+        let noViableSentence = true;
+
+        console.log('Top Comment:', topComment.body);
+        
+        let count = 0;
+
+        for(const comment of commentsSortedByUpvotes)
+          if(comment.body.indexOf(currentKanji) === -1){
+            topComment = comment;
+            noViableSentence = false;
+            break;
+          }
+
+        if(noViableSentence)
+          return "";
+        else{
+          const topCommentUser = topComment.authorName;
+          await context.redis.mSet({
+            "topComment": topComment,
+            "topCommentUser": topCommentUser,
+          });
+        }
+
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+
+    //check top comments every 5 minutes
+    let scheduledDate: Date = new Date();
+    const currentMinutes: number = scheduledDate.getUTCMinutes();
+    scheduledDate.setUTCMinutes(currentMinutes + 5);
+    context.scheduler.runJob({
+      name: "readTopCommentWithKanji",
+      runAt: scheduledDate,
+    });
+  }
+});
+
 /*
   Select new Kanji schedule
 */
 Devvit.addMenuItem({
-  label: "Get New Weekly Kanji",
+  label: "Get New Weekly Kanji/Initial Startup",
   location: "subreddit",
   forUserType: "moderator",
   onPress: async (event, context) => {
@@ -121,6 +208,16 @@ Devvit.addMenuItem({
 
     context.scheduler.runJob({
       name: 'getWeeklyKanji',
+      runAt: new Date(),
+    })
+
+    context.scheduler.runJob({
+      name: 'resetDailyHighScores',
+      runAt: new Date(),
+    })
+
+    context.scheduler.runJob({
+      name: "readTopCommentWithKanji",
       runAt: new Date(),
     })
 
@@ -155,9 +252,105 @@ Devvit.addCustomPostType({
 
     // const [day, setDay] = useState(new Date().getUTCDay());
 
-    const [username, setUsername] = useState(async () => {
+    //form
+    /*const myForm = useForm(
+      {
+        fields: [
+          {
+            type: 'string',
+            name: 'food',
+            label: 'What is your favorite food?',
+          },
+        ],
+      },
+      (context) => {
+        // onSubmit handler
+        context.ui.showToast({text: "submitted"});
+      }
+    );*/
+  const guessForm = useForm(
+  {
+    title: 'Guess the word',
+    description: "If you're right, you'll earn 1 point.",
+    acceptLabel: 'Submit Guess',
+    fields: [
+      {
+        type: 'string',
+        name: 'guess',
+        label: 'Word',
+        required: true,
+      },
+      {
+        type: 'boolean',
+        name: 'comment',
+        label: 'Leave a comment (optional)',
+        defaultValue: false,
+      },
+    ],
+  },
+  async (values) => {
+    console.log('Form submitted with values:', values);
+    // Add your form submission logic here
+  }
+);
+    
+    const [username] = useState(async () => {
       return await context.reddit.getCurrentUsername();
     });
+
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const [leaderboardData, setLeaderboardData] = useState(async () => {
+      try {
+        setIsRefreshing(true);
+        const [highScore, currRank, currLeaderboardLength, currLeaderboard] = await Promise.all([
+          context.redis.zScore("leaderboard", username),
+          context.redis.zRank("leaderboard", username),
+          context.redis.zCard("leaderboard"),
+          context.redis.zRange("leaderboard", 0, 9, { 
+            by: 'rank',
+            reverse: true,
+            withscores: true, 
+          })
+        ]);
+      
+        return {
+          highScore,
+          currRank,
+          currLeaderboardLength,
+          currLeaderboard,
+        };
+      } catch(error){
+        console.error("error when fetching leaderboard", error);
+      } finally {
+        delay(5000);
+        setIsRefreshing(false);
+      }
+    });
+
+    const refreshLeaderboardData = async() => {
+      try {
+        const [highScore, currRank, currLeaderboardLength, currLeaderboard] = await Promise.all([
+          context.redis.zScore("leaderboard", username),
+          context.redis.zRank("leaderboard", username),
+          context.redis.zCard("leaderboard"),
+          context.redis.zRange("leaderboard", 0, 9, { 
+            by: 'rank',
+            reverse: true,
+            withscores: true, 
+          })
+        ]);
+        
+        setLeaderboardData({
+          highScore,
+          currRank,
+          currLeaderboardLength,
+          currLeaderboard,
+        });
+      } catch (error) {
+        console.error("error when refreshing leaderboard", error);
+      }
+    };
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -165,6 +358,16 @@ Devvit.addCustomPostType({
       // Handle messages sent from the web view
       async onMessage(message, webView) {
         switch(message.type){
+          //show form
+          case 'showForm' :
+              await context.ui.showForm(guessForm);
+          break;
+         /* case 'getComments':
+            context.scheduler.runJob({
+              name: "readTopCommentWithKanji",
+              runAt: new Date(),
+            });
+            break;*/
         
           case 'fetchWords':
 
@@ -262,14 +465,12 @@ Devvit.addCustomPostType({
           //   break;
 
           case 'fetchLeaderboard':
-            const highScore = await context.redis.zScore("leaderboard", username);
-            console.log(`highScore: `, highScore);
-            const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
-            console.log(`currRank`, currRank);
-            const currLeaderboardLength = await context.redis.zCard("leaderboard");
-            console.log(currLeaderboardLength);
-            const currLeaderboard = await context.redis.zRange("leaderboard", currLeaderboardLength - 10, currLeaderboardLength - 1, {BY: 'SCORE', WITHSCORES: true});
-            console.log(currLeaderboard);
+            if (isRefreshing){
+              console.log("Please wait before refreshing again");
+              break;
+            }
+            await refreshLeaderboardData();
+            const {highScore, currRank, currLeaderboardLength, currLeaderboard} = leaderboardData;
             let updatedLeaderboard = null;
 
             try {
@@ -287,7 +488,7 @@ Devvit.addCustomPostType({
                   username: username,
                   score: highScore,
                 }
-                updatedLeaderboard = [newEntry,...leaderboardWithScores];
+                updatedLeaderboard = [...leaderboardWithScores,newEntry,];
               }
               else
               {
@@ -448,7 +649,7 @@ Devvit.addCustomPostType({
         <hstack height="10%" width="50%" alignment="top center">
           <button
            appearance='secondary' size="small"
-           onPress={() => webView.mount()}>
+           onPress={() => /*context.ui.showForm(guessForm)*/webView.mount()}>
               Play Game
             </button>
         </hstack>

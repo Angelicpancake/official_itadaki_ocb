@@ -3,6 +3,16 @@ import AppUtils from './apputils.js';
 import switchPage, {reset, end} from './home.js';
 import randomize from './rapid.js';
 /*
+  window.parent.postMessage(
+    {
+      type: 'showForm',
+    },
+    '*'
+  );
+*/
+
+
+/*
     backend of the daily words grabber
 */
 
@@ -106,6 +116,7 @@ let skip = function (){
   currWord.textContent = wordsArray[currIndex];
 }
 
+
 let endGame = function (){
   switchPage('end');
   let defs = "";
@@ -133,10 +144,12 @@ let endGame = function (){
   update(currIndex);
   randomize(wordsArray);
   currWord.textContent = wordsArray[currIndex];
-  //let value = document.getElementById("amtLeft");
-
-  
-  //value.textContent = (`${currIndex}/${wordsArray.length}` + `, Score: ${score}/${AppUtils.maxDaily}`);
+  window.parent.postMessage(
+    {
+      type: 'showForm',
+    },
+    '*'
+  );
   return;
 }
 
@@ -151,16 +164,21 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
+
+
+
 skipBtn.addEventListener('click', ()=> {
     //test();
     skip();
+ 
+    console.log('skip');
 });
 
 let update = function (currIndex){
   let value = document.getElementById("amtLeft");
   let correct = document.getElementById("amtCorrect");
-  let result = (`${currIndex}/${wordsArray.length}`);
-  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
+  let result = (`Total: ${currIndex}/${wordsArray.length}`);
+  let resultCorrect = (`Correct: ${correctlyGuessed}/${wordsArray.length}`);
 
   value.textContent = result;
   correct.textContent = resultCorrect;
