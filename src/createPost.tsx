@@ -2,7 +2,7 @@ import { Devvit } from '@devvit/public-api';
 
 // TODO: Migrate these two posts to be automatic every day
 Devvit.addMenuItem({
-  label: "3/28",
+  label: "Create New Itadaki Post",
   forUserType: 'moderator',
   location: 'subreddit',
   onPress: async (_event, context) => {

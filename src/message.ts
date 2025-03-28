@@ -10,6 +10,7 @@ export type DevvitMessage =
 export type WebViewMessage =
   | { type: "fetchLeaderboard",}
   | { type: "fetchWords"}
+  | { type: "showForm"}
   | { type: "page", data: { newPage: string } }
   | { type: "initialDataRequested" }
   | { type: "removeBoardEntry"}

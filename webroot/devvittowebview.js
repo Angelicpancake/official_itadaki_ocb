@@ -27,32 +27,32 @@ export default function handleDevvitMessage(ev) {
 
         AppUtils.leaderboard.replaceChildren();
 
-        for(let i = message.data.leaderboard.length - 1; i >= 0 && i >= message.data.leaderboard.length - 10; i--)
+        for(let i = 0/*  message.data.leaderboard.length - 1 */; /* i >= 0 &&  */i < 10; i++)
         {
           let boardEntry = document.createElement('li');
           let entryName = message.data.leaderboard[i].username;
           let entryScore = message.data.leaderboard[i].score;
           
-          if(i === message.data.leaderboard.length - 1){
-           boardEntry.textContent = `🥇${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+          if(i === 0/* message.data.leaderboard.length - 1 */){
+           boardEntry.textContent = `🥇${i + 1}. ${entryName}: ${entryScore}`;
            boardEntry.style.fontSize = "22px";
            boardEntry.style.marginBottom= "5px";
            boardEntry.style.color = "#FF9E42";
           }
-          else if(i === message.data.leaderboard.length - 2){
-            boardEntry.textContent = `🥈${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+          else if(i === 1/* message.data.leaderboard.length - 2 */){
+            boardEntry.textContent = `🥈${i + 1}. ${entryName}: ${entryScore}`;
             boardEntry.style.fontSize = "22px";
             boardEntry.style.marginBottom = "5px";
             boardEntry.style.color = "#FF9E42";
           }
-          else if(i === message.data.leaderboard.length - 3){
-            boardEntry.textContent = `🥉${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+          else if(i === 2){
+            boardEntry.textContent = `🥉${i + 1}. ${entryName}: ${entryScore}`;
             boardEntry.style.fontSize = "22px";
             boardEntry.style.marginBottom = "5px";
             boardEntry.style.color = "#FF9E42";
           }
           else{
-            boardEntry.textContent = `🍜 ${message.data.leaderboard.length - i}. ${entryName}: ${entryScore}`;
+            boardEntry.textContent = `🍜 ${i + 1}. ${entryName}: ${entryScore}`;
             boardEntry.style.fontSize = "20px";
             boardEntry.style.marginBottom = "3px";
           }
@@ -62,8 +62,8 @@ export default function handleDevvitMessage(ev) {
         if(message.data.leaderboard.length > 10){
           let boardEntry = document.createElement('li');
           let entryRank = message.data.rank;
-          let entryName = message.data.leaderboard[0].username;
-          let entryScore = message.data.leaderboard[0].score;
+          let entryName = message.data.leaderboard[10].username;
+          let entryScore = message.data.leaderboard[10].score;
           boardEntry.textContent = `🐦‍🔥 ${entryRank}. ${entryName}: ${entryScore}`;
           boardEntry.value = entryRank;
           boardEntry.style.color = "#C9534F";

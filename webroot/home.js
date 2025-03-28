@@ -105,7 +105,7 @@ const endBtn = /** @type {HTMLButtonElement} */ (
 //
 testRemoveAllEntryBtn.addEventListener('click', () => {
   console.log("entries removed");
-  postWebViewMessage({type: "removeBoardEntry"});
+  postWebViewMessage({type: "getComments"});
 });
 
 testAddOneEntryBtn.addEventListener('click', () => {
@@ -122,7 +122,10 @@ testAddOneEntryBtn.addEventListener('click', () => {
   { score: 7, member: "username7", gameType: "daily" },
   { score: 8, member: "username8", gameType: "daily" },
   { score: 9, member: "username9", gameType: "daily" },
-  { score: 10, member: "username10", gameType: "daily" }
+  { score: 10, member: "username10", gameType: "daily" },
+  { score: 80, member: "username80", gameType: "daily" },
+  { score: 90, member: "username90", gameType: "daily" },
+  { score: 100, member: "username100", gameType: "daily" },
 ]});
 });
 
@@ -176,7 +179,7 @@ howtoBtn.addEventListener('click', ()=> {
     switchPage('home');
 });
 endBtn.addEventListener('click', ()=> {
-    console.log('endBtn');
+
     switchPage('home')
 });
 

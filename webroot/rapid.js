@@ -41,6 +41,10 @@ const guess = (
   document.querySelector('#guessBtnRapid')
 );
 
+const bonusBtnRapid = (
+  document.querySelector('#sentence')
+);
+
 let currIndex = 0;
 let guessContent = "";
 let words = null;
@@ -179,6 +183,7 @@ let update = function (currIndex){
 
   value.textContent = result;
   correct.textContent = resultCorrect;
+  correct.style.color =  "#C9534F";
   textarea.value = "";
 
 
@@ -186,6 +191,17 @@ let update = function (currIndex){
   void currWord.offsetWidth; // This triggers reflow to reset the animation
   currWord.classList.add('animation2');
 }
+
+
+bonusBtnRapid.addEventListener('click', ()=> {
+  window.parent.postMessage(
+     {
+       type: 'showForm',
+     },
+     '*'
+   ); 
+ });
+
 /*
 function updateRapid(currIndexRapid){
     let valueRapid = document.getElementById("amtLeftRapid");

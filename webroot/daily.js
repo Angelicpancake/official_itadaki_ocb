@@ -3,6 +3,16 @@ import AppUtils from './apputils.js';
 import switchPage, {reset, end} from './home.js';
 import randomize from './rapid.js';
 /*
+  window.parent.postMessage(
+    {
+      type: 'showForm',
+    },
+    '*'
+  );
+*/
+
+
+/*
     backend of the daily words grabber
 */
 
@@ -11,6 +21,10 @@ import randomize from './rapid.js';
 /*
     buttons
 */
+
+const endBtn = (
+  document.querySelector('#endBtn')
+);
 const endScoreText = (
   document.querySelector('#score')
 );
@@ -34,6 +48,11 @@ const textarea = (
 const guess = (
   document.querySelector('#guessBtn')
 );
+
+const bonusBtn = (
+  document.querySelector('#sentence')
+);
+
 
 let currIndex = 0;
 let guessContent = "";
@@ -106,6 +125,7 @@ let skip = function (){
   currWord.textContent = wordsArray[currIndex];
 }
 
+
 let endGame = function (){
   switchPage('end');
   let defs = "";
@@ -115,12 +135,15 @@ let endGame = function (){
   });
 
   definitions.textContent = defs;
-  //score formula = (number correctly guessed) ^ ((accuracy^3) + 1);
-  score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3))); 
+  //score formula = (number correctly guessed) ^ ((accuracy^3) + 4);
+  score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 4))); 
 
   endScoreText.textContent = `Score: ${score}`;
   endScoreText.textContent = "";
   endScoreText.textContent = `Score: ${score}/${AppUtils.maxDaily}`;
+  console.log(`Score: ${score}/${AppUtils.maxDaily}`);
+ /* let tt = document.getElementById('#congrats');
+  tt.textContent += `Score: ${score}/${AppUtils.maxDaily}`;*/
 
   end(wordsArray.length, correctlyGuessed, score, "daily");
   currIndex = 0;
@@ -130,12 +153,10 @@ let endGame = function (){
   update(currIndex);
   randomize(wordsArray);
   currWord.textContent = wordsArray[currIndex];
+
   return;
 }
 
-guess.addEventListener('click', ()=> {
-    guessed();
-});
 
 textarea.addEventListener('keydown', (event) => {
   if (event.key==="Enter"){
@@ -144,9 +165,23 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
+bonusBtn.addEventListener('click', ()=> {
+  window.parent.postMessage(
+     {
+       type: 'showForm',
+     },
+     '*'
+   ); 
+ });
+
+
+
+
 skipBtn.addEventListener('click', ()=> {
     //test();
     skip();
+ 
+    console.log('skip');
 });
 
 let update = function (currIndex){
@@ -157,6 +192,7 @@ let update = function (currIndex){
 
   value.textContent = result;
   correct.textContent = resultCorrect;
+  correct.style.color =  "#C9534F";
   textarea.value = "";
 
   currWord.classList.remove('animation');
