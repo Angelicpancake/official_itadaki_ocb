@@ -11,6 +11,9 @@ export default function handleDevvitMessage(ev) {
       case "dailyText":
         AppUtils.wordOfTheDay.textContent = message.data.text;
         break;
+      case "topComment":
+        AppUtils.topCommentText.innerHTML = `${message.data.text}`;
+        break;
       case "updateWords":
         // console.log(message.data.words);
         AppUtils.words = message.data.words;

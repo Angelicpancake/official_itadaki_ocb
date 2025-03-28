@@ -117,11 +117,19 @@ Devvit.addSchedulerJob({
 Devvit.addSchedulerJob({
   name: "resetDailyHighScores",
   onRun: async (event, context) => {
-    await context.redis.del("dailyHighScores")
+    const topCommentUser = await context.redis.get("topCommentUser");
+    const [topCommentUserScore] = await Promise.all([
+      context.redis.zScore("leaderboard", topCommentUser),
+      context.redis.del("dailyHighScores"),
+      context.redis.del("topComment"),
+      context.redis.del("topCommentUser"),
+    ]);
 
+    await context.redis.zAdd("leaderboard", {member: topCommentUser, score: topCommentUserScore + 200000});
+    
     let scheduledDate: Date = new Date();
     scheduledDate.setUTCDate(scheduledDate.getUTCDate() + 1);
-    scheduledDate.setUTCHours(0, 0, 5, 0);
+    scheduledDate.setUTCHours(0, 0, 0, 0);
     await context.scheduler.runJob({
       name: 'resetDailyHighScores',
       runAt: scheduledDate,
@@ -156,7 +164,7 @@ Devvit.addSchedulerJob({
         // Sort comments by score in descending order to get the top one
         const filteredComments = commentsArray.filter(comment => comment.body.includes(currentKanji));
 
-        console.log(filteredComments);
+        // console.log(filteredComments);
         
         if(filteredComments === null || filteredComments.length === 0)
         {
@@ -166,14 +174,17 @@ Devvit.addSchedulerJob({
         // console.log("First comment body:", filteredComments[0].body);
 
         const commentsSortedByUpvotes = filteredComments.sort((a, b) => b.score - a.score);
-        let topComment = commentsSortedByUpvotes[0];
 
-        // console.log('Top Comment:', topComment.body);
-        
-        const topCommentUser = topComment.authorName;
+        const topCommentUnclean = commentsSortedByUpvotes[0];
+        const topComment = topCommentUnclean.body.replace(/^#\s+/, '');
+        const topCommentUser = topCommentUnclean.authorName;
+
+        console.log('Top Comment Unclean:', topCommentUnclean.body);
+        console.log('Top Comment:', topComment);
+        console.log('Top Comment Author:', topCommentUser);
         await context.redis.mSet({
-          "topComment": topComment.body,
-          "topCommentUser": topCommentUser,
+          "topComment": `"${topComment}"`,
+          "topCommentUser": `User: ${topCommentUser}`,
         });
 
       } catch (error) {
@@ -204,17 +215,17 @@ Devvit.addMenuItem({
     const location = event.location;
     const targetId = event.targetId;
 
-    context.scheduler.runJob({
+    await context.scheduler.runJob({
       name: 'getWeeklyKanji',
       runAt: new Date(),
     });
 
-    context.scheduler.runJob({
+    await context.scheduler.runJob({
       name: 'resetDailyHighScores',
       runAt: new Date(),
     });
 
-    context.scheduler.runJob({
+    await context.scheduler.runJob({
       name: "readTopCommentWithKanji",
       runAt: new Date(),
       data: {postId: context.postId},
@@ -362,15 +373,17 @@ Devvit.addCustomPostType({
       async onMessage(message, webView) {
         switch(message.type){
           //show form
-          case 'showForm' :
+          case 'showForm':
               await context.ui.showForm(guessForm);
-          break;
-         /* case 'getComments':
-            context.scheduler.runJob({
+            break;
+
+          case 'getComments':
+            await context.scheduler.runJob({
               name: "readTopCommentWithKanji",
               runAt: new Date(),
+              data: {postId: context.postId},
             });
-            break;*/
+            break
         
           case 'fetchWords':
 
@@ -441,6 +454,19 @@ Devvit.addCustomPostType({
               type: "dailyText",
               data: {text: `Today's Kanji: ${Object.keys(parsedData)[0]} - "${parsedData[Object.keys(parsedData)[0]][0]}"`},
             })
+
+            let [topComment, topCommentUser] = await context.redis.mGet(["topComment", "topCommentUser"]);
+
+            if(topComment === null || topComment === undefined)
+            {
+              topComment = "No Top Comment With Kanji Currently!";
+              topCommentUser = "";
+            }
+
+            webView.postMessage({
+              type: "topComment",
+              data: {text: `${topComment} <br> ${topCommentUser}`},
+            });
 
             webView.postMessage({
               type: "updateWords",
@@ -521,13 +547,16 @@ Devvit.addCustomPostType({
                 if(message.data[i].gameType == "rapid")
                 {
                   oldScore = await context.redis.zScore("weeklyHighScores", currentUser);
+
+                  console.log(oldScore);
+
                   if(oldScore == undefined || oldScore == null)
                     oldScore = 0;
 
                   // console.log("oldScore: ", oldScore);
 
                   if(newScore > oldScore){
-                    await context.redis.zAdd("weeklyHighScores", [{value: currentUser, score: newScore}]);
+                    await context.redis.zAdd("weeklyHighScores", {member: currentUser, score: newScore});
                     console.log("score updated", newScore);
                   }
                     
@@ -540,14 +569,15 @@ Devvit.addCustomPostType({
                 else if (message.data[i].gameType == "daily")
                 {
                   oldScore = await context.redis.zScore(`dailyHighScores`, currentUser);
+                  console.log(oldScore);
                   if(oldScore == undefined || oldScore == null)
                     oldScore = 0;
 
                   // console.log("oldScore: ", oldScore);
 
                   if(newScore > oldScore){
-                    await context.redis.zAdd("dailyHighScores", [{value: currentUser, score: newScore}]);
-                    // console.log("score updated", newScore);
+                    await context.redis.zAdd("dailyHighScores", {member: currentUser, score: newScore});
+                    console.log("score updated", newScore);
                   }
                   else
                     // console.log("score not updated", newScore);
