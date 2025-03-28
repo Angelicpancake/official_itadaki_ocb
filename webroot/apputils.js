@@ -5,6 +5,7 @@ const AppUtils = {
   currentUsername: null,
   leaderboard: document.getElementById("leaderboard"),
   wordOfTheDay: document.getElementById("wordOfDay"),
+  topCommentText: document.querySelector(".sentence"),
   words: null,
   weekly: null,
   maxDaily: null,
