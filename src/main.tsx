@@ -269,21 +269,15 @@ Devvit.addCustomPostType({
     );*/
   const guessForm = useForm(
   {
-    title: 'Guess the word',
-    description: "If you're right, you'll earn 1 point.",
+    title: 'Enter a Sentence',
+    description: "Must contain the daily kanji, you'll earn 5 point.",
     acceptLabel: 'Submit Guess',
     fields: [
       {
         type: 'string',
         name: 'guess',
-        label: 'Word',
+        label: 'Sentence',
         required: true,
-      },
-      {
-        type: 'boolean',
-        name: 'comment',
-        label: 'Leave a comment (optional)',
-        defaultValue: false,
       },
     ],
   },

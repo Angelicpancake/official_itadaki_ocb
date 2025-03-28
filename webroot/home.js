@@ -179,7 +179,7 @@ howtoBtn.addEventListener('click', ()=> {
     switchPage('home');
 });
 endBtn.addEventListener('click', ()=> {
-    console.log('endBtn');
+
     switchPage('home')
 });
 

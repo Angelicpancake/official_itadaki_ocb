@@ -21,6 +21,10 @@ import randomize from './rapid.js';
 /*
     buttons
 */
+
+const endBtn = (
+  document.querySelector('#endBtn')
+);
 const endScoreText = (
   document.querySelector('#score')
 );
@@ -44,6 +48,11 @@ const textarea = (
 const guess = (
   document.querySelector('#guessBtn')
 );
+
+const bonusBtn = (
+  document.querySelector('#sentence')
+);
+
 
 let currIndex = 0;
 let guessContent = "";
@@ -144,18 +153,10 @@ let endGame = function (){
   update(currIndex);
   randomize(wordsArray);
   currWord.textContent = wordsArray[currIndex];
-  window.parent.postMessage(
-    {
-      type: 'showForm',
-    },
-    '*'
-  );
+
   return;
 }
 
-guess.addEventListener('click', ()=> {
-    guessed();
-});
 
 textarea.addEventListener('keydown', (event) => {
   if (event.key==="Enter"){
@@ -163,6 +164,15 @@ textarea.addEventListener('keydown', (event) => {
     guessed();
   }
 });
+
+bonusBtn.addEventListener('click', ()=> {
+  window.parent.postMessage(
+     {
+       type: 'showForm',
+     },
+     '*'
+   ); 
+ });
 
 
 
@@ -177,11 +187,12 @@ skipBtn.addEventListener('click', ()=> {
 let update = function (currIndex){
   let value = document.getElementById("amtLeft");
   let correct = document.getElementById("amtCorrect");
-  let result = (`Total: ${currIndex}/${wordsArray.length}`);
-  let resultCorrect = (`Correct: ${correctlyGuessed}/${wordsArray.length}`);
+  let result = (`${currIndex}/${wordsArray.length}`);
+  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
 
   value.textContent = result;
   correct.textContent = resultCorrect;
+  correct.style.color =  "#C9534F";
   textarea.value = "";
 
   currWord.classList.remove('animation');
