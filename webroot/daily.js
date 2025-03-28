@@ -121,6 +121,9 @@ let endGame = function (){
   endScoreText.textContent = `Score: ${score}`;
   endScoreText.textContent = "";
   endScoreText.textContent = `Score: ${score}/${AppUtils.maxDaily}`;
+  console.log(`Score: ${score}/${AppUtils.maxDaily}`);
+ /* let tt = document.getElementById('#congrats');
+  tt.textContent += `Score: ${score}/${AppUtils.maxDaily}`;*/
 
   end(wordsArray.length, correctlyGuessed, score, "daily");
   currIndex = 0;
@@ -130,6 +133,10 @@ let endGame = function (){
   update(currIndex);
   randomize(wordsArray);
   currWord.textContent = wordsArray[currIndex];
+  //let value = document.getElementById("amtLeft");
+
+  
+  //value.textContent = (`${currIndex}/${wordsArray.length}` + `, Score: ${score}/${AppUtils.maxDaily}`);
   return;
 }
 

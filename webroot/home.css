@@ -607,9 +607,24 @@
         display: flex;
         justify-content: center;
         text-align: center;
-        margin-top: -10px;
+        margin-top: 0px;
         font-size: 22px;
         color:white;
+    }
+    .spacerspacer {
+        margin-top: 20px;
+    }
+    .score {
+        
+        font-family: "Inter";
+        font-weight: 400;
+        font-style: normal;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+   
+        font-size: 20px;
+        color: #C9534F;
     }
     .results {
         display: flex;
