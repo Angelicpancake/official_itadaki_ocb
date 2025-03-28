@@ -105,7 +105,7 @@ const endBtn = /** @type {HTMLButtonElement} */ (
 //
 testRemoveAllEntryBtn.addEventListener('click', () => {
   console.log("entries removed");
-  postWebViewMessage({type: "removeBoardEntry"});
+  postWebViewMessage({type: "getComments"});
 });
 
 testAddOneEntryBtn.addEventListener('click', () => {

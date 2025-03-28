@@ -1,5 +1,5 @@
 import './createPost.js';
-import { Devvit, RedisClient, useState, useWebView } from '@devvit/public-api';
+import { Devvit, RedisClient, useState, useWebView, useAsync } from '@devvit/public-api';
 import type { DevvitMessage, WebViewMessage } from './message.js';
 import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
 import RedisUtil from './util/redisUtil.js';
@@ -21,7 +21,7 @@ Devvit.configure({
 let currentDay = (new Date()).getUTCDay();
 
 async function delay(ms: number) {
-      return new Promise(resolve => setTimeout(resolve,ms));
+  return new Promise(resolve => setTimeout(resolve,ms));
 }
 
 Devvit.addSchedulerJob({
@@ -44,7 +44,7 @@ Devvit.addSchedulerJob({
         //push the kanji to the array if its a new kanji
         weeklyChars.push(randomCharacter);
 
-        await context.redis.del(`todaysWords${amountOfKanji}`);
+        /* await context.redis.del(`todaysWords${amountOfKanji}`); */
 
         await delay(500);
 
@@ -58,17 +58,23 @@ Devvit.addSchedulerJob({
 
         const kanjiArray: Array<string> = Object.keys(words);
 
-        await context.redis.set('weeklyKanji', JSON.stringify(words));
+        // await context.redis.set('weeklyKanji', JSON.stringify(words));
 
-        const dailyWords = JSON.stringify(words);
+        const dailyWords: string = JSON.stringify(words);
 
-        await context.redis.set(`todaysWords${amountOfKanji}`, dailyWords);
+        // await context.redis.set(`todaysWords${amountOfKanji}`, dailyWords);
 
-        const keysArrayLength: Array<string> = Object.keys(words).length;
+        const keysArrayLength: number = Object.keys(words).length;
 
         const dailyMaxScore = JSON.stringify(Math.floor(Math.pow(keysArrayLength, (4/* Math.pow(correctlyGuessed / wordsArray.length, 3) + 3 */))));
 
-        await context.redis.set(`day${amountOfKanji}MaxScore`, dailyMaxScore); 
+        await Promise.all([
+          context.redis.set('weeklyKanji', JSON.stringify(words)),
+          context.redis.set(`todaysWords${amountOfKanji}`, dailyWords),
+          context.redis.set(`day${amountOfKanji}MaxScore`, dailyMaxScore),
+        ]);
+
+        // await context.redis.set(`day${amountOfKanji}MaxScore`, dailyMaxScore); 
 
         console.log(`stored words for day ${amountOfKanji} in Redis`, dailyWords);
 
@@ -125,35 +131,39 @@ Devvit.addSchedulerJob({
   }
 });
 
+
 Devvit.addSchedulerJob({
   name: "readTopCommentWithKanji",
   onRun: async(event, context) => {
       try {
         // Fetch comments using the postId
         
-        const comments = await context.reddit.getComments({postId: context.reddit.postId, depth: 1});
-
+        const [comments, currentKanji] = await Promise.all([
+          context.reddit.getComments({postId: context.reddit.postId, depth: 1}), 
+          (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay],
+        ]);
+        
         console.log(comments);
 
-        if (!comments || comments.length === 0) {
+        if (!comments || comments.length == 0) {
           console.log("No comments found.");
           return null;
         }
 
+        /* const currentKanji = (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay]; */
+
         // Sort comments by score in descending order to get the top one
-        const filteredComments = comments.filer(comment => comment.body.indexOf(currentKanji));
+        const filteredComments = comments.filter(comment => comment.body.indexOf(currentKanji));
         const commentsSortedByUpvotes = comments.sort((a, b) => b.score - a.score);
         let topComment = commentsSortedByUpvotes[0];
         let noViableSentence = true;
 
         console.log('Top Comment:', topComment.body);
-
-        const currentKanji = JSON.parse(await context.redis.get("weeklyKanji"))[currentDay];
-
+        
         let count = 0;
 
-        for(const comment of commentSortedByUpvotes)
-          if(comment.indexOf(currentKanji) === -1){
+        for(const comment of commentsSortedByUpvotes)
+          if(comment.body.indexOf(currentKanji) === -1){
             topComment = comment;
             noViableSentence = false;
             break;
@@ -305,6 +315,11 @@ Devvit.addCustomPostType({
       // Handle messages sent from the web view
       async onMessage(message, webView) {
         switch(message.type){
+          case 'getComments':
+            context.scheduler.runJob({
+              name: "readTopCommentWithKanji",
+              runAt: new Date(),
+            });
         
           case 'fetchWords':
 
