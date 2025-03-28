@@ -55,7 +55,7 @@
           opacity: 0;
         }
         50% {
-          transform: scale(1.05);
+          transform: scale(1.1);
           opacity: 1;
         }
         100% {
@@ -161,15 +161,20 @@
         align-items: center;
         gap: 20px;
     }
+    
+    .dailyBtn {
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
 
-    .skipBtn, .guessBtn {
+    .skipBtn, .guessBtn{
         height: 60px;
+      /*  transition: transform 0.3s ease, filter 0.3s ease;*/
         margin: 0 auto;
     }
 
-    .dailyBtn:hover{
-        transform: scale(1.05);
-    }
+   /* .skipBtn:hover, .guessBtn:hover, .dailyBtn:hover{
+        transform: scale(1.2);
+    }*/
     
     @keyframes bounceIn {
         0% {
@@ -192,7 +197,7 @@
         border-radius: 15px;
         width: 290px;
         padding: 10px;
-        height: 40px;
+        height: 38x;
         text-align:center;
         color: white;
         background-color: #4C4D5B;
@@ -216,11 +221,11 @@
     }
 
     .spacer2-daily {
-        height: 100px;
+        height: 80px;
     }
 
     .spacer3-daily {
-        height: 150px;
+        height: 100px;
     }
 
     .content-daily {
@@ -231,17 +236,20 @@
     .daily-logo {
       height: 35px;
       padding-left: 25px;
+      margin-left: 20px;
     }
 
     .amtLeft {
         display: inline-block;
         margin: 0;
         margin-right: 100px;
+        margin-left: 30px;
         color: white;
         
     }
 
     .dailyBtn {
+        margin-left: 25px;
         margin-right: 115px;
         padding-left: 6px;
         height: 35px
@@ -267,7 +275,7 @@
         }
 
         60% {
-          transform: scale(1.05);
+          transform: scale(1.1);
           opacity: 1;
         }
         100% {
@@ -280,6 +288,7 @@
     rapid
 */
 .rapid {
+   
     font-family: "Inter";
     font-weight: 400;
     font-style: normal;
@@ -288,12 +297,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
+        
     }
+
 
     .rapidLogo {
       height: 35px;
       padding-left: 25px;
+      margin-left: 7px;
     }
 
     @keyframes bounceIn {
@@ -302,7 +313,7 @@
           opacity: 0;
         }
         50% {
-          transform: scale(1.05);
+          transform: scale(1.1);
           opacity: 1;
         }
         100% {
@@ -313,11 +324,13 @@
 
     .skipBtnRapid, .guessBtnRapid{
         height: 60px;
+        /*transition: transform 0.3s ease, filter 0.3s ease;*/
         margin: 0 auto;
+
     }
 
-    .skipBtnRapid:hover, .guessBtnRapid:hover, .rapidBtn:hover{
-        transform: scale(1.05);
+    .rapidBtn {
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .textarea-rapid {
@@ -327,7 +340,7 @@
         border-radius: 15px;
         width: 290px;
         padding: 10px;
-        height: 40px;
+        height: 35px;
         text-align: center;
         color: white;
         background-color: #4C4D5B;
@@ -366,10 +379,12 @@
         display: inline-block;
         margin: 0;
         margin-right: 100px;
+        margin-left: 30px;
         color: white;
     }
 
     .rapidBtn {
+        margin-left: 25px;
         margin-right: 115px;
         padding-left: 6px;
         height: 35px;
@@ -381,7 +396,7 @@
     }
     
     .animation2 {
-        animation: bounceIn 1s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
     }
 
 
@@ -392,7 +407,7 @@
         }
 
         60% {
-          transform: scale(1.05);
+          transform: scale(1.1);
           opacity: 1;
         }
         100% {
@@ -427,7 +442,7 @@
           opacity: 0;
         }
         50% {
-          transform: scale(1.05);
+          transform: scale(1.1);
           opacity: 1;
         }
         100% {
@@ -438,23 +453,25 @@
     .howtoLogo {
         height: 30px;
         margin-right: 160px;
-        animation: bounceIn 1s ease-out forwards;
+        animation: bounceIn 0.6s ease-out forwards;
     }
     
     .how-tobtn {
         height: 30px;
         margin-right: 90px;
+        animation: bounceIn 0.6s ease-out forwards;
     }
 
     .content-howto {
-        animation: zoomIn 1s ease-out forwards !important;
+        animation: zoomIn 0.7s ease-out forwards !important;
     }
 
     .howtoinfo {
         height: 400px;
         margin-left: 50px;
-    }
 
+
+    }
     @keyframes zoomIn {
         from {
           transform: scale(0.5);
@@ -478,6 +495,61 @@
         margin-top: 200px;
         position: relative;
     }
+
+    .howtoBtn {
+        position: absolute;
+        width: 250px;
+        height: auto;
+        margin-left: -122px;
+        -webkit-transition: 0s all;   
+        -moz-transition: 0s all;   
+        -ms-transition: 0s all;   
+        -o-transition: 0s all;   
+        transition: 0s all;  
+    }
+
+    /* This mess of code essentially just hides the top button when hovering and unhides the bottom button, then
+    vice versa when not hovering. The top button is the unhighlighted version, while the bottom button is the
+    highlighted one (saved as return_hover.png in webroot/assets). */
+    /* The many different versions of "transition-delay" are for 
+    browser compatability. */
+    #howtoBtn_highlight {
+        visibility: hidden;
+        margin-left: -127px;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #howtoBtn:hover {
+        visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #howtoBtn:hover ~ #howtoBtn_highlight {
+        visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #howtoBtn_highlight:hover {
+        visibility: visible;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    } #howtoBtn_highlight:hover ~ #howtoBtn {
+        visibility: hidden;
+        transition-delay: 50ms;
+        -o-transition-delay: 50ms; 
+        -ms-transition-delay: 50ms; 
+        -moz-transition-delay: 50ms; 
+        -webkit-transition-delay: 50ms; 
+    }
 }
 
 /* 
@@ -492,10 +564,26 @@
     .title-congrats {
         display: flex;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 10px;
         font-size: 30px;
-        color: white;
+        color: #C9534F;
+        animation: bounceIn 0.6s ease-out forwards;
     }
+    @keyframes bounceIn {
+        0% {
+          transform: scale(0.1);
+          opacity: 0;
+        }
+
+        60% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          font-size: xx-large;
+        }
+      }
     .content-congrats {
         display: flex;
         justify-content: center;
@@ -510,16 +598,24 @@
         margin-top: 20px;
         font-size: 30px;
         color:var(--results-color);
+        color: #C9534F;
+        font-family: "Inter";
+        font-weight: 400;
+        font-style: normal;
+        animation: bounceIn 0.6s ease-out forwards;
     }
 
     .definitions {
+        font-family: "Inter";
+        font-weight: 400;
+        font-style: normal;
         position: absolute;
         height:100px;
         left: 50%;
         margin-right: -50%;
         transform: translate(-50%, 10px);
-        border: grey;
-        border-width: 2px;
+        border: #2c2d3b;
+        border-width: 5px;
         border-style: solid;
 
         width:400px;
@@ -530,16 +626,16 @@
         overflow-y: scroll;
         scrollbar-width: thin;
         scrollbar-color: #4C4D5B;
-        background-color: #C9534F;
-        color:white;
-        text-align: center;
+        background-color: #333445;
+        color: white;
+        text-align: left;
         white-space: pre-line;
     }
 
     .return-end {
         display: flex;
         justify-content: center;
-        margin-top: 230px;
+        margin-top: 240px;
         position: relative;
     }
 
@@ -612,11 +708,11 @@
 }
 @keyframes bounceIn {
     0% {
-      transform: scale(0.4);
+      transform: scale(0.3);
       opacity: 0;
     }
     50% {
-      transform: scale(1.05);
+      transform: scale(1.1);
       opacity: 1;
     }
     100% {
@@ -633,7 +729,7 @@
     font-size: 25px;
 /*    animation: popIn 1s ease-out forwards;
     animation: fadeIn 1s ease-in-out forwards;*/
-    animation: bounceIn 1s ease-out forwards;
+    animation: bounceIn 0.6s ease-out forwards;
 }
 
 /*@keyframes bounce {
@@ -678,7 +774,7 @@
     display: flex;
     height: 85px;
     margin-right: 45px;
-    animation: bounceIn 1s ease-out forwards;
+    animation: bounceIn 0.6s ease-out forwards;
 }
 
 .options {
@@ -708,7 +804,7 @@
     /* animation*/
     opacity: 0;
     transform: scale(0.5);
-    animation: popUp 1s ease-in forwards;
+    animation: popUp 0.8s ease-in forwards;
     
  
 }
@@ -724,7 +820,7 @@
     }
     80% {
         opacity: 0.7;
-        transform: scale(1.05);
+        transform: scale(1.1);
     }
     100% {
         opacity: 1;
