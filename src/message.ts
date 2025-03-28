@@ -10,11 +10,10 @@ export type DevvitMessage =
 export type WebViewMessage =
   | { type: "fetchLeaderboard",}
   | { type: "fetchWords"}
-  | { type: "fetchWords2"}
   | { type: "page", data: { newPage: string } }
   | { type: "initialDataRequested" }
   | { type: "removeBoardEntry"}
-  | { type: "addBoardEntry", data: Array<{score: number, member: string}>}
+  | { type: "addBoardEntry", data: Array<{score: number, member: string, gameType: string}>}
 /*Web view MessageEvent listener data type. The Devvit API wraps all messages
 from Blocks to the web view.*/
 export type DevvitSystemMessage = {

@@ -11,6 +11,10 @@ import randomize from './rapid.js';
 /*
     buttons
 */
+const endScoreText = (
+  document.querySelector('#score')
+);
+
 const currWord = (
   document.querySelector('#currWord')
 );
@@ -43,7 +47,7 @@ let score = 0;
 export async function waitForWordsDaily() {
     // Wait until AppUtils.words is initialized
     while (!AppUtils.words) {
-        await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
+        await new Promise(resolve => setTimeout(resolve, 500));  // Wait 500ms and retry
     }
 
     // Once AppUtils.words is initialized, run the following code
@@ -70,6 +74,7 @@ let guessed = function (){
   console.log('guessed daily');
   guessContent = (textarea.value).toLowerCase();
   guesses++;
+
   if(words[wordsArray[currIndex]].includes(guessContent))
   {
     ++correctlyGuessed;
@@ -109,10 +114,15 @@ let endGame = function (){
   });
 
   definitions.textContent = defs;
+  //score formula = (number correctly guessed) ^ ((accuracy^3) + 1);
+  score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3))); 
+
+  endScoreText.textContent = `Score: ${score}`;
+
   const tempCorrectlyGuessed = correctlyGuessed;
   const tempScore = score;
 
-  end(wordsArray.length, tempCorrectlyGuessed, tempScore);
+  end(wordsArray.length, tempCorrectlyGuessed, tempScore, "daily");
   currIndex = 0;
   correctlyGuessed = 0;
   guesses = 0;

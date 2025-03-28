@@ -159,13 +159,24 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 20px;
     }
     .dailyBtn, .daily-logo {
         animation: bounceIn 0.8s ease-out forwards;
     }
 
-    .skipBtn, .guessBtn {
+    .dailyBtn {
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .skipBtn, .guessBtn{
         height: 60px;
+        transition: transform 0.3s ease, filter 0.3s ease;
+        margin: 0 auto;
+    }
+
+    .skipBtn:hover, .guessBtn:hover, .dailyBtn:hover{
+        transform: scale(1.2);
     }
     
     @keyframes bounceIn {
@@ -182,13 +193,14 @@
         }
       }
 
-    .textarea-daily {
+    .textarea-daily{
         font-size: 19px;
+        line-height: 0.9;
         border: 3px solid #272629;
         border-radius: 15px;
         width: 290px;
         padding: 10px;
-        height: 35px;
+        height: 40px;
         text-align:center;
         color: white;
         background-color: #4C4D5B;
@@ -225,10 +237,8 @@
     }
 
     .daily-logo {
-
-        height: 35px;
-        margin-right: 65px;
-      
+      height: 35px;
+      padding-left: 25px;
     }
 
     .amtLeft {
@@ -240,7 +250,8 @@
     }
 
     .dailyBtn {
-        margin-right: 125px;
+        margin-right: 115px;
+        padding-left: 6px;
         height: 35px
         
     }
@@ -269,6 +280,12 @@
     .rapidLogo, .rapidBtn{
         animation: bounceIn 0.8s ease-out forwards;
     }
+
+    .rapidLogo {
+      height: 35px;
+      padding-left: 25px;
+    }
+
     @keyframes bounceIn {
         0% {
           transform: scale(0.3);
@@ -284,17 +301,28 @@
       }
 
 
-    .skipBtnRapid, .guessBtnRapid {
+    .skipBtnRapid, .guessBtnRapid{
         height: 60px;
+        transition: transform 0.3s ease, filter 0.3s ease;
+        margin: 0 auto;
+    }
+
+    .rapidBtn {
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .skipBtnRapid:hover, .guessBtnRapid:hover, .rapidBtn:hover{
+        transform: scale(1.2);
     }
 
     .textarea-rapid {
         font-size: 19px;
+        line-height: 0.9;
         border: 3px solid #272629;
         border-radius: 15px;
         width: 290px;
         padding: 10px;
-        height: 35px;
+        height: 40px;
         text-align: center;
         color: white;
         background-color: #4C4D5B;
@@ -329,11 +357,6 @@
         justify-content: center;
     }
 
-    .rapidLogo {
-        height: 35px;
-        margin-right: 55px;
-    }
-
     .amtLeftRapid {
         display: inline-block;
         margin: 0;
@@ -343,6 +366,7 @@
 
     .rapidBtn {
         margin-right: 115px;
+        padding-left: 6px;
         height: 35px;
     }
 
@@ -350,8 +374,6 @@
         font-size: 32px !important;
         color: white;
     }
-
-
 }
 
 /*

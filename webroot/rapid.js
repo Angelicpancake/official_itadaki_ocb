@@ -18,6 +18,9 @@ import switchPage, {reset, end} from './home.js';
 /*
     buttons
 */
+const endScoreText = (
+  document.querySelector('#score')
+);
 
 const currWord = (
     document.querySelector('#wordrapid')
@@ -59,7 +62,7 @@ export default function randomize(wordArray)
 
 export async function waitForWordsWeekly() {
     while (!AppUtils.weekly) {//change to weekly words when we have
-        await new Promise(resolve => setTimeout(resolve, 100));  // Wait 100ms and retry
+        await new Promise(resolve => setTimeout(resolve, 500));  // Wait 500ms and retry
     }
 
     // Once AppUtils.words is initialized, run the following code
@@ -126,13 +129,13 @@ let endGame = function (){
   });
 
   definitions.textContent = defs;
-  const tempCorrectlyGuessed = correctlyGuessed;
-  const tempScore = score;
-  console.log(tempCorrectlyGuessed, score);
 
-  end(wordsArray.length, correctlyGuessed, score);
+  score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3)));
 
-  end(wordsArray.length, tempCorrectlyGuessed, tempScore);
+  endScoreText.textContent = `Score: ${score}`;
+
+  end(wordsArray.length, correctlyGuessed, score, "rapid");
+
   currIndex = 0;
   correctlyGuessed = 0;
   guesses = 0;
