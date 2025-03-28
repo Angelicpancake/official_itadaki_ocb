@@ -132,14 +132,14 @@ let endGame = function (){
   let defs = "";
 
   wordsArray.forEach((japaneseWord) => {
-    defs += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
+    defs += (`${japaneseWord} : ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
   });
 
   definitions.textContent = defs;
 
   score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3)));
 
-  endScoreText.textContent = `Score: ${score}`;
+  //endScoreText.textContent = `Score: ${score}`;
 
   end(wordsArray.length, correctlyGuessed, score, "rapid");
 
