@@ -588,7 +588,7 @@ Devvit.addCustomPostType({
         
       },
       onUnmount() {
-        context.ui.showToast('Web view closed!');
+        context.ui.showToast('Closed!');
       },
     });
     //
