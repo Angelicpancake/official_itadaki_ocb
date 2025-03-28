@@ -282,7 +282,17 @@ Devvit.addCustomPostType({
     ],
   },
   async (values) => {
-    console.log('Form submitted with values:', values);
+    const postId = context.postId; // The current post's ID
+    console.log('Form submitted with values:', values.guess);
+    
+    const commentText = values.guess as string;
+    
+    // Submit the comment using Reddit API
+    const comment = await (await context.reddit.getPostById(postId)).addComment({
+      text: commentText
+    });
+    
+    context.ui.showToast('Comment posted successfully!');
     // Add your form submission logic here
   }
 );
