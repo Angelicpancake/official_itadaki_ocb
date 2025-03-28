@@ -1,5 +1,5 @@
 import './createPost.js';
-import { Devvit, RedisClient, useState, useWebView, useAsync } from '@devvit/public-api';
+import { Devvit, RedisClient, useState, useWebView, useAsync, useForm } from '@devvit/public-api';
 import type { DevvitMessage, WebViewMessage } from './message.js';
 import { JishoUtil } from './util/jishoUtil.js'; // Import the JishoUtil class for fetching words
 import RedisUtil from './util/redisUtil.js';
@@ -14,6 +14,7 @@ Devvit.configure({
   http: true,
   scheduler: true,
 });
+
 
 /*
   new kanji schedule job that updates the kanji of the week
@@ -251,6 +252,48 @@ Devvit.addCustomPostType({
 
     // const [day, setDay] = useState(new Date().getUTCDay());
 
+    //form
+    /*const myForm = useForm(
+      {
+        fields: [
+          {
+            type: 'string',
+            name: 'food',
+            label: 'What is your favorite food?',
+          },
+        ],
+      },
+      (context) => {
+        // onSubmit handler
+        context.ui.showToast({text: "submitted"});
+      }
+    );*/
+  const guessForm = useForm(
+  {
+    title: 'Guess the word',
+    description: "If you're right, you'll earn 1 point.",
+    acceptLabel: 'Submit Guess',
+    fields: [
+      {
+        type: 'string',
+        name: 'guess',
+        label: 'Word',
+        required: true,
+      },
+      {
+        type: 'boolean',
+        name: 'comment',
+        label: 'Leave a comment (optional)',
+        defaultValue: false,
+      },
+    ],
+  },
+  async (values) => {
+    console.log('Form submitted with values:', values);
+    // Add your form submission logic here
+  }
+);
+    
     const [username] = useState(async () => {
       return await context.reddit.getCurrentUsername();
     });
@@ -315,11 +358,16 @@ Devvit.addCustomPostType({
       // Handle messages sent from the web view
       async onMessage(message, webView) {
         switch(message.type){
-          case 'getComments':
+          //show form
+          case 'showForm' :
+              await context.ui.showForm(guessForm);
+          break;
+         /* case 'getComments':
             context.scheduler.runJob({
               name: "readTopCommentWithKanji",
               runAt: new Date(),
             });
+            break;*/
         
           case 'fetchWords':
 
@@ -601,7 +649,7 @@ Devvit.addCustomPostType({
         <hstack height="10%" width="50%" alignment="top center">
           <button
            appearance='secondary' size="small"
-           onPress={() => webView.mount()}>
+           onPress={() => /*context.ui.showForm(guessForm)*/webView.mount()}>
               Play Game
             </button>
         </hstack>

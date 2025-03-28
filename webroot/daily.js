@@ -3,6 +3,16 @@ import AppUtils from './apputils.js';
 import switchPage, {reset, end} from './home.js';
 import randomize from './rapid.js';
 /*
+  window.parent.postMessage(
+    {
+      type: 'showForm',
+    },
+    '*'
+  );
+*/
+
+
+/*
     backend of the daily words grabber
 */
 
@@ -106,6 +116,7 @@ let skip = function (){
   currWord.textContent = wordsArray[currIndex];
 }
 
+
 let endGame = function (){
   switchPage('end');
   let defs = "";
@@ -130,6 +141,12 @@ let endGame = function (){
   update(currIndex);
   randomize(wordsArray);
   currWord.textContent = wordsArray[currIndex];
+  window.parent.postMessage(
+    {
+      type: 'showForm',
+    },
+    '*'
+  );
   return;
 }
 
@@ -144,9 +161,14 @@ textarea.addEventListener('keydown', (event) => {
   }
 });
 
+
+
+
 skipBtn.addEventListener('click', ()=> {
     //test();
     skip();
+ 
+    console.log('skip');
 });
 
 let update = function (currIndex){

@@ -579,6 +579,10 @@
     font-weight: 400;
     font-style: normal;
 
+   /* .bonus {
+        width: 150px;
+        height: 45px;
+    }*/
     
     .title-congrats {
         display: flex;
