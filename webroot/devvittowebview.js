@@ -15,6 +15,8 @@ export default function handleDevvitMessage(ev) {
         // console.log(message.data.words);
         AppUtils.words = message.data.words;
         AppUtils.weekly = message.data.weeklyWords;
+        AppUtils.maxDaily = message.data.maxDaily;
+        AppUtils.maxWeekly = message.data.maxWeekly
         waitForWordsWeekly();
         waitForWordsDaily();
         // console.log(AppUtils.weekly, "hi this is apputils.weekly");

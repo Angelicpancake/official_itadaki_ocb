@@ -111,7 +111,7 @@ let endGame = function (){
   let defs = "";
 
   wordsArray.forEach((japaneseWord) => {
-    defs += (`${japaneseWord} : ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
+    defs += (`${japaneseWord} => ${words[japaneseWord][0]}, ${words[japaneseWord][1]} \r\n`);
   });
 
   definitions.textContent = defs;
@@ -120,11 +120,9 @@ let endGame = function (){
 
   endScoreText.textContent = `Score: ${score}`;
   endScoreText.textContent = "";
+  endScoreText.textContent = `Score: ${score}/${AppUtils.maxDaily}`;
 
-  const tempCorrectlyGuessed = correctlyGuessed;
-  const tempScore = score;
-
-  end(wordsArray.length, tempCorrectlyGuessed, tempScore, "daily");
+  end(wordsArray.length, correctlyGuessed, score, "daily");
   currIndex = 0;
   correctlyGuessed = 0;
   guesses = 0;

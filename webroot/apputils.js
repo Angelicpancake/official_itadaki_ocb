@@ -7,6 +7,8 @@ const AppUtils = {
   wordOfTheDay: document.getElementById("wordOfDay"),
   words: null,
   weekly: null,
+  maxDaily: null,
+  maxWeekly: null,
 
   initialStartup() {
     addEventListener("message", (ev) => handleDevvitMessage(ev));
