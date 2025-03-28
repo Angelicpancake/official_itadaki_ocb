@@ -684,7 +684,7 @@
         display: flex;
         justify-content: center;
     }
-    .sentence {
+    .sentence2 {
         display: flex;
         justify-content: center;
         color: #C9534F;
@@ -698,7 +698,7 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
-    .sentence:hover {
+    .sentence2:hover {
         background-color: #a8423d;
       }
       

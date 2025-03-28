@@ -4,14 +4,14 @@ import AppUtils from './apputils.js';
 AppUtils.initialStartup();
 /* debugging delete later
  */
-const testAddOneEntryBtn = /**@type {HTMLButtonElement} */(
+/*const testAddOneEntryBtn = @type {HTMLButtonElement} (
     document.querySelector('#testing')
 );
 
-const testRemoveAllEntryBtn = /**@type {HTMLButtonElement} */(
+const testRemoveAllEntryBtn = @type {HTMLButtonElement} (
     document.querySelector('#testingRemove')
 );
-
+*/
 // const fetchWords = (
 //     document.querySelector('#debugFetchJishoWords')
 // );
@@ -103,7 +103,7 @@ const endBtn = /** @type {HTMLButtonElement} */ (
 //   postWebViewMessage({type: "fetchWords2"});
 // })
 //
-testRemoveAllEntryBtn.addEventListener('click', () => {
+/*testRemoveAllEntryBtn.addEventListener('click', () => {
   console.log("entries removed");
   postWebViewMessage({type: "getComments"});
 });
@@ -127,7 +127,7 @@ testAddOneEntryBtn.addEventListener('click', () => {
   { score: 90, member: "username90", gameType: "daily" },
   { score: 100, member: "username100", gameType: "daily" },
 ]});
-});
+});*/
 
 /*
     event listeners
