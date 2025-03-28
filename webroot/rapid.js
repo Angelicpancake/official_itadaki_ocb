@@ -174,8 +174,8 @@ skipBtn.addEventListener('click', ()=> {
 let update = function (currIndex){
   let value = document.getElementById("amtLeftRapid");
   let correct = document.getElementById("amtCorrectRapid");
-  let result = `${currIndex}/${wordsArray.length}`;
-  let resultCorrect = `${correctlyGuessed}/${wordsArray.length}`;
+  let result = `Total: ${currIndex}/${wordsArray.length}`;
+  let resultCorrect = `Correct: ${correctlyGuessed}/${wordsArray.length}`;
 
   value.textContent = result;
   correct.textContent = resultCorrect;
