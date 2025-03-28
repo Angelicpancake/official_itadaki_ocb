@@ -167,7 +167,7 @@ let update = function (currIndex){
   textarea.value = "";
 
   currWord.classList.remove('animation');
-  void currWord.offsetWidth; // This triggers reflow to reset the animation
+  //void currWord.offsetWidth; // This triggers reflow to reset the animation
   currWord.classList.add('animation');
 
 
