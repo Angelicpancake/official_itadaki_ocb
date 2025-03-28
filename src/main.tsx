@@ -6,6 +6,7 @@ import RedisUtil from './util/redisUtil.js';
 import { Word } from './util/word.js';
 import jishoFetch, {randomKanji} from './util2/jishoFetch.js';
 import kanjiList from './util2/kanjiList.js';
+import createDailyPost from './createDailyPost.js';
 
 Devvit.configure({
   redditAPI: true,
@@ -19,16 +20,15 @@ Devvit.configure({
 */
 let currentDay = (new Date()).getUTCDay();
 
+async function delay(ms: number) {
+      return new Promise(resolve => setTimeout(resolve,ms));
+}
+
 Devvit.addSchedulerJob({
 	name: 'getWeeklyKanji',
 	onRun: async (event, context) => {
     //string of relevant kanji replace later with random kanji selector
     let importantKanji:string = kanjiList;
-
-    async function delay(ms: number) {
-      return new Promise(resolve => setTimeout(resolve,ms));
-    }
-
     let amountOfKanji = 0;
     let weeklyLength = 0;
     let weeklyChars: Array<string> = [];
@@ -125,49 +125,64 @@ Devvit.addSchedulerJob({
   }
 });
 
-//implement later
-// Devvit.addSchedulerJob({
-//   name: "readTopCommentWithKanji",
-//   onRun: async(event, context) => {
-//     
-//     async function getTopCommentWithKanji(postId: string) {
-//       try {
-//         // Fetch comments using the postId
-//         
-//         const comments = await context.reddit.getComments(context.reddit.postId);
-//
-//         console.log(comments);
-//
-//         if (!comments || comments.length === 0) {
-//           console.log("No comments found.");
-//           return null;
-//         }
-//
-//         // Sort comments by score in descending order to get the top one
-//         const commentsSortedByUpvotes = comments.sort((a, b) => b.score - a.score);
-//         let topComment = commentsSortedByUpvotes[0];
-//
-//         console.log('Top Comment:', topComment.body);
-//         const currentKanji = JSON.parse(await context.redis.get("weeklyKanji"))[currentDay];
-//         let count = 0
-//         while(!(topComment.includes(currentKanji)))
-//           topComment = commentSortedByUpvotes[++count];
-//         return topComment;
-//       } catch (error) {
-//         console.error('Error fetching comments:', error);
-//       }
-//     }
-//
-//     //check top comments every 5 minutes
-//     let scheduledDate: Date = new Date();
-//     const currentMinutes: number = scheduledDate.getUTCMinutes();
-//     scheduledDate.setUTCMinutes(currentMinutes + 5);
-//     context.scheduler.runJob({
-//       name: "readTopCommentWithKanji",
-//       runAt: scheduledDate,
-//     });
-//   }
-// });
+Devvit.addSchedulerJob({
+  name: "readTopCommentWithKanji",
+  onRun: async(event, context) => {
+      try {
+        // Fetch comments using the postId
+        
+        const comments = await context.reddit.getComments({postId: context.reddit.postId, depth: 1});
+
+        console.log(comments);
+
+        if (!comments || comments.length === 0) {
+          console.log("No comments found.");
+          return null;
+        }
+
+        // Sort comments by score in descending order to get the top one
+        const filteredComments = comments.filer(comment => comment.body.indexOf(currentKanji));
+        const commentsSortedByUpvotes = comments.sort((a, b) => b.score - a.score);
+        let topComment = commentsSortedByUpvotes[0];
+        let noViableSentence = true;
+
+        console.log('Top Comment:', topComment.body);
+
+        const currentKanji = JSON.parse(await context.redis.get("weeklyKanji"))[currentDay];
+
+        let count = 0;
+
+        for(const comment of commentSortedByUpvotes)
+          if(comment.indexOf(currentKanji) === -1){
+            topComment = comment;
+            noViableSentence = false;
+            break;
+          }
+
+        if(noViableSentence)
+          return "";
+        else{
+          const topCommentUser = topComment.authorName;
+          await context.redis.mSet({
+            "topComment": topComment,
+            "topCommentUser": topCommentUser,
+          });
+        }
+
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+
+    //check top comments every 5 minutes
+    let scheduledDate: Date = new Date();
+    const currentMinutes: number = scheduledDate.getUTCMinutes();
+    scheduledDate.setUTCMinutes(currentMinutes + 5);
+    context.scheduler.runJob({
+      name: "readTopCommentWithKanji",
+      runAt: scheduledDate,
+    });
+  }
+});
 
 /*
   Select new Kanji schedule
@@ -187,6 +202,11 @@ Devvit.addMenuItem({
 
     context.scheduler.runJob({
       name: 'resetDailyHighScores',
+      runAt: new Date(),
+    })
+
+    context.scheduler.runJob({
+      name: "readTopCommentWithKanji",
       runAt: new Date(),
     })
 
@@ -221,9 +241,63 @@ Devvit.addCustomPostType({
 
     // const [day, setDay] = useState(new Date().getUTCDay());
 
-    const [username, setUsername] = useState(async () => {
+    const [username] = useState(async () => {
       return await context.reddit.getCurrentUsername();
     });
+
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const [leaderboardData, setLeaderboardData] = useState(async () => {
+      try {
+        setIsRefreshing(true);
+        const [highScore, currRank, currLeaderboardLength, currLeaderboard] = await Promise.all([
+          context.redis.zScore("leaderboard", username),
+          context.redis.zRank("leaderboard", username),
+          context.redis.zCard("leaderboard"),
+          context.redis.zRange("leaderboard", 0, 9, { 
+            by: 'rank',
+            reverse: true,
+            withscores: true, 
+          })
+        ]);
+      
+        return {
+          highScore,
+          currRank,
+          currLeaderboardLength,
+          currLeaderboard,
+        };
+      } catch(error){
+        console.error("error when fetching leaderboard", error);
+      } finally {
+        delay(5000);
+        setIsRefreshing(false);
+      }
+    });
+
+    const refreshLeaderboardData = async() => {
+      try {
+        const [highScore, currRank, currLeaderboardLength, currLeaderboard] = await Promise.all([
+          context.redis.zScore("leaderboard", username),
+          context.redis.zRank("leaderboard", username),
+          context.redis.zCard("leaderboard"),
+          context.redis.zRange("leaderboard", 0, 9, { 
+            by: 'rank',
+            reverse: true,
+            withscores: true, 
+          })
+        ]);
+        
+        setLeaderboardData({
+          highScore,
+          currRank,
+          currLeaderboardLength,
+          currLeaderboard,
+        });
+      } catch (error) {
+        console.error("error when refreshing leaderboard", error);
+      }
+    };
 
     const webView = useWebView<WebViewMessage, DevvitMessage>({
       url: newPage, // URL of your web view content
@@ -328,14 +402,12 @@ Devvit.addCustomPostType({
           //   break;
 
           case 'fetchLeaderboard':
-            const highScore = await context.redis.zScore("leaderboard", username);
-            // console.log(`highScore: `, highScore);
-            const currRank = await context.redis.zRank("leaderboard", username, {WITHSCORE: true});
-            // console.log(`currRank`, currRank);
-            const currLeaderboardLength = await context.redis.zCard("leaderboard");
-            // console.log(currLeaderboardLength);
-            const currLeaderboard = await context.redis.zRange("leaderboard", currLeaderboardLength - 10, currLeaderboardLength - 1, {BY: 'SCORE', WITHSCORES: true});
-            // console.log(currLeaderboard);
+            if (isRefreshing){
+              console.log("Please wait before refreshing again");
+              break;
+            }
+            await refreshLeaderboardData();
+            const {highScore, currRank, currLeaderboardLength, currLeaderboard} = leaderboardData;
             let updatedLeaderboard = null;
 
             try {
@@ -353,7 +425,7 @@ Devvit.addCustomPostType({
                   username: username,
                   score: highScore,
                 }
-                updatedLeaderboard = [newEntry,...leaderboardWithScores];
+                updatedLeaderboard = [...leaderboardWithScores,newEntry,];
               }
               else
               {
