@@ -117,19 +117,11 @@ Devvit.addSchedulerJob({
 Devvit.addSchedulerJob({
   name: "resetDailyHighScores",
   onRun: async (event, context) => {
-    const topCommentUser = await context.redis.get("topCommentUser");
-    let [topCommentUserScore] = await Promise.all([
-      context.redis.zScore("leaderboard", topCommentUser),
+    await Promise.all([
       context.redis.del("dailyHighScores"),
       context.redis.del("topComment"),
-      context.redis.del("topCommentUser"),
     ]);
 
-    if(topCommentUserScore === null || topCommentUserScore === undefined)
-      topCommentUserScore = 0;
-
-    await context.redis.zAdd("leaderboard", {member: topCommentUser, score: topCommentUserScore + 200000});
-    
     let scheduledDate: Date = new Date();
     scheduledDate.setUTCDate(scheduledDate.getUTCDate() + 1);
     scheduledDate.setUTCHours(0, 0, 0, 0);
@@ -202,11 +194,7 @@ Devvit.addSchedulerJob({
     	const topCommentUnclean = commentsSortedByUpvotes[0];
     	const topComment = topCommentUnclean.body.replace(/^#\s+/, '');
 
-      console.log(topCommentUnclean, topComment, topCommentUser)
-
-    	// console.log('Top Comment Unclean:', topCommentUnclean.body);
-    	// console.log('Top Comment:', topComment);
-    	// console.log('Top Comment Author:', topCommentUser);
+    	
     	await context.redis.mSet({
       	"topComment": topComment,
     	});
@@ -463,12 +451,11 @@ Devvit.addCustomPostType({
               data: {text: `Today's Kanji: ${Object.keys(parsedData)[0]} - "${parsedData[Object.keys(parsedData)[0]][0]}"`},
             })
 
-            let [topComment, topCommentUser] = await context.redis.mGet(["topComment", "topCommentUser"]);
+            let topComment = await context.redis.get("topComment");
 
             if(topComment === null || topComment === undefined)
             {
               topComment = "No Top Comment With Kanji Currently!";
-              topCommentUser = "";
             }
 
             webView.postMessage({
