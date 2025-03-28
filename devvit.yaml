@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-name: ocbsushi-app-app
-version: 0.0.1.142
-=======
 name: ocbsushi-app
-version: 0.0.2.5
->>>>>>> 1745f93d2b658f9562b40f35dd47ed6c232783cf
+version: 0.0.3.1

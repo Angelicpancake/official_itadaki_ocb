@@ -27,6 +27,47 @@ export default async function jishoFetch (kanji: string) {
       let englishDefinitionArray: string[] = [];
 
       object.senses.forEach((sensesObject) => {
+        //skips uncommon words
+      //  let uncommonWord = false;
+
+        // const uncommonTags: Array<string> = [
+        //   "Obsolete",
+        //   "Rare",
+        //   "Dialect",
+        //   "Technical",
+        //   "Obscure",
+        //   "Historical",
+        //   "Archaic",
+        //   "Exotic",
+        //   "Exotic Names",
+        //   "Obsolete Kanji",
+        //   "Slang",
+        //   "Archaic",
+        // ];
+        
+        //looks through objects for tags in uncommonTags, if found skip definitions
+        // if(sensesObject.tags){
+        //   sensesObject.tags.forEach((tagsArray) => {
+        //
+        //     uncommonTags.forEach((tag) => 
+        //     {
+        //       if(tagsArray.includes(tag)){
+        //         if(uncommonWord)
+        //           return;
+        //
+        //         uncommonWord = true;
+        //         return;
+        //       }
+        //     });
+        //
+        //     if(uncommonWord)
+        //       return;
+        //   });
+        // }
+        
+       // if(uncommonWord)
+         // return;
+        
         for(let i = 0; i < sensesObject.english_definitions.length; i++)
         {
           sensesObject.english_definitions[i] = cleanWord(sensesObject.english_definitions[i]).toLowerCase();
