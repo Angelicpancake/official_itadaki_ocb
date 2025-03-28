@@ -162,7 +162,7 @@
         gap: 20px;
     }
     .dailyBtn, .daily-logo {
-        animation: bounceIn 0.6s ease-out forwards;
+     /*   animation: bounceIn 0.6s ease-out forwards;*/
     }
 
     .dailyBtn {
@@ -171,13 +171,13 @@
 
     .skipBtn, .guessBtn{
         height: 60px;
-        transition: transform 0.3s ease, filter 0.3s ease;
+      /*  transition: transform 0.3s ease, filter 0.3s ease;*/
         margin: 0 auto;
     }
 
-    .skipBtn:hover, .guessBtn:hover, .dailyBtn:hover{
+   /* .skipBtn:hover, .guessBtn:hover, .dailyBtn:hover{
         transform: scale(1.2);
-    }
+    }*/
     
     @keyframes bounceIn {
         0% {
@@ -200,7 +200,7 @@
         border-radius: 15px;
         width: 290px;
         padding: 10px;
-        height: 40px;
+        height: 38x;
         text-align:center;
         color: white;
         background-color: #4C4D5B;
@@ -228,7 +228,7 @@
     }
 
     .spacer3-daily {
-        height: 150px;
+        height: 90px;
     }
 
     .content-daily {
@@ -300,7 +300,7 @@
         
     }
     .rapidLogo, .rapidBtn{
-        animation: bounceIn 0.6s ease-out forwards;
+        /*animation: bounceIn 0.6s ease-out forwards*/;
     }
 
     .rapidLogo {
@@ -325,16 +325,17 @@
 
     .skipBtnRapid, .guessBtnRapid{
         height: 60px;
-        transition: transform 0.3s ease, filter 0.3s ease;
+        /*transition: transform 0.3s ease, filter 0.3s ease;*/
         margin: 0 auto;
+
     }
 
     .rapidBtn {
       transition: transform 0.3s ease, filter 0.3s ease;
     }
 
-    .skipBtnRapid:hover, .guessBtnRapid:hover, .rapidBtn:hover{
-        transform: scale(1.2);
+    .skipBtnRapid:hover, .guessBtnRapid:hover{
+        color: #C9534F;
     }
 
     .textarea-rapid {
@@ -344,7 +345,7 @@
         border-radius: 15px;
         width: 290px;
         padding: 10px;
-        height: 40px;
+        height: 35px;
         text-align: center;
         color: white;
         background-color: #4C4D5B;
