@@ -2,11 +2,7 @@ import { Devvit } from '@devvit/public-api';
 
 // TODO: Migrate these two posts to be automatic every day
 Devvit.addMenuItem({
-<<<<<<< HEAD
-  label: "Create New Itadaki Post",
-=======
   label: "Create Weekly Words",
->>>>>>> ca137a34a321c221dc24b9a6f289e955a5b11ba8
   forUserType: 'moderator',
   location: 'subreddit',
   onPress: async (_event, context) => {
@@ -22,6 +18,17 @@ Devvit.addMenuItem({
         </vstack>
       ),
     });
+    
+    const postId = post.id;
+
+    console.log(postId);
+
+    await context.scheduler.runJob({
+      name: "readTopCommentWithKanji",
+      runAt: new Date(),
+      data: {postId: postId},
+    });
+
     ui.showToast({ text: 'Created post!' });
     ui.navigateTo(post);
   },

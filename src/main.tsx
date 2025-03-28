@@ -65,7 +65,7 @@ Devvit.addSchedulerJob({
 
         const keysArrayLength: number = Object.keys(words).length;
 
-        const dailyMaxScore = JSON.stringify(Math.floor(Math.pow(keysArrayLength, (5/* Math.pow(correctlyGuessed / wordsArray.length, 3) + 4 */))));
+        const dailyMaxScore = JSON.stringify(Math.floor(Math.pow(keysArrayLength, (5))));
 
         await Promise.all([
           context.redis.set(`dailyKanji${amountOfKanji}`, randomCharacter),
@@ -118,12 +118,15 @@ Devvit.addSchedulerJob({
   name: "resetDailyHighScores",
   onRun: async (event, context) => {
     const topCommentUser = await context.redis.get("topCommentUser");
-    const [topCommentUserScore] = await Promise.all([
+    let [topCommentUserScore] = await Promise.all([
       context.redis.zScore("leaderboard", topCommentUser),
       context.redis.del("dailyHighScores"),
       context.redis.del("topComment"),
       context.redis.del("topCommentUser"),
     ]);
+
+    if(topCommentUserScore === null || topCommentUserScore === undefined)
+      topCommentUserScore = 0;
 
     await context.redis.zAdd("leaderboard", {member: topCommentUser, score: topCommentUserScore + 200000});
     
@@ -141,11 +144,26 @@ Devvit.addSchedulerJob({
 Devvit.addSchedulerJob({
   name: "readTopCommentWithKanji",
   onRun: async(event, context) => {
+
+    const postId = event.data.postId;
+
+    let scheduledDate: Date = new Date();
+    const currentMinutes: number = scheduledDate.getUTCMinutes();
+    scheduledDate.setUTCMinutes(currentMinutes + 5);
+    console.log(postId);
+    // console.log(context.postId);
+    await context.scheduler.runJob({
+      name: "readTopCommentWithKanji",
+      runAt: scheduledDate,
+      data: {postId:
+      postId},
+    });
+
   	try {
     	// Fetch comments using the postId
     	const currentDay = new Date().getUTCDay();
     	const [comments, currentKanji] = await Promise.all([
-      	context.reddit.getComments({postId: event.data.postId, depth: 1}),
+      	context.reddit.getComments({postId: postId, depth: 1}),
       	context.redis.get(`dailyKanji${currentDay}`),
     	]);
 
@@ -160,13 +178,17 @@ Devvit.addSchedulerJob({
 
     	/* const currentKanji = (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay]; */
     	const commentsArray = await comments.all();
+
+      console.log(commentsArray);
    	 
     	// Sort comments by score in descending order to get the top one
     	const filteredComments = commentsArray.filter(comment => comment.body.includes(currentKanji));
 
+      console.log(filteredComments);
+
     	// console.log(filteredComments);
    	 
-    	if(filteredComments === null || filteredComments.length === 0)
+    	if(filteredComments === null || !filteredComments?.length)
     	{
       	return null;
     	}
@@ -175,32 +197,23 @@ Devvit.addSchedulerJob({
 
     	const commentsSortedByUpvotes = filteredComments.sort((a, b) => b.score - a.score);
 
+      console.log(commentsSortedByUpvotes);
+
     	const topCommentUnclean = commentsSortedByUpvotes[0];
     	const topComment = topCommentUnclean.body.replace(/^#\s+/, '');
-    	const topCommentUser = topCommentUnclean.authorName;
 
-    	console.log('Top Comment Unclean:', topCommentUnclean.body);
-    	console.log('Top Comment:', topComment);
-    	console.log('Top Comment Author:', topCommentUser);
+      console.log(topCommentUnclean, topComment, topCommentUser)
+
+    	// console.log('Top Comment Unclean:', topCommentUnclean.body);
+    	// console.log('Top Comment:', topComment);
+    	// console.log('Top Comment Author:', topCommentUser);
     	await context.redis.mSet({
-      	"topComment": `"${topComment}"`,
-      	"topCommentUser": `User: ${topCommentUser}`,
+      	"topComment": topComment,
     	});
 
   	} catch (error) {
     	console.error('Error fetching comments:', error);
   	}
-
-	//check top comments every 5 minutes
-	let scheduledDate: Date = new Date();
-	const currentMinutes: number = scheduledDate.getUTCMinutes();
-	scheduledDate.setUTCMinutes(currentMinutes + 5);
-	await context.scheduler.runJob({
-  	name: "readTopCommentWithKanji",
-  	runAt: scheduledDate,
-  	data: {postId:
-  	event.data?.postId || context.postId},
-	});
   }
 });
 
@@ -224,12 +237,6 @@ Devvit.addMenuItem({
     await context.scheduler.runJob({
       name: 'resetDailyHighScores',
       runAt: new Date(),
-    });
-
-    await context.scheduler.runJob({
-      name: "readTopCommentWithKanji",
-      runAt: new Date(),
-      data: {postId: context.postId},
     });
 
     context.ui.showToast({text: "Refreshed Weekly Kanji!"});
@@ -377,14 +384,14 @@ Devvit.addCustomPostType({
           case 'showForm':
               await context.ui.showForm(guessForm);
             break;
-
-          case 'getComments':
-            await context.scheduler.runJob({
-              name: "readTopCommentWithKanji",
-              runAt: new Date(),
-              data: {postId: context.postId},
-            });
-            break
+          //
+          // case 'getComments':
+          //   await context.scheduler.runJob({
+          //     name: "readTopCommentWithKanji",
+          //     runAt: new Date(),
+          //     data: {postId: context.postId},
+          //   });
+          //   break
         
           case 'fetchWords':
 
