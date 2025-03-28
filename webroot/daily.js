@@ -118,12 +118,9 @@ let endGame = function (){
   //score formula = (number correctly guessed) ^ ((accuracy^3) + 1);
   score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3))); 
 
-  endScoreText.textContent = `Score: ${score}`;
+  endScoreText.textContent = `Score: ${score}/${AppUtils.maxDaily}`;
 
-  const tempCorrectlyGuessed = correctlyGuessed;
-  const tempScore = score;
-
-  end(wordsArray.length, tempCorrectlyGuessed, tempScore, "daily");
+  end(wordsArray.length, correctlyGuessed, score, "daily");
   currIndex = 0;
   correctlyGuessed = 0;
   guesses = 0;
