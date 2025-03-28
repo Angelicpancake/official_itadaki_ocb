@@ -87,11 +87,14 @@ let guessed = function (){
   console.log('guessed rapid');
   guessContent = (textarea.value).toLowerCase();
   guesses++;
-
   if(words[wordsArray[currIndex]].includes(guessContent))
   {
     ++correctlyGuessed;
     ++currIndex;
+    score += (5 - guesses) > 0 ? (4 - guesses) : 0;
+    guesses = 0;
+    update(currIndex);
+
   }
 
   if(currIndex >= wordsArray.length)
@@ -102,8 +105,12 @@ let guessed = function (){
     }
 
   currWord.textContent = wordsArray[currIndex];
+ // document.getElementById('#amtCorrectRapid').textContent = "hi";
+  document.getElementById('#amtCorrectRapid').textContent = score + "/" + wordsArray.length;
+  console.log(score + "/" + wordsArray.length);
   update(currIndex);
   console.log(guessContent);
+  textarea.textContent = "";
 }
 
 let skip = function (){
@@ -166,12 +173,17 @@ skipBtn.addEventListener('click', ()=> {
 let update = function (currIndex){
   let value = document.getElementById("amtLeftRapid");
   let correct = document.getElementById("amtCorrectRapid");
-  let result = (`${currIndex}/${wordsArray.length}`);
-  let resultCorrect = (`${correctlyGuessed}/${wordsArray.length}`);
+  let result = `${currIndex}/${wordsArray.length}`;
+  let resultCorrect = `${correctlyGuessed}/${wordsArray.length}`;
 
   value.textContent = result;
   correct.textContent = resultCorrect;
   textarea.value = "";
+
+
+  currWord.classList.remove('animation2');
+  void currWord.offsetWidth; // This triggers reflow to reset the animation
+  currWord.classList.add('animation2');
 }
 /*
 function updateRapid(currIndexRapid){
