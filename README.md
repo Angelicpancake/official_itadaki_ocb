@@ -1,11 +1,14 @@
 Itadaki
+
 Type the correct translation or meaning of a randomly generated word to earn points and climb the leaderboard. Compete on the leaderboard and share quiz results with others.
 
 Inspiration
+
 I've been studying Japanese for four years, and during that time, I've enjoyed using apps like Duolingo and Quizlet to expand my vocabulary. However, I felt that these platforms lacked a more intuitive approach to learning. After speaking with my classmates and teachers, I realized that the ideal app would focus on gradually building kanji vocabulary through words combined with an engaging experience with friends. 
 Reddit holds strong communities of users with similar interests. With subreddits such as r/LearnJapanese and r/Japanese holding around ~1 million users and r/Languagelearning with ~3million users. We were inspired to create an app that makes language learning intuitive and fun starting on reddit. 
 
 How It Works
+
 Our app takes 7 randomly generated kanji from a list of only the most useful characters and creates a set of words correlated with the kanji. 
 
 ⌛Daily Mode: 
