@@ -141,68 +141,69 @@ Devvit.addSchedulerJob({
 Devvit.addSchedulerJob({
   name: "readTopCommentWithKanji",
   onRun: async(event, context) => {
-      try {
-        // Fetch comments using the postId
-        const currentDay = new Date().getUTCDay();
-        const [comments, currentKanji] = await Promise.all([
-          context.reddit.getComments({postId: event.data.postId, depth: 1}), 
-          context.redis.get(`dailyKanji${currentDay}`),
-        ]);
+  	try {
+    	// Fetch comments using the postId
+    	const currentDay = new Date().getUTCDay();
+    	const [comments, currentKanji] = await Promise.all([
+      	context.reddit.getComments({postId: event.data.postId, depth: 1}),
+      	context.redis.get(`dailyKanji${currentDay}`),
+    	]);
 
-        if (!comments || comments.length == 0) {
-          console.log("No comments found.");
-          return null;
-        }
+    	if (!comments || comments.length == 0) {
+      	console.log("No comments found.");
+      	return null;
+    	}
 
-        // console.log(currentKanji);
+    	// console.log(currentKanji);
 
-        // console.log(comments);
+    	// console.log(comments);
 
-        /* const currentKanji = (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay]; */
-        const commentsArray = await comments.all();
-        
-        // Sort comments by score in descending order to get the top one
-        const filteredComments = commentsArray.filter(comment => comment.body.includes(currentKanji));
+    	/* const currentKanji = (JSON.parse(await context.redis.get("weeklyKanji")))[currentDay]; */
+    	const commentsArray = await comments.all();
+   	 
+    	// Sort comments by score in descending order to get the top one
+    	const filteredComments = commentsArray.filter(comment => comment.body.includes(currentKanji));
 
-        // console.log(filteredComments);
-        
-        if(filteredComments === null || filteredComments.length === 0)
-        {
-          return null;
-        }
+    	// console.log(filteredComments);
+   	 
+    	if(filteredComments === null || filteredComments.length === 0)
+    	{
+      	return null;
+    	}
 
-        // console.log("First comment body:", filteredComments[0].body);
+    	// console.log("First comment body:", filteredComments[0].body);
 
-        const commentsSortedByUpvotes = filteredComments.sort((a, b) => b.score - a.score);
+    	const commentsSortedByUpvotes = filteredComments.sort((a, b) => b.score - a.score);
 
-        const topCommentUnclean = commentsSortedByUpvotes[0];
-        const topComment = topCommentUnclean.body.replace(/^#\s+/, '');
-        const topCommentUser = topCommentUnclean.authorName;
+    	const topCommentUnclean = commentsSortedByUpvotes[0];
+    	const topComment = topCommentUnclean.body.replace(/^#\s+/, '');
+    	const topCommentUser = topCommentUnclean.authorName;
 
-        console.log('Top Comment Unclean:', topCommentUnclean.body);
-        console.log('Top Comment:', topComment);
-        console.log('Top Comment Author:', topCommentUser);
-        await context.redis.mSet({
-          "topComment": `"${topComment}"`,
-          "topCommentUser": `User: ${topCommentUser}`,
-        });
+    	console.log('Top Comment Unclean:', topCommentUnclean.body);
+    	console.log('Top Comment:', topComment);
+    	console.log('Top Comment Author:', topCommentUser);
+    	await context.redis.mSet({
+      	"topComment": `"${topComment}"`,
+      	"topCommentUser": `User: ${topCommentUser}`,
+    	});
 
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
+  	} catch (error) {
+    	console.error('Error fetching comments:', error);
+  	}
 
-    //check top comments every 5 minutes
-    let scheduledDate: Date = new Date();
-    const currentMinutes: number = scheduledDate.getUTCMinutes();
-    scheduledDate.setUTCMinutes(currentMinutes + 5);
-    await context.scheduler.runJob({
-      name: "readTopCommentWithKanji",
-      runAt: scheduledDate,
-      data: {postId:
-      event.data?.postId || context.postId},
-    });
+	//check top comments every 5 minutes
+	let scheduledDate: Date = new Date();
+	const currentMinutes: number = scheduledDate.getUTCMinutes();
+	scheduledDate.setUTCMinutes(currentMinutes + 5);
+	await context.scheduler.runJob({
+  	name: "readTopCommentWithKanji",
+  	runAt: scheduledDate,
+  	data: {postId:
+  	event.data?.postId || context.postId},
+	});
   }
 });
+
 
 /*
   Select new Kanji schedule
@@ -282,7 +283,7 @@ Devvit.addCustomPostType({
   {
     title: 'Enter a Sentence',
     description: "Must contain the daily kanji, you'll earn 5 point.",
-    acceptLabel: 'Submit Guess',
+    acceptLabel: 'Submit',
     fields: [
       {
         type: 'string',
@@ -465,7 +466,7 @@ Devvit.addCustomPostType({
 
             webView.postMessage({
               type: "topComment",
-              data: {text: `${topComment} <br> ${topCommentUser}`},
+              data: {text: `${topComment} <br>Most Upvoted Comment`},
             });
 
             webView.postMessage({
