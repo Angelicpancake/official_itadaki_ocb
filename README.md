@@ -22,6 +22,7 @@ We encourage multiplayer interaction by having players comment sentences using t
 
 ⏩Rapid Mode:
 We believe active recall is a powerful tool for learning, so in Rapid Mode, users can review all the words of the week in a randomized order. By recalling and answering these words, users can reinforce their learning while earning additional points for the leaderboard. We encourage users to share their accuracy and results on the subreddit, fostering a shared commitment to learning and improvement.
+
 🏆Leaderboard:
 Our scoring system is designed to encourage mastery of the words. Each day, players can earn a maximum score by correctly answering all words, while a formula adjusts their score proportionally if they miss some. The weekly mode follows a similar structure, ensuring consistent motivation. This system incentivizes players to learn all the words to maximize their leaderboard ranking, fostering a competitive yet educational experience. Lasty, our leaderboard refreshes the score every week and shows the user’s score at the bottom.
 `score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3)));`
