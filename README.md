@@ -13,8 +13,9 @@ Our app takes 7 randomly generated kanji from a list of only the most useful cha
 
 ⌛Daily Mode: 
 Through our 7 randomly generated kanji we have cultivated an experience of kanji of the day. A user can go through the words and guess the english translation for points or skip if they’re having trouble. What makes our system unique is that we use the hashmap data structure to store all possible English translations given from the Jisho API.
-```const words = await jishoFetch(kanji); // { kanji: ["English meaning1", "English meaning2"] }
- await context.redis.set(`todaysWords${amountOfKanji}`, JSON.stringify(words));```
+
+``const words = await jishoFetch(kanji); // { kanji: ["English meaning1", "English meaning2"] }
+ await context.redis.set(`todaysWords${amountOfKanji}`, JSON.stringify(words));``
 
 🗣️Bonus: 
 We encourage multiplayer interaction by having players comment sentences using the daily word or kanji and give constructive feedback on each other’s responses. This creates an engaging, community-driven learning experience where everyone helps each other improve.
@@ -23,18 +24,18 @@ We encourage multiplayer interaction by having players comment sentences using t
 We believe active recall is a powerful tool for learning, so in Rapid Mode, users can review all the words of the week in a randomized order. By recalling and answering these words, users can reinforce their learning while earning additional points for the leaderboard. We encourage users to share their accuracy and results on the subreddit, fostering a shared commitment to learning and improvement.
 🏆Leaderboard:
 Our scoring system is designed to encourage mastery of the words. Each day, players can earn a maximum score by correctly answering all words, while a formula adjusts their score proportionally if they miss some. The weekly mode follows a similar structure, ensuring consistent motivation. This system incentivizes players to learn all the words to maximize their leaderboard ranking, fostering a competitive yet educational experience. Lasty, our leaderboard refreshes the score every week and shows the user’s score at the bottom.
-```score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3)));```
+`score = Math.floor(Math.pow(correctlyGuessed, (Math.pow(correctlyGuessed / wordsArray.length, 3) + 3)));`
 
 Backend
 
 📗 Jisho Dictionary:
 Jisho is a comprehensive Japanese-English dictionary with an open API that provides modern Japanese words along with multiple English definitions. It also allows users to search for words containing a specific kanji. 
-```const jishoData = await( fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(kanji)}`) ); const jishoJSON: JishoAPIJSON = await jishoData.json();```
+``const jishoData = await( fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(kanji)}`) ); const jishoJSON: JishoAPIJSON = await jishoData.json();``
 
 ⭐️ Weekly Words:
 Each week, we generate 7 kanji with corresponding vocabulary, which are stored in Redis for easy access. The process involves fetching words from the Jisho API, deleting existing words in Redis, and saving the new set in JSON format.
 
-```let amountOfKanji = 0;
+``let amountOfKanji = 0;
 while (amountOfKanji < 7) {
     const kanji = weeklyChars[amountOfKanji];
     try {
@@ -46,7 +47,7 @@ while (amountOfKanji < 7) {
     } catch (error) {
         console.log(`Error in storing Redis weekly words`, error);
     }
-}```
+}``
 
 Challenges We Ran Into
 
@@ -84,23 +85,3 @@ Sentence Polls: Takes the most upvoted bonus sentences and ask’s users which i
 Timed Rush Mode: Random kanji words with limited time guessing.
 Kanji-Dex Mode: Rewind time and pick a kanji of your choice and learn the words.
 Timed Rush Kanji-Dex: Choose multiple kanji and race against the clock in a fast-paced challenge to guess as many words as possible!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
