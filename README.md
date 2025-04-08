@@ -1,3 +1,7 @@
+Try It Out:
+
+https://www.reddit.com/r/Itadakii/
+
 Itadaki
 
 Type the correct translation or meaning of a randomly generated word to earn points and climb the leaderboard. Compete on the leaderboard and share quiz results with others.
